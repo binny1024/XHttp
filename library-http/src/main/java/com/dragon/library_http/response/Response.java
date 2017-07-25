@@ -15,8 +15,14 @@ public class Response implements IResponse {
     private byte[] mBytes;
     private Exception mException;
     private String mErrorCode;
+
     public Response() {
 
+    }
+
+    public void setErrorInfo(Exception exception, String errorCode) {
+        mException = exception;
+        mErrorCode = errorCode;
     }
 
     public void setBytes(byte[] bytes) {
@@ -40,7 +46,7 @@ public class Response implements IResponse {
 
     @Override
     public Bitmap toBitmap() {
-        return BitmapFactory.decodeByteArray(mBytes,0,mBytes.length);
+        return BitmapFactory.decodeByteArray(mBytes, 0, mBytes.length);
     }
 
     @Override

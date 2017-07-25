@@ -9,13 +9,17 @@ import com.dragon.library_http.response.Response;
  */
 
 public interface OnHttpTaskCallback {
-    /** 请求成功
+    /**
+     * 请求成功
+     *
      * @param response 请求响应
      */
     void onSuccess(Response response);
 
-    /** 请求失败
-     * @param ex 异常信息
+    /**
+     * 请求失败
+     *
+     * @param ex        异常信息
      * @param errorCode 错误码
      */
     void onFailure(Exception ex, String errorCode);

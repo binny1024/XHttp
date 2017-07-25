@@ -36,11 +36,13 @@ public class JJLogger {
     /**
      * 是否打印堆栈信息
      */
-    private static boolean stackTrace = false;
-    /**isLogEnable 是否开启调试日志
-      * true 开启；
-      * false 关闭；
-      * */
+    private static boolean stackTrace = true;
+
+    /**
+     * isLogEnable 是否开启调试日志
+     * true 开启；
+     * false 关闭；
+     */
     public static void debug(boolean isEnable) {
         isDebug = isEnable;
     }
@@ -60,17 +62,17 @@ public class JJLogger {
             String[] s = new String[set.size()];
             for (Object aSet : set) {
                 Map.Entry entry = (Map.Entry) aSet;
-                s[i] = "key = "+entry.getKey() + " , " + "value = "+entry.getValue() + ",\n";
+                s[i] = "key = " + entry.getKey() + " , " + "value = " + entry.getValue() + ",\n";
                 i++;
             }
-            printLog(D,tag , s);
+            printLog(D, tag, s);
         }
     }
 
     /**
      * 打印JSON
      *
-     * @param tag 标志
+     * @param tag     标志
      * @param jsonStr jsonString
      */
     public static void json(String tag, String jsonStr) {
@@ -96,29 +98,33 @@ public class JJLogger {
         }
     }
 
-    /** 用于打印信息
+    /**
+     * 用于打印信息
+     *
      * @param tag 级别
      * @param msg 信息
      */
-    public static void i(String tag, String msg) {
+    public static void logInfo(String tag, String msg) {
         if (isDebug) {
-            printLog(D,tag , msg);
+            printLog(D, tag, msg);
         }
     }
 
-    /** 用于打印错误信息
+    /**
+     * 用于打印错误信息
+     *
      * @param errorCode 错误码
-     * @param msg 错误码的伴随信息：描述信息错误码
+     * @param msg       错误码的伴随信息：描述信息错误码
      */
     public static void logError(String errorCode, String msg) {
         if (isDebug) {
             if (TextUtils.isEmpty(errorCode)) {
-                printLog(E,"inner_error", "错误信息 : "+ msg);
-            }else {
+                printLog(E, "inner_error", "错误信息 : " + msg);
+            } else {
                 if (stackTrace) {
-                    printLog(E,"inner_error", "错误码 ："+errorCode +" 信息描述 ："+msg);
-                }else {
-                    printLog(E,"inner_error", "错误码 ："+errorCode);
+                    printLog(E, "inner_error", "错误码 ：" + errorCode + " 信息描述 ：" + msg);
+                } else {
+                    printLog(E, "inner_error", "错误码 ：" + errorCode);
                 }
             }
         }
@@ -127,8 +133,8 @@ public class JJLogger {
 
     /**
      * @param type 打印类型
-     * @param tag 筛选的tag
-     * @param msg 要打印的信息
+     * @param tag  筛选的tag
+     * @param msg  要打印的信息
      */
     private static void printer(char type, String tag, String msg) {
         switch (type) {
@@ -143,22 +149,23 @@ public class JJLogger {
 
     /**
      * 打印头部信息
+     *
      * @param type 打印类型
-     * @param tag 发音筛选的tag
+     * @param tag  发音筛选的tag
      */
     private static void printHead(char type, String tag) {
-        printer(type,tag , TOP_BORDER);
-        printer(type,tag , HORIZONTAL_DOUBLE_LINE + "           Thread:");
-        printer(type,tag , HORIZONTAL_DOUBLE_LINE + "           " + Thread.currentThread().getName());
-        printer(type,tag , MIDDLE_BORDER);
+        printer(type, tag, TOP_BORDER);
+        printer(type, tag, HORIZONTAL_DOUBLE_LINE + "           Thread:");
+        printer(type, tag, HORIZONTAL_DOUBLE_LINE + "           " + Thread.currentThread().getName());
+        printer(type, tag, MIDDLE_BORDER);
     }
 
     /**
      * 打印Log被调用的位置
      *
      * @param type 打印类型
-     * @param tag 发音筛选的tag
-     * @param msg 要打印的信息
+     * @param tag  发音筛选的tag
+     * @param msg  要打印的信息
      */
     private static void printLocation(char type, String tag, String... msg) {
         StackTraceElement[] stack = Thread.currentThread().getStackTrace();
@@ -174,17 +181,18 @@ public class JJLogger {
         i += 3;
         String location = stack[i].toString();
         StringBuilder sb = new StringBuilder();
-        printer(type,tag , HORIZONTAL_DOUBLE_LINE + "   Location:");
+        printer(type, tag, HORIZONTAL_DOUBLE_LINE + "   Location:");
         sb.append(HORIZONTAL_DOUBLE_LINE).append("   invoked at：").append(location);
-        printer(type,tag , sb.toString());
-//        printer(type,tag, msg == null || msg.length == 0 ? BOTTOM_BORDER : MIDDLE_BORDER);
+        printer(type, tag, sb.toString());
+//        printer(get,tag, msg == null || msg.length == 0 ? BOTTOM_BORDER : MIDDLE_BORDER);
     }
 
     /**
      * 打印消息
-     *  @param type 打印类型
-     * @param tag 发音筛选的tag
-     * @param msg 要打印的信息
+     *
+     * @param type 打印类型
+     * @param tag  发音筛选的tag
+     * @param msg  要打印的信息
      */
     private static void printMsg(char type, String tag, String... msg) {
         printer(type, tag, HORIZONTAL_DOUBLE_LINE + "   MESSAGE:");
@@ -195,21 +203,22 @@ public class JJLogger {
 
     /**
      * 打印log
-     *  @param type 日志级别
-     * @param tag 标志
-     * @param msg 描述信息
+     *
+     * @param type 日志级别
+     * @param tag  标志
+     * @param msg  描述信息
      */
     private static void printLog(char type, String tag, String... msg) {
         if (msg == null || msg.length == 0) {
             return;
         }
         if (stackTrace) {
-            printHead(type,tag );
-            printLocation(type,tag , msg);
-        }else {
-            printer(type,tag , TOP_BORDER);
+            printHead(type, tag);
+            printLocation(type, tag, msg);
+        } else {
+            printer(type, tag, TOP_BORDER);
         }
-        printMsg(type,tag , msg);
+        printMsg(type, tag, msg);
         printer(type, tag, BOTTOM_BORDER);
     }
 }

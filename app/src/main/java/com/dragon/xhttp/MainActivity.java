@@ -5,28 +5,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.dragon.library_http.callback.OnHttpTaskCallback;
 import com.dragon.library_http.core.HttpTask;
 import com.dragon.library_http.response.Response;
 
-import static com.dragon.library_http.core.ConfigHttp.METHOD_GET;
-
 public class MainActivity extends AppCompatActivity {
 
     private ImageView mImageView;
+    private TextView mTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mImageView = (ImageView) findViewById(R.id.img_view);
+        mTextView = (TextView) findViewById(R.id.text_view);
     }
     public void button(View view){
-        new HttpTask().type(METHOD_GET)
-                .setOnSpiderCallbackk(new OnHttpTaskCallback() {
+        new HttpTask().get("http://sdadadadasd")
+                .setOnHttpTaskCallback(new OnHttpTaskCallback() {
                     @Override
                     public void onSuccess(Response response) {
-                        Log.i("xxx", "onSuccess" +response.toString());
                         mImageView.setImageBitmap(response.toBitmap());
                     }
 
@@ -35,6 +35,22 @@ public class MainActivity extends AppCompatActivity {
                         Log.i("xxx", "onFailure  " +ex.toString());
                         Log.i("xxx", "onFailure  " +errorCode);
                     }
-                }).start("http://sdadadadasd");
+                });
+    }
+    public void button1(View view){
+        new HttpTask().get("http://3434343434")
+                .setOnHttpTaskCallback(new OnHttpTaskCallback() {
+                    @Override
+                    public void onSuccess(Response response) {
+                        Log.i("xxx", "response  " +response.toString());
+                        mTextView.setText(response.toString());
+                    }
+
+                    @Override
+                    public void onFailure(Exception ex, String errorCode) {
+                        Log.i("xxx", "onFailure  " +ex.toString());
+                        Log.i("xxx", "onFailure  " +errorCode);
+                    }
+                });
     }
 }
