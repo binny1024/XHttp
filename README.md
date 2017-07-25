@@ -35,4 +35,4 @@
             });
 
 #### 展示
-![](https://github.com/Xander1024/XHttp/blob/master/gif/3.gif)
+![](https://github.com/xubinbin1024/XHttp/blob/master/gif/3.gif)
