@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         mTextView = (TextView) findViewById(R.id.text_view);
     }
     public void requestImg(View view){
-        TaskBuilder.getIstance().get("http://sdadadadasd")
+        new TaskBuilder().get("http://sdadadadasd")
                 .tag("bbb")
                 .setTimeout(5000)
                 .setOnHttpTaskCallback(new OnHttpTaskCallback() {
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         .build();
     }
     public void requestJson(View view){
-        TaskBuilder.getIstance().get("http://3434343434")
+        new TaskBuilder().get("http://3434343434")
                 .tag("aaa")
                 .setOnHttpTaskCallback(new OnHttpTaskCallback() {
                     @Override
@@ -59,6 +59,6 @@ public class MainActivity extends AppCompatActivity {
         .build();
     }
     public void cancel(View view){
-        TaskBuilder.getIstance().cancel("bbb");
+        TaskBuilder.TaskManager.getIstance().cancel("bbb");
     }
 }

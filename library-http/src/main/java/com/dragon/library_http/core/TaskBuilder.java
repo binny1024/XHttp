@@ -124,26 +124,10 @@ public class TaskBuilder implements ITaskBuilder<TaskBuilder> {
     /**
      * 定义一个私有构造方法
      */
-    private TaskBuilder() {
+    public TaskBuilder() {
         instance = this;
     }
 
-    /**定义一个共有的静态方法，返回该类型实例
-     * @return 该类型实例
-     */
-    public static TaskBuilder getIstance() {
-        // 对象实例化时与否判断（不使用同步代码块，instance不等于null时，直接返回对象，提高运行效率）
-        if (instance == null) {
-            //同步代码块（对象未初始化时，使用同步代码块，保证多线程访问时对象在第一次创建后，不再重复被创建）
-            synchronized (TaskBuilder.class) {
-                //未初始化，则初始instance变量
-                if (instance == null) {
-                    instance = new TaskBuilder();
-                }
-            }
-        }
-        return instance;
-    }
 
     @Override
     public TaskBuilder tag(String tag) {
@@ -320,7 +304,7 @@ public class TaskBuilder implements ITaskBuilder<TaskBuilder> {
     /**
      * 异步任务管理器
      */
-    private static class TaskManager implements ITaskManager {
+    public static class TaskManager  {
         private static final String TAG = "TaskManager";
         // 定义一个私有构造方法
         private TaskManager() {
@@ -344,15 +328,20 @@ public class TaskBuilder implements ITaskBuilder<TaskBuilder> {
             return instance;
         }
 
-        @Override
-        public void addTask(String tag, XHttpTask task) {
+        /**
+         * @param tag  线程标志
+         * @param task 线程
+         */
+         void addTask(String tag, XHttpTask task) {
             if (mTaskManager == null) {
                 mTaskManager = new HashMap<>();
             }
             mTaskManager.put(tag.toString(), task);
         }
 
-        @Override
+        /**
+         * @param tag
+         */
         public void cancel(String tag) {
             if (mTaskManager == null) {
                 return;
@@ -369,7 +358,9 @@ public class TaskBuilder implements ITaskBuilder<TaskBuilder> {
             mTaskManager.clear();
         }
 
-        @Override
+        /**
+         *
+         */
         public void cancelAll() {
             Log.i("xander","TaskManager.取消取消取消取消取消 :");
             if (mTaskManager == null) {
