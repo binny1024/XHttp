@@ -5,7 +5,7 @@
  #### 请使用代理进行测试
 
  #### 1、请求json
- new TaskBuilder().get("http://3434343434")
+    new TaskBuilder().get("http://3434343434")
                 .tag("aaa")
                 .setOnHttpTaskCallback(new OnHttpTaskCallback() {
                     @Override
