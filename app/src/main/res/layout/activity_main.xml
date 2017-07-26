@@ -19,13 +19,18 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="button"
+            android:onClick="requestImg"
             android:text="请求图片"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="button1"
+            android:onClick="requestJson"
             android:text="请求json"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="cancel"
+            android:text="取消任务"/>
         <ImageView
             android:id="@+id/img_view"
             android:layout_width="wrap_content"

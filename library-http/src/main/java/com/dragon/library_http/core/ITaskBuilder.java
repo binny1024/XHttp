@@ -9,13 +9,20 @@ import java.util.Map;
  * function
  */
 
-public interface IHttpTask<T extends IHttpTask> {
+public interface ITaskBuilder<T extends ITaskBuilder> {
+    /**
+     * 该任务的一个人标志，身份
+     *
+     * @return 该类的实例
+     * @param tag
+     */
+    T tag(String tag);
 
     /**
      * 请求方式 get
      *
      * @param url 请求url
-     * @return 异步任务
+     * @return 该类的实例
      */
     T get(String url);
 
@@ -86,7 +93,19 @@ public interface IHttpTask<T extends IHttpTask> {
     T setCharset(String charset);
 
     /**
+     * 发起异步任务
+     *
+     * @return 该类的实例
+     */
+    T build();
+
+    /**  取消指定任务
      * @param tag 线程标志
      */
-    void cancelTask(String tag);
+    void cancel(String tag);
+
+    /**
+     *取消所有任务
+     */
+    void cancelAll();
 }

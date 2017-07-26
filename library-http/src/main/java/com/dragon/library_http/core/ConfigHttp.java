@@ -9,7 +9,7 @@ public class ConfigHttp {
     public final static int METHOD_GET = 0x10;
     public final static int METHOD__POST = 0x11;
 
-    public static int mHttpTimeout = 2000;
+    public static int mHttpTimeout = 5000;
 
     public static int httpType = METHOD_GET;
 }

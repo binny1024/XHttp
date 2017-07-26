@@ -5,12 +5,12 @@ package com.dragon.library_http.exception;
  * function
  */
 
-public class HttpException extends Exception {
-    public HttpException() {
+public class AdException extends Exception {
+    public AdException() {
         super();
     }
 
-    public HttpException(String message) {
+    public AdException(String message) {
         super(message);
     }
 

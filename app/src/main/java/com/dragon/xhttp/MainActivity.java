@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dragon.library_http.callback.OnHttpTaskCallback;
-import com.dragon.library_http.core.HttpTask;
+import com.dragon.library_http.core.TaskBuilder;
 import com.dragon.library_http.response.Response;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,8 +22,10 @@ public class MainActivity extends AppCompatActivity {
         mImageView = (ImageView) findViewById(R.id.img_view);
         mTextView = (TextView) findViewById(R.id.text_view);
     }
-    public void button(View view){
-        new HttpTask().get("http://sdadadadasd")
+    public void requestImg(View view){
+        TaskBuilder.getIstance().get("http://sdadadadasd")
+                .tag("bbb")
+                .setTimeout(5000)
                 .setOnHttpTaskCallback(new OnHttpTaskCallback() {
                     @Override
                     public void onSuccess(Response response) {
@@ -35,10 +37,12 @@ public class MainActivity extends AppCompatActivity {
                         Log.i("xxx", "onFailure  " +ex.toString());
                         Log.i("xxx", "onFailure  " +errorCode);
                     }
-                });
+                })
+        .build();
     }
-    public void button1(View view){
-        new HttpTask().get("http://3434343434")
+    public void requestJson(View view){
+        TaskBuilder.getIstance().get("http://3434343434")
+                .tag("aaa")
                 .setOnHttpTaskCallback(new OnHttpTaskCallback() {
                     @Override
                     public void onSuccess(Response response) {
@@ -51,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
                         Log.i("xxx", "onFailure  " +ex.toString());
                         Log.i("xxx", "onFailure  " +errorCode);
                     }
-                });
+                })
+        .build();
+    }
+    public void cancel(View view){
+        TaskBuilder.getIstance().cancel("bbb");
     }
 }

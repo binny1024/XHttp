@@ -11,6 +11,9 @@ import java.io.InputStream;
 
 public class Util {
     public static byte[] toByteArray(InputStream in) throws IOException {
+        if (in == null) {
+            return null;
+        }
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024 * 4];
         int len;
