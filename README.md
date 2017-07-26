@@ -1,25 +1,26 @@
 # XHttp
 不依赖第三方的网络请求框架
+##### 引用方式
+       compile 'com.xhttp:library-http:1.0.0'
+ #### 请使用代理进行测试
 
- ## 请使用代理进行测试
+      1、请求json
+           TaskBuilder.getIstance().get("http://3434343434")
+                    .tag("aaa")
+                    .setOnHttpTaskCallback(new OnHttpTaskCallback() {
+                        @Override
+                        public void onSuccess(Response response) {
+                            Log.i("xxx", "response  " +response.toString());
+                            mTextView.setText(response.toString());
+                        }
 
-  1、请求json
-       TaskBuilder.getIstance().get("http://3434343434")
-                .tag("aaa")
-                .setOnHttpTaskCallback(new OnHttpTaskCallback() {
-                    @Override
-                    public void onSuccess(Response response) {
-                        Log.i("xxx", "response  " +response.toString());
-                        mTextView.setText(response.toString());
-                    }
-
-                    @Override
-                    public void onFailure(Exception ex, String errorCode) {
-                        Log.i("xxx", "onFailure  " +ex.toString());
-                        Log.i("xxx", "onFailure  " +errorCode);
-                    }
-                })
-        .build();
+                        @Override
+                        public void onFailure(Exception ex, String errorCode) {
+                            Log.i("xxx", "onFailure  " +ex.toString());
+                            Log.i("xxx", "onFailure  " +errorCode);
+                        }
+                    })
+            .build();
  2、请求图片
 
         TaskBuilder.getIstance().get("http://sdadadadasd")
