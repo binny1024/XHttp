@@ -1,7 +1,7 @@
 package com.dragon.library_http.core;
 
 
-import com.dragon.library_http.callback.OnHttpTaskCallback;
+import com.dragon.library_http.callback.OnTaskCallback;
 
 import java.util.Map;
 
@@ -10,6 +10,7 @@ import java.util.Map;
  */
 
 public interface ITaskBuilder<T extends ITaskBuilder> {
+
     /**
      * 该任务的一个人标志，身份
      *
@@ -82,7 +83,7 @@ public interface ITaskBuilder<T extends ITaskBuilder> {
      * @param taskCallback 回调接口
      * @return 异步任务
      */
-    T setOnHttpTaskCallback(OnHttpTaskCallback taskCallback);
+    T setOnTaskCallback(OnTaskCallback taskCallback);
 
     /**
      * 设置字符集

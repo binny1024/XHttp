@@ -7,8 +7,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.dragon.library_http.callback.OnHttpTaskCallback;
+import com.dragon.library_http.callback.OnTaskCallback;
 import com.dragon.library_http.core.TaskBuilder;
+import com.dragon.library_http.core.manager.TaskManager;
 import com.dragon.library_http.response.Response;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,10 +27,11 @@ public class MainActivity extends AppCompatActivity {
         new TaskBuilder().get("http://sdadadadasd")
                 .tag("bbb")
                 .setTimeout(5000)
-                .setOnHttpTaskCallback(new OnHttpTaskCallback() {
+                .setOnTaskCallback(new OnTaskCallback() {
                     @Override
                     public void onSuccess(Response response) {
                         mImageView.setImageBitmap(response.toBitmap());
+                        Log.i("xxx", "onSuccess" );
                     }
 
                     @Override
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     public void requestJson(View view){
         new TaskBuilder().get("http://3434343434")
                 .tag("aaa")
-                .setOnHttpTaskCallback(new OnHttpTaskCallback() {
+                .setOnTaskCallback(new OnTaskCallback() {
                     @Override
                     public void onSuccess(Response response) {
                         Log.i("xxx", "response  " +response.toString());
@@ -59,6 +61,6 @@ public class MainActivity extends AppCompatActivity {
         .build();
     }
     public void cancel(View view){
-        TaskBuilder.TaskManager.getIstance().cancel("bbb");
+        TaskManager.getIstance().cancel("bbb");
     }
 }

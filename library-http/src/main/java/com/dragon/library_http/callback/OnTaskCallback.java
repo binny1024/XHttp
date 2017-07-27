@@ -8,7 +8,7 @@ import com.dragon.library_http.response.Response;
  * function
  */
 
-public interface OnHttpTaskCallback {
+public interface OnTaskCallback {
     /**
      * 请求成功
      *
