@@ -29,8 +29,8 @@ public class JJLogger {
 
     private static final char D = 'D', E = 'E';
 
-    static String LINE_SEPARATOR = System.getProperty("line.separator"); //等价于"\n\r"
-    static int JSON_INDENT = 4;
+    private static String LINE_SEPARATOR = System.getProperty("line.separator"); //等价于"\n\r"
+    private static int JSON_INDENT = 4;
 
     private static boolean isDebug = false;
     /**
@@ -42,6 +42,8 @@ public class JJLogger {
      * isLogEnable 是否开启调试日志
      * true 开启；
      * false 关闭；
+     *
+     * @param isEnable true
      */
     public static void debug(boolean isEnable) {
         isDebug = isEnable;
@@ -49,6 +51,9 @@ public class JJLogger {
 
     /**
      * 打印MAp
+     *
+     * @param tag ss
+     * @param map ss
      */
     public static void map(String tag, Map map) {
         if (isDebug) {
@@ -148,19 +153,6 @@ public class JJLogger {
     }
 
     /**
-     * 打印头部信息
-     *
-     * @param type 打印类型
-     * @param tag  发音筛选的tag
-     */
-    private static void printHead(char type, String tag) {
-        printer(type, tag, TOP_BORDER);
-        printer(type, tag, HORIZONTAL_DOUBLE_LINE + "           Thread:");
-        printer(type, tag, HORIZONTAL_DOUBLE_LINE + "           " + Thread.currentThread().getName());
-        printer(type, tag, MIDDLE_BORDER);
-    }
-
-    /**
      * 打印Log被调用的位置
      *
      * @param type 打印类型
@@ -180,11 +172,7 @@ public class JJLogger {
         }
         i += 3;
         String location = stack[i].toString();
-        StringBuilder sb = new StringBuilder();
-        printer(type, tag, HORIZONTAL_DOUBLE_LINE + "   Location:");
-        sb.append(HORIZONTAL_DOUBLE_LINE).append("   invoked at：").append(location);
-        printer(type, tag, sb.toString());
-//        printer(get,tag, msg == null || msg.length == 0 ? BOTTOM_BORDER : MIDDLE_BORDER);
+        printer(type, tag, String.valueOf(HORIZONTAL_DOUBLE_LINE) + "   线程:  " + Thread.currentThread().getName() + "  位置:invoked at：" + location);
     }
 
     /**
@@ -195,7 +183,7 @@ public class JJLogger {
      * @param msg  要打印的信息
      */
     private static void printMsg(char type, String tag, String... msg) {
-        printer(type, tag, HORIZONTAL_DOUBLE_LINE + "   MESSAGE:");
+        printer(type, tag, HORIZONTAL_DOUBLE_LINE + "   信息:");
         for (String str : msg) {
             printer(type, tag, HORIZONTAL_DOUBLE_LINE + "   " + str);
         }
@@ -213,7 +201,7 @@ public class JJLogger {
             return;
         }
         if (stackTrace) {
-            printHead(type, tag);
+//            printHead(type, tag);
             printLocation(type, tag, msg);
         } else {
             printer(type, tag, TOP_BORDER);

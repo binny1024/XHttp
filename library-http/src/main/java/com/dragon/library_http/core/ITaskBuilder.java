@@ -9,13 +9,13 @@ import java.util.Map;
  * function
  */
 
-public interface ITaskBuilder<T extends ITaskBuilder> {
+interface ITaskBuilder<T extends ITaskBuilder> {
 
     /**
      * 该任务的一个人标志，身份
      *
+     * @param tag 任务标志
      * @return 该类的实例
-     * @param tag
      */
     T tag(String tag);
 
@@ -100,13 +100,15 @@ public interface ITaskBuilder<T extends ITaskBuilder> {
      */
     T build();
 
-    /**  取消指定任务
+    /**
+     * 取消指定任务
+     *
      * @param tag 线程标志
      */
     void cancel(String tag);
 
     /**
-     *取消所有任务
+     * 取消所有任务
      */
     void cancelAll();
 }
