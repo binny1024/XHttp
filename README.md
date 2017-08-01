@@ -1,7 +1,7 @@
 # XHttp
 不依赖第三方的网络请求框架
 ##### 引用方式
-       compile 'com.xhttp:library-http:1.0.2'
+       compile 'com.xhttp:library-http:1.0.3'
  #### 请使用代理进行测试
 
  #### 1、请求json
