@@ -1,24 +1,28 @@
-package com.dragon.library_http.core.task;
+package com.dragon.library_http.http.core.task;
 
 
-import com.dragon.library_http.callback.OnTaskCallback;
+import com.dragon.library_http.http.callback.OnTaskCallback;
 
 import java.util.Map;
 
 /**
  * author xander on  2017/7/27.
- * function
+ * function  定义线程任务
  */
 
-interface IHttpTask {
-
-    /**
-     * 设置url
-     *
-     * @param url 请求的url
+public interface IHttpTask {
+    /** 设置优先级
+     * @param priority  优先级
+     */
+    void setPriority(int priority);
+    /** 设置url
+     * @param url
      */
     void setUrl(String url);
-
+    /** 设置 setTag
+     * @param tag
+     */
+    void setTag(String tag);
     /**
      * 设置字符集
      *
@@ -35,11 +39,9 @@ interface IHttpTask {
 
     /**
      * 设置请求参数
-     *
-     * @param params 请求参数
+     * @param params
      */
     void addParams(String params);
-
     /**
      * 设置回调接口
      *

@@ -1,4 +1,4 @@
-package com.dragon.library_http.response;
+package com.dragon.library_http.http.response;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

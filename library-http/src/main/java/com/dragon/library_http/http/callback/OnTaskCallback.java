@@ -1,7 +1,6 @@
-package com.dragon.library_http.callback;
+package com.dragon.library_http.http.callback;
 
-
-import com.dragon.library_http.response.Response;
+import com.dragon.library_http.http.response.Response;
 
 /**
  * author xander on  2017/7/25.

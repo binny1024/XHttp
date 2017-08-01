@@ -7,10 +7,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.dragon.library_http.callback.OnTaskCallback;
-import com.dragon.library_http.core.TaskBuilder;
-import com.dragon.library_http.core.manager.TaskManager;
-import com.dragon.library_http.response.Response;
+import com.dragon.library_http.http.callback.OnTaskCallback;
+import com.dragon.library_http.http.core.TaskManager;
+import com.dragon.library_http.http.response.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,12 +23,12 @@ public class MainActivity extends AppCompatActivity {
         mTextView = (TextView) findViewById(R.id.text_view);
     }
     public void requestImg(View view){
-        new TaskBuilder().get("http://sdadadadasd")
-                .tag("bbb")
+        TaskManager.getmInstance().initGet("http://sdadadadasd")
+                .setTag("bbb")
                 .setTimeout(5000)
-                .setOnTaskCallback(new OnTaskCallback() {
+                .execute(new OnTaskCallback() {
                     @Override
-                    public void onSuccess(Response response) {
+                    public void onSuccess(final Response response) {
                         mImageView.setImageBitmap(response.toBitmap());
                         Log.i("xxx", "onSuccess" );
                     }
@@ -39,13 +38,12 @@ public class MainActivity extends AppCompatActivity {
                         Log.i("xxx", "onFailure  " +ex.toString());
                         Log.i("xxx", "onFailure  " +errorCode);
                     }
-                })
-        .build();
+                });
     }
     public void requestJson(View view){
-        new TaskBuilder().get("http://3434343434")
-                .tag("aaa")
-                .setOnTaskCallback(new OnTaskCallback() {
+        TaskManager.getmInstance().initGet("http://3434343434")
+                .setTag("aaa")
+                .execute(new OnTaskCallback() {
                     @Override
                     public void onSuccess(Response response) {
                         Log.i("xxx", "response  " +response.toString());
@@ -57,10 +55,9 @@ public class MainActivity extends AppCompatActivity {
                         Log.i("xxx", "onFailure  " +ex.toString());
                         Log.i("xxx", "onFailure  " +errorCode);
                     }
-                })
-        .build();
+                });
     }
     public void cancel(View view){
-        TaskManager.getIstance().cancel("bbb");
+        TaskManager.getmInstance().cancel("bbb");
     }
 }
