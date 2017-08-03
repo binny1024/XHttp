@@ -2,43 +2,60 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
-    tools:context="com.dragon.xhttp.MainActivity">
+    android:padding="20dp"
+    tools:context="com.dragon.xhttp.activity.MainActivity">
+
     <LinearLayout
+        android:id="@+id/parent_ll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context="com.dragon.xhttp.MainActivity">
+        android:orientation="vertical">
+
+        <GridView
+            android:id="@+id/main_grid"
+            android:layout_width="wrap_content"
+            android:layout_height="250dp"
+            android:numColumns="2">
+        </GridView>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/name"
+                android:hint="name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <EditText
+                android:id="@+id/age"
+                android:hint="age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
         <Button
-            android:layout_width="wrap_content"
+            android:id="@+id/clear_data"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="requestImg"
-            android:text="请求图片"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="requestJson"
-            android:text="请求json"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="cancel"
-            android:text="取消任务"/>
-        <ImageView
-            android:id="@+id/img_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:onClick="clear"
+            android:text="清除展示的数据"/>
+
+
         <TextView
-            android:id="@+id/text_view"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:text="结果如下："/>
+
+        <TextView
+            android:id="@+id/result_data"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>
-
 </ScrollView>

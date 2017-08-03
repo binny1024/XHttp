@@ -3,24 +3,26 @@
           package="com.dragon.xhttp">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data
-            android:name="HOST"
-            android:value="192.168.200.162"/>
-        <meta-data
-            android:name="PORT"
-            android:value="8888"/>
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.MainActivity">
+        </activity>
+        <activity
+            android:name=".activity.LoginActivity"
+            android:label="@string/title_activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity android:name=".activity.RegisterActivity">
         </activity>
     </application>
 

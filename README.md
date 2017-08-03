@@ -2,6 +2,7 @@
 不依赖第三方的网络请求框架
 
 ##### QQ：交流群 ：192268854
+![](https://github.com/xubinbin1024/XHttp/blob/master/gif/QQ.jpg)
 ##### 引用方式
        ccompile 'com.bean.libs:http:1.0.0'
  #### 请使用代理进行测试
