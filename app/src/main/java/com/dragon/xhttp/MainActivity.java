@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         TaskManager.getmInstance().initTask().get("http://sdadadadasd")
                 .setTag("bbb")
                 .setTimeout(5000)
-                .openProxy(true)
                 .setOnTaskCallback(new OnTaskCallback() {
                     @Override
                     public void onSuccess(final Response response) {
