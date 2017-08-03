@@ -3,7 +3,7 @@
 
 ##### QQ：交流群 ：192268854
 ##### 引用方式
-       compile 'com.xhttp:library-http:1.0.3'
+       ccompile 'com.bean.libs:http:1.0.0'
  #### 请使用代理进行测试
 
  #### 1、请求json

@@ -7,9 +7,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.dragon.library_http.http.callback.OnTaskCallback;
-import com.dragon.library_http.http.core.TaskManager;
-import com.dragon.library_http.http.response.Response;
+import com.jingjiu.sdk.core.InitSDK;
+import com.jingjiu.sdk.core.ad.exception.AdException;
+import com.jingjiu.sdk.util.http.callback.OnTaskCallback;
+import com.jingjiu.sdk.util.http.core.manager.TaskManager;
+import com.jingjiu.sdk.util.http.response.Response;
+import com.jingjiu.sdk.util.logger.JJLogger;
+
+import java.io.IOException;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,15 +24,24 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try {
+            InitSDK.init(this);
+            JJLogger.debug(true);
+        } catch (AdException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         setContentView(R.layout.activity_main);
         mImageView = (ImageView) findViewById(R.id.img_view);
         mTextView = (TextView) findViewById(R.id.text_view);
     }
     public void requestImg(View view){
-        TaskManager.getmInstance().initGet("http://sdadadadasd")
+        TaskManager.getmInstance().initTask().get("http://sdadadadasd")
                 .setTag("bbb")
                 .setTimeout(5000)
-                .execute(new OnTaskCallback() {
+                .openProxy(true)
+                .setOnTaskCallback(new OnTaskCallback() {
                     @Override
                     public void onSuccess(final Response response) {
                         mImageView.setImageBitmap(response.toBitmap());
@@ -38,12 +53,12 @@ public class MainActivity extends AppCompatActivity {
                         Log.i("xxx", "onFailure  " +ex.toString());
                         Log.i("xxx", "onFailure  " +errorCode);
                     }
-                });
+                }).execute();
     }
     public void requestJson(View view){
-        TaskManager.getmInstance().initGet("http://3434343434")
+        TaskManager.getmInstance().initTask().get("http://3434343434")
                 .setTag("aaa")
-                .execute(new OnTaskCallback() {
+                .setOnTaskCallback(new OnTaskCallback() {
                     @Override
                     public void onSuccess(Response response) {
                         Log.i("xxx", "response  " +response.toString());
@@ -55,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.i("xxx", "onFailure  " +ex.toString());
                         Log.i("xxx", "onFailure  " +errorCode);
                     }
-                });
+                }).execute();
     }
     public void cancel(View view){
         TaskManager.getmInstance().cancel("bbb");
