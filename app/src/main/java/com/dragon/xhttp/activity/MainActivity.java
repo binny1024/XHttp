@@ -62,7 +62,7 @@ public class MainActivity extends Activity implements ViewHolderItemClickedCallb
         if (itemName.equals(getString(R.string.request_get))) {
              JJLogger.logInfo(TAG,"MainActivity.onItemClickedInList :");
             TaskManager.getmInstance().initTask().get(LOGIN_REGISTER_URL)
-                    .setParams("name",mName.getText().toString())
+                    .setParams("account",mName.getText().toString())
                     .setParams("password",mAge.getText().toString())
                     .setOnTaskCallback(new OnTaskCallback() {
                         @Override
@@ -79,7 +79,7 @@ public class MainActivity extends Activity implements ViewHolderItemClickedCallb
                     });
         } else if (itemName.equals(getString(R.string.request_post))) {
             TaskManager.getmInstance().initTask().post(LOGIN_REGISTER_URL)
-                    .setParams("name",mName.getText().toString())
+                    .setParams("account",mName.getText().toString())
                     .setParams("password",mAge.getText().toString())
                     .setOnTaskCallback(new OnTaskCallback() {
                         @Override
