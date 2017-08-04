@@ -1,14 +1,15 @@
 <resources>
-    <string name="app_name">Adsdk</string>
+    <string name="app_name">后台开发测试</string>
 
     <string name="request_get">get请求</string>
     <string name="request_post">post请求</string>
     <string name="request_upload_file">文件上传</string>
-    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_login">后台开发测试</string>
 
     <!-- Strings related to login -->
     <string name="account">账号</string>
     <string name="prompt_password">密码</string>
+    <string name="prompt_age">年龄</string>
     <string name="action_sign_in">登录</string>
     <string name="action_register">注册</string>
     <string name="action_sign_in_short">Sign in</string>

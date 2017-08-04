@@ -22,7 +22,7 @@ import com.smart.holder.CommonAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.dragon.xhttp.web_api.WebApi.LOGIN_URL;
+import static com.dragon.xhttp.web_api.WebApi.LOGIN_REGISTER_URL;
 import static com.smart.holder.util.UtilWidget.getView;
 
 
@@ -61,7 +61,7 @@ public class MainActivity extends Activity implements ViewHolderItemClickedCallb
         mTextView.setText("");
         if (itemName.equals(getString(R.string.request_get))) {
              JJLogger.logInfo(TAG,"MainActivity.onItemClickedInList :");
-            TaskManager.getmInstance().initTask().get(LOGIN_URL)
+            TaskManager.getmInstance().initTask().get(LOGIN_REGISTER_URL)
                     .setParams("name",mName.getText().toString())
                     .setParams("password",mAge.getText().toString())
                     .setOnTaskCallback(new OnTaskCallback() {
@@ -78,7 +78,7 @@ public class MainActivity extends Activity implements ViewHolderItemClickedCallb
                         }
                     }).execute();
         } else if (itemName.equals(getString(R.string.request_post))) {
-            TaskManager.getmInstance().initTask().post(LOGIN_URL)
+            TaskManager.getmInstance().initTask().post(LOGIN_REGISTER_URL)
                     .setParams("name",mName.getText().toString())
                     .setParams("password",mAge.getText().toString())
                     .setOnTaskCallback(new OnTaskCallback() {

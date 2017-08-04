@@ -7,5 +7,5 @@ package com.dragon.xhttp.web_api;
 
 public class WebApi {
     private static final String HOST =  "http://192.168.200.162:8080/HttpHelperWeb";
-    public  static final String LOGIN_URL = HOST+"/login";
+    public  static final String LOGIN_REGISTER_URL = HOST+"/user/login";
 }

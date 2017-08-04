@@ -10,14 +10,15 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.dragon.xhttp.R;
-import com.dragon.xhttp.itemview.bean.UserBean;
+import com.dragon.xhttp.bean.LoginInfo;
+import com.dragon.xhttp.constant.Code;
 import com.google.gson.Gson;
 import com.jingjiu.http.util.http.callback.OnTaskCallback;
 import com.jingjiu.http.util.http.core.manager.TaskManager;
 import com.jingjiu.http.util.http.response.Response;
 import com.jingjiu.http.util.logger.JJLogger;
 
-import static com.dragon.xhttp.web_api.WebApi.LOGIN_URL;
+import static com.dragon.xhttp.web_api.WebApi.LOGIN_REGISTER_URL;
 import static com.smart.holder.util.UtilWidget.getView;
 
 /**
@@ -25,10 +26,10 @@ import static com.smart.holder.util.UtilWidget.getView;
  */
 public class LoginActivity extends AppCompatActivity {
 
-    private final String TAG = this.getClass().getSimpleName();
-    private AutoCompleteTextView mAccountAct;
-    private EditText mPasswordEt;
-    private String errorInfo;
+    protected final String TAG = this.getClass().getSimpleName();
+    protected AutoCompleteTextView mAccountAct;
+    protected EditText mPasswordEt;
+    protected String errorInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,19 +46,31 @@ public class LoginActivity extends AppCompatActivity {
 
         if (checkAccountPassword(account, password)) {
             JJLogger.logInfo(TAG, "LoginActivity.loginOrRegister :");
-            TaskManager.getmInstance().initTask().get(LOGIN_URL)
+            TaskManager.getmInstance().initTask().get(LOGIN_REGISTER_URL)
                     .setParams("account", account)
+                    .setParams("tag", Code.TAG_LOGIN)
                     .setParams("password", password)
                     .setOnTaskCallback(new OnTaskCallback() {
                         @Override
                         public void onSuccess(final Response response) {
+                             JJLogger.logInfo(TAG,"LoginActivity.onSuccess :"+response.toString());
                             Gson gson = new Gson();
-                            UserBean userBean = gson.fromJson(response.toString(), UserBean.class);
+                            LoginInfo userBean = gson.fromJson(response.toString(), LoginInfo.class);
 
-                            if (userBean.getErrorCode().equals("100")) {
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                            } else {
-                                Toast.makeText(LoginActivity.this, "未查询到您的注册信息，请先注册！", Toast.LENGTH_SHORT).show();
+                            switch (userBean.getCode()) {
+                                case "1002":
+                                    Toast.makeText(LoginActivity.this, "登录成功！", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                    finish();
+                                    break;
+                                case "1003":
+                                    Toast.makeText(LoginActivity.this, "未查询到您的注册信息，请先注册！", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                                    finish();
+                                    break;
+                                case "1004":
+                                    Toast.makeText(LoginActivity.this, "密码错误！", Toast.LENGTH_SHORT).show();
+                                    break;
                             }
                         }
 
@@ -71,11 +84,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public void register(View view) {
-        startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-    }
-
-    private boolean checkAccountPassword(final String account, final String password) {
+    protected boolean checkAccountPassword(final String account, final String password) {
         if (TextUtils.isEmpty(account)) {
             errorInfo = "账号为空";
             return false;
