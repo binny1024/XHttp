@@ -4,7 +4,7 @@
 ##### QQ：交流群 ：192268854
 ![](https://github.com/Xbean1024/XHttp/blob/master/gif/QQ.JPG)
 ##### 引用方式
-       ccompile 'com.bean.libs:http:1.0.0'
+       ccompile 'com.bean.libs:http:1.0.1'
  #### 请使用代理进行测试
 
  #### 1、请求json
@@ -22,7 +22,7 @@
                           Log.i("xxx", "onFailure  " +ex.toString());
                           Log.i("xxx", "onFailure  " +errorCode);
                       }
-                  }).execute();
+                  });
 #### 2、请求图片
          TaskManager.getmInstance().initTask().get("http://sdadadadasd")
                    .setTag("bbb")
@@ -39,7 +39,7 @@
                            Log.i("xxx", "onFailure  " +ex.toString());
                            Log.i("xxx", "onFailure  " +errorCode);
                        }
-                   }).execute();
+                   });
 #### 3、取消请求（TaskManager 取消请求）
 ###### 3.1、取消单个请求
       TaskManager.getmInstance().cancel("bbb");

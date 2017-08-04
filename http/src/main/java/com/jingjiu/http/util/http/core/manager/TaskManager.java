@@ -218,6 +218,20 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
     @Override
     public TaskManager setOnTaskCallback(final OnTaskCallback taskCallback) {
         mHttpTask.setOnTaskCallback(taskCallback);
+        if (mStartThreadPool && sThreadPool != null) {
+            mStartThreadPool = false;
+            if (sThreadPool.isShutdown() || sThreadPool.isTerminated()) {
+                JJLogger.logInfo(TAG, "TaskManager.execute : 线程池已关闭 错误码：" + CODE_CANCLE);
+                return mInstance;
+            }
+            try {
+                sThreadPool.execute(mHttpTask);
+            } catch (RejectedExecutionException e) {
+                JJLogger.logInfo(TAG, "TaskManager.execute :" + sThreadPool.getActiveCount());
+            }
+        } else {
+            new Thread(mHttpTask).start();
+        }
         return mInstance;
     }
 

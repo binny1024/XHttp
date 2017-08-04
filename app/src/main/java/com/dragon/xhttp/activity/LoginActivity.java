@@ -18,8 +18,8 @@ import com.jingjiu.http.util.http.core.manager.TaskManager;
 import com.jingjiu.http.util.http.response.Response;
 import com.jingjiu.http.util.logger.JJLogger;
 
-import static com.dragon.xhttp.web_api.WebApi.LOGIN_REGISTER_URL;
-import static com.smart.holder.util.UtilWidget.getView;
+import static com.dragon.xhttp.UtilWidget.getView;
+import static com.dragon.xhttp.api.WebApi.LOGIN_REGISTER_URL;
 
 /**
  * A login screen that offers login via email/password.
@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void onFailure(final Exception ex, final String errorCode) {
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         }
-                    }).execute();
+                    });
         } else {
             Toast.makeText(this, "您的 " + errorInfo + " !", Toast.LENGTH_SHORT).show();
         }

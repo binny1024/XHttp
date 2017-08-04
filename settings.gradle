@@ -1,1 +1,1 @@
-include ':app', ':http', ':adapter'
+include ':app', ':http'

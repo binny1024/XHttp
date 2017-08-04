@@ -9,11 +9,11 @@ import com.dragon.xhttp.itemview.callback.ViewHolderItemClickedCallback;
 import com.dragon.xhttp.itemview.holder.ViewHolderMain;
 import com.smart.holder.iinterface.IViewHolder;
 import com.smart.holder.iinterface.IViewHolderHelper;
-import com.smart.holder.util.UtilWidget;
 
 import java.util.List;
 
-import static com.smart.holder.util.UtilWidget.setViewAlphaAnimation;
+import static com.dragon.xhttp.UtilWidget.setViewAlphaAnimation;
+import static com.jingjiu.http.util.CommonMethod.getView;
 
 
 /**
@@ -30,7 +30,7 @@ public class ViewHolderHelperMain implements IViewHolderHelper<ViewHolderMain, B
     @Override
     public IViewHolder initItemViewHolder(ViewHolderMain viewHolder, View convertView) {
         viewHolder = new ViewHolderMain();
-        viewHolder.mTextView = UtilWidget.getView(convertView, R.id.grid_item_text_view);
+        viewHolder.mTextView = getView(convertView, R.id.grid_item_text_view);
         return viewHolder;
     }
 

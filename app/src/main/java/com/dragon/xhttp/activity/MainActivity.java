@@ -22,8 +22,8 @@ import com.smart.holder.CommonAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.dragon.xhttp.web_api.WebApi.LOGIN_REGISTER_URL;
-import static com.smart.holder.util.UtilWidget.getView;
+import static com.dragon.xhttp.UtilWidget.getView;
+import static com.dragon.xhttp.api.WebApi.LOGIN_REGISTER_URL;
 
 
 public class MainActivity extends Activity implements ViewHolderItemClickedCallback {
@@ -76,7 +76,7 @@ public class MainActivity extends Activity implements ViewHolderItemClickedCallb
                         public void onFailure(final Exception ex, final String errorCode) {
                                  JJLogger.logInfo(TAG,"MainActivity.onFailure :"+errorCode);
                         }
-                    }).execute();
+                    });
         } else if (itemName.equals(getString(R.string.request_post))) {
             TaskManager.getmInstance().initTask().post(LOGIN_REGISTER_URL)
                     .setParams("name",mName.getText().toString())
@@ -94,7 +94,7 @@ public class MainActivity extends Activity implements ViewHolderItemClickedCallb
                         public void onFailure(final Exception ex, final String errorCode) {
                             JJLogger.logInfo(TAG,"MainActivity.onFailure :"+ex.getMessage());
                         }
-                    }).execute();
+                    });
         } else if (itemName.equals(getString(R.string.request_upload_file))) {
             Toast.makeText(this, "暂未实现", Toast.LENGTH_SHORT).show();
         }

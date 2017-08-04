@@ -20,8 +20,8 @@ import com.jingjiu.http.util.logger.JJLogger;
 
 import java.net.URLEncoder;
 
-import static com.dragon.xhttp.web_api.WebApi.LOGIN_REGISTER_URL;
-import static com.smart.holder.util.UtilWidget.getView;
+import static com.dragon.xhttp.UtilWidget.getView;
+import static com.dragon.xhttp.api.WebApi.LOGIN_REGISTER_URL;
 
 public class RegisterActivity extends AppCompatActivity {
     protected final String TAG = this.getClass().getSimpleName();
@@ -73,7 +73,7 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onFailure(final Exception ex, final String errorCode) {
                             startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                         }
-                    }).execute();
+                    });
         } else {
             Toast.makeText(this, "您的 " + errorInfo + " !", Toast.LENGTH_SHORT).show();
         }
