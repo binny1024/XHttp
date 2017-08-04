@@ -58,12 +58,12 @@ public class LoginActivity extends AppCompatActivity {
                             LoginInfo userBean = gson.fromJson(response.toString(), LoginInfo.class);
 
                             switch (userBean.getCode()) {
-                                case "1002":
+                                case "1003":
                                     Toast.makeText(LoginActivity.this, "登录成功！", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                     finish();
                                     break;
-                                case "1003":
+                                case "1001":
                                     Toast.makeText(LoginActivity.this, "未查询到您的注册信息，请先注册！", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
                                     finish();

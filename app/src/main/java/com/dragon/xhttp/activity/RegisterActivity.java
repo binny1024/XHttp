@@ -10,7 +10,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.dragon.xhttp.R;
+import com.dragon.xhttp.bean.LoginInfo;
 import com.dragon.xhttp.constant.Code;
+import com.google.gson.Gson;
 import com.jingjiu.http.util.http.callback.OnTaskCallback;
 import com.jingjiu.http.util.http.core.manager.TaskManager;
 import com.jingjiu.http.util.http.response.Response;
@@ -50,21 +52,18 @@ public class RegisterActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(final Response response) {
                             JJLogger.logInfo(TAG,"LoginActivity.onSuccess :"+response.toString());
-                            /*Gson gson = new Gson();
+                            Gson gson = new Gson();
                             LoginInfo userBean = gson.fromJson(response.toString(), LoginInfo.class);
 
                             switch (userBean.getCode()) {
-                                case "1002":
-                                    Toast.makeText(RegisterActivity.this, "登录成功！", Toast.LENGTH_SHORT).show();
+                                case "1007":
+                                    Toast.makeText(RegisterActivity.this, "注册成功！", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                                     break;
-                                case "1003":
-                                    Toast.makeText(RegisterActivity.this, "未查询到您的注册信息，请先注册！", Toast.LENGTH_SHORT).show();
+                                default:
+                                    Toast.makeText(RegisterActivity.this, "注册失败！", Toast.LENGTH_SHORT).show();
                                     break;
-                                case "1004":
-                                    Toast.makeText(RegisterActivity.this, "密码错误！", Toast.LENGTH_SHORT).show();
-                                    break;
-                            }*/
+                            }
                         }
 
                         @Override
