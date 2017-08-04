@@ -59,6 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 case "1007":
                                     Toast.makeText(RegisterActivity.this, "注册成功！", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                                    finish();
                                     break;
                                 default:
                                     Toast.makeText(RegisterActivity.this, "注册失败！", Toast.LENGTH_SHORT).show();
