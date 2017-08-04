@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (checkAccountPassword(account, password)) {
             JJLogger.logInfo(TAG, "LoginActivity.loginOrRegister :");
-            TaskManager.getmInstance().initTask().get(LOGIN_REGISTER_URL)
+            TaskManager.getmInstance().initTask().post(LOGIN_REGISTER_URL)
                     .setParams("account", account)
                     .setParams("tag", Code.TAG_LOGIN)
                     .setParams("password", password)
