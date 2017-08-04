@@ -1,8 +1,8 @@
 # XHttp
 不依赖第三方的网络请求框架
+#### 展示
+![](https://github.com/Xbean1024/XHttp/blob/master/gif/3.gif)
 
-##### QQ：交流群 ：192268854
-![](https://github.com/Xbean1024/XHttp/blob/master/gif/QQ.JPG)
 ##### 引用方式
        ccompile 'com.bean.libs:http:1.0.1'
  #### 请使用代理进行测试
@@ -45,5 +45,5 @@
       TaskManager.getmInstance().cancel("bbb");
 ###### 3.2、取消所有请求
      TaskManager.getmInstance().cancelAll();
-#### 展示
-![](https://github.com/Xbean1024/XHttp/blob/master/gif/3.gif)
+##### QQ：交流群 ：192268854
+![](https://github.com/Xbean1024/XHttp/blob/master/gif/QQ.JPG)
