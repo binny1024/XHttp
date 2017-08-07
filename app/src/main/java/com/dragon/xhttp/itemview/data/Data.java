@@ -1,7 +1,7 @@
 package com.dragon.xhttp.itemview.data;
 
 import com.dragon.xhttp.R;
-import com.jingjiu.http.util.InitSDK;
+import com.jingjiu.http.core.InitSDK;
 
 /**
  * function

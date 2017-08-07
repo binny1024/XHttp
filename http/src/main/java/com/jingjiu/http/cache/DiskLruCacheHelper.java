@@ -1,11 +1,11 @@
-package com.jingjiu.http.util.cache;
+package com.jingjiu.http.cache;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 
-import com.jingjiu.http.util.logger.JJLogger;
+import com.jingjiu.http.core.logger.JJLogger;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,13 +23,13 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
 
-import static com.jingjiu.http.util.CommonMethod.bitmap2Bytes;
-import static com.jingjiu.http.util.CommonMethod.bitmap2Drawable;
-import static com.jingjiu.http.util.CommonMethod.bytes2Bitmap;
-import static com.jingjiu.http.util.CommonMethod.drawable2Bitmap;
-import static com.jingjiu.http.util.CommonMethod.getAppVersion;
-import static com.jingjiu.http.util.CommonMethod.getDiskCacheDir;
-import static com.jingjiu.http.util.CommonMethod.getMD5;
+import static com.jingjiu.http.common.CommonMethod.bitmap2Bytes;
+import static com.jingjiu.http.common.CommonMethod.bitmap2Drawable;
+import static com.jingjiu.http.common.CommonMethod.bytes2Bitmap;
+import static com.jingjiu.http.common.CommonMethod.drawable2Bitmap;
+import static com.jingjiu.http.common.CommonMethod.getAppVersion;
+import static com.jingjiu.http.common.CommonMethod.getDiskCacheDir;
+import static com.jingjiu.http.common.CommonMethod.getMD5;
 
 /**
  * function  通过相同键（图片的索引）来保存图片和图片的详情
@@ -80,7 +80,7 @@ public class DiskLruCacheHelper {
                     dir + " is not a directory or does not exists. ");
         }
 
-        int appVersion = context == null ? DEFAULT_APP_VERSION : getAppVersion();
+        int appVersion = context == null ? DEFAULT_APP_VERSION : getAppVersion(context);
         DiskLruCache diskLruCache = null;
         diskLruCache = DiskLruCache.open(
                 dir,
@@ -94,7 +94,7 @@ public class DiskLruCacheHelper {
         DiskLruCache diskLruCache;
         diskLruCache = DiskLruCache.open(
                 getDiskCacheDir(context, dirName),
-                getAppVersion(),
+                getAppVersion(context),
                 DEFAULT_VALUE_COUNT,
                 maxCount);
         return diskLruCache;

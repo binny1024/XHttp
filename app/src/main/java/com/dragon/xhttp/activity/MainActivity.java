@@ -2,6 +2,7 @@ package com.dragon.xhttp.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -13,17 +14,18 @@ import com.dragon.xhttp.itemview.bean.BeanMainActivity;
 import com.dragon.xhttp.itemview.callback.ViewHolderItemClickedCallback;
 import com.dragon.xhttp.itemview.data.Data;
 import com.dragon.xhttp.itemview.helper.ViewHolderHelperMain;
-import com.jingjiu.http.util.http.callback.OnTaskCallback;
-import com.jingjiu.http.util.http.core.manager.TaskManager;
-import com.jingjiu.http.util.http.response.Response;
-import com.jingjiu.http.util.logger.JJLogger;
+import com.jingjiu.http.core.http.callback.OnTaskCallback;
+import com.jingjiu.http.core.http.core.manager.TaskManager;
+import com.jingjiu.http.core.http.response.Response;
+import com.jingjiu.http.core.logger.JJLogger;
 import com.smart.holder.CommonAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.dragon.xhttp.UtilWidget.getView;
-import static com.dragon.xhttp.api.WebApi.LOGIN_REGISTER_URL;
+import static com.dragon.xhttp.api.WebApi.LOGIN_URL;
+import static com.dragon.xhttp.api.WebApi.UPLOAD_FILE_URL;
 
 
 public class MainActivity extends Activity implements ViewHolderItemClickedCallback {
@@ -60,31 +62,31 @@ public class MainActivity extends Activity implements ViewHolderItemClickedCallb
         //item的 点击回调
         mTextView.setText("");
         if (itemName.equals(getString(R.string.request_get))) {
-             JJLogger.logInfo(TAG,"MainActivity.onItemClickedInList :");
-            TaskManager.getmInstance().initTask().get(LOGIN_REGISTER_URL)
-                    .setParams("account",mName.getText().toString())
-                    .setParams("password",mAge.getText().toString())
+            JJLogger.logInfo(TAG, "MainActivity.onItemClickedInList :");
+            TaskManager.getmInstance().initTask().get(LOGIN_URL)
+                    .setParams("account", mName.getText().toString())
+                    .setParams("password", mAge.getText().toString())
                     .setOnTaskCallback(new OnTaskCallback() {
                         @Override
                         public void onSuccess(final Response response) {
-                            JJLogger.logInfo(TAG,"MainActivity.onSuccess :"+
+                            JJLogger.logInfo(TAG, "MainActivity.onSuccess :" +
                                     response.toString());
                             Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_LONG).show();
                         }
 
                         @Override
                         public void onFailure(final Exception ex, final String errorCode) {
-                                 JJLogger.logInfo(TAG,"MainActivity.onFailure :"+errorCode);
+                            JJLogger.logInfo(TAG, "MainActivity.onFailure :" + errorCode);
                         }
                     });
         } else if (itemName.equals(getString(R.string.request_post))) {
-            TaskManager.getmInstance().initTask().post(LOGIN_REGISTER_URL)
-                    .setParams("account",mName.getText().toString())
-                    .setParams("password",mAge.getText().toString())
+            TaskManager.getmInstance().initTask().post(LOGIN_URL)
+                    .setParams("account", mName.getText().toString())
+                    .setParams("password", mAge.getText().toString())
                     .setOnTaskCallback(new OnTaskCallback() {
                         @Override
                         public void onSuccess(final Response response) {
-                            JJLogger.logInfo(TAG,"MainActivity.onSuccess :"+
+                            JJLogger.logInfo(TAG, "MainActivity.onSuccess :" +
                                     response.toString());
                             Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_LONG).show();
 
@@ -92,11 +94,29 @@ public class MainActivity extends Activity implements ViewHolderItemClickedCallb
 
                         @Override
                         public void onFailure(final Exception ex, final String errorCode) {
-                            JJLogger.logInfo(TAG,"MainActivity.onFailure :"+ex.getMessage());
+                            JJLogger.logInfo(TAG, "MainActivity.onFailure :" + ex.getMessage());
                         }
                     });
         } else if (itemName.equals(getString(R.string.request_upload_file))) {
-            Toast.makeText(this, "暂未实现", Toast.LENGTH_SHORT).show();
+            String path = Environment.getExternalStorageDirectory().getPath() + "/crash_lzhy_moneyhll.txt";
+            JJLogger.logInfo(TAG, "MainActivity.onItemClickedInList :" + path);
+            TaskManager.getmInstance().initTask().post(UPLOAD_FILE_URL)
+                    .uploadFile(path)
+                    .setHeads("platform", "mobile_phone")
+                    .setOnTaskCallback(new OnTaskCallback() {
+                        @Override
+                        public void onSuccess(final Response response) {
+                            JJLogger.logInfo(TAG, "MainActivity.onSuccess :" +
+                                    response.toString());
+                            Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_LONG).show();
+
+                        }
+
+                        @Override
+                        public void onFailure(final Exception ex, final String errorCode) {
+                            JJLogger.logInfo(TAG, "MainActivity.onFailure :" + ex.getMessage());
+                        }
+                    });
         }
     }
 

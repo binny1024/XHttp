@@ -1,4 +1,4 @@
-package com.jingjiu.http.util.http.response;
+package com.jingjiu.http.core.http.response;
 
 import android.graphics.Bitmap;
 

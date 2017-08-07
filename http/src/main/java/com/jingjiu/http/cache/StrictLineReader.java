@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.jingjiu.http.util.cache;
+package com.jingjiu.http.cache;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;

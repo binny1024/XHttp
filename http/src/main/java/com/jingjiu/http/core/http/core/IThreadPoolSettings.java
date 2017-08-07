@@ -1,4 +1,4 @@
-package com.jingjiu.http.util.http.core;
+package com.jingjiu.http.core.http.core;
 
 /**
  * author xander on  2017/8/1.
@@ -41,11 +41,4 @@ public interface IThreadPoolSettings<T extends IThreadPoolSettings> {
      * 取消所有任务
      */
     void cancelAll();
-
-    /**
-     * 发起异步任务
-     *
-     * @return 该类的实例
-     */
-    T execute();
 }

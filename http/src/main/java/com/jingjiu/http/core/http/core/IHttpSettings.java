@@ -1,6 +1,6 @@
-package com.jingjiu.http.util.http.core;
+package com.jingjiu.http.core.http.core;
 
-import com.jingjiu.http.util.http.callback.OnTaskCallback;
+import com.jingjiu.http.core.http.callback.OnTaskCallback;
 
 import java.util.Map;
 
@@ -78,11 +78,16 @@ public interface IHttpSettings <T>{
      */
     T setCharset(String charset);
 
-/*    *//** 代理开关
-     * @param open 布尔值
-     * @return 实例
-     *//*
-    T openProxy(boolean open);*/
+    /** 上传 多个文件文件
+     * @param uploadFilePaths 文件路径 的 数组
+     * @return 异步任务
+     */
+    T uploadFiles(final String[] uploadFilePaths);
+    /** 上传 多个文件文件
+     * @param uploadFilePath 文件路径
+     * @return 异步任务
+     */
+    T uploadFile(final String uploadFilePath);
     /**
      * 设置回调接口
      *

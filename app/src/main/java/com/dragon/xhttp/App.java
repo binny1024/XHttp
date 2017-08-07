@@ -2,9 +2,9 @@ package com.dragon.xhttp;
 
 import android.app.Application;
 
+import com.jingjiu.http.core.InitSDK;
+import com.jingjiu.http.core.logger.JJLogger;
 import com.jingjiu.http.exception.AdException;
-import com.jingjiu.http.util.InitSDK;
-import com.jingjiu.http.util.logger.JJLogger;
 
 import java.io.IOException;
 

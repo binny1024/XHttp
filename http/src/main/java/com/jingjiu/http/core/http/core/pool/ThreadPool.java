@@ -1,4 +1,4 @@
-package com.jingjiu.http.util.http.core.pool;
+package com.jingjiu.http.core.http.core.pool;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;

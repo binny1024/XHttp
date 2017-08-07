@@ -13,15 +13,15 @@ import com.dragon.xhttp.R;
 import com.dragon.xhttp.bean.LoginInfo;
 import com.dragon.xhttp.constant.Code;
 import com.google.gson.Gson;
-import com.jingjiu.http.util.http.callback.OnTaskCallback;
-import com.jingjiu.http.util.http.core.manager.TaskManager;
-import com.jingjiu.http.util.http.response.Response;
-import com.jingjiu.http.util.logger.JJLogger;
+import com.jingjiu.http.core.http.callback.OnTaskCallback;
+import com.jingjiu.http.core.http.core.manager.TaskManager;
+import com.jingjiu.http.core.http.response.Response;
+import com.jingjiu.http.core.logger.JJLogger;
 
 import java.net.URLEncoder;
 
 import static com.dragon.xhttp.UtilWidget.getView;
-import static com.dragon.xhttp.api.WebApi.LOGIN_REGISTER_URL;
+import static com.dragon.xhttp.api.WebApi.LOGIN_URL;
 
 public class RegisterActivity extends AppCompatActivity {
     protected final String TAG = this.getClass().getSimpleName();
@@ -45,7 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         if (checkAccountPassword(account, password, age)) {
             JJLogger.logInfo(TAG, "LoginActivity.loginOrRegister :");
-            TaskManager.getmInstance().initTask().get(LOGIN_REGISTER_URL)
+            TaskManager.getmInstance().initTask().get(LOGIN_URL)
                     .setParams("account", URLEncoder.encode(account))
                     .setParams("tag", Code.TAG_REGISTER)
                     .setParams("password", password)

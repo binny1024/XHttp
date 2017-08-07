@@ -1,16 +1,18 @@
-package com.jingjiu.http.util.http.core.manager;
+package com.jingjiu.http.core.http.core.manager;
 
 
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.jingjiu.http.util.http.callback.OnTaskCallback;
-import com.jingjiu.http.util.http.core.IHttpSettings;
-import com.jingjiu.http.util.http.core.IThreadPoolSettings;
-import com.jingjiu.http.util.http.core.pool.ThreadPool;
-import com.jingjiu.http.util.http.core.task.HttpTask;
-import com.jingjiu.http.util.logger.JJLogger;
+import com.jingjiu.http.core.http.callback.OnTaskCallback;
+import com.jingjiu.http.core.http.core.IHttpSettings;
+import com.jingjiu.http.core.http.core.IThreadPoolSettings;
+import com.jingjiu.http.core.http.core.pool.ThreadPool;
+import com.jingjiu.http.core.http.core.task.HttpTask;
+import com.jingjiu.http.core.logger.JJLogger;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.RejectedExecutionException;
@@ -57,7 +59,7 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
     /**
      * 开启线程池
      */
-    private boolean mStartThreadPool;
+    private boolean mStartThreadPool = true;
     /**
      * 定义一个静态私有变量(不初始化，不使用final关键字，使用volatile保证了多线程访问时instance变量的可见性，
      * 避免了instance初始化时其他变量属性还没赋值完时，被另外线程调用)
@@ -145,7 +147,15 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
      */
     @Override
     public TaskManager setParams(Map<String, String> params) {
-        mHttpTask.setParams(params);
+        Map<String, String> stringMap = new HashMap<>();
+        try {
+            for (Map.Entry<String, String> entry : params.entrySet()) {
+                stringMap.put(entry.getKey(),URLEncoder.encode(entry.getValue(),"utf-8"));
+            }
+            mHttpTask.setParams(stringMap);
+        } catch (UnsupportedEncodingException e) {
+            mHttpTask.setParams(params);
+        }
         return mInstance;
     }
 
@@ -159,7 +169,11 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
         if (TextUtils.isEmpty(key)) {
             return mInstance;
         }
-        mHttpTask.setParams(key, value);
+        try {
+            mHttpTask.setParams(key, URLEncoder.encode(value, "utf-8"));
+        } catch (UnsupportedEncodingException e) {
+            mHttpTask.setParams(key, value);
+        }
         return mInstance;
     }
 
@@ -209,16 +223,23 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
         return mInstance;
     }
 
-/*    @Override
-    public TaskManager openProxy(final boolean open) {
-        mHttpTask.openProxy(open);
+    @Override
+    public TaskManager uploadFiles(final String[] uploadFilePaths) {
+        mHttpTask.uploadFiles(uploadFilePaths);
         return mInstance;
-    }*/
+    }
+
+    @Override
+    public TaskManager uploadFile(final String uploadFilePath) {
+        mHttpTask.uploadFile(uploadFilePath);
+        return mInstance;
+    }
 
     @Override
     public TaskManager setOnTaskCallback(final OnTaskCallback taskCallback) {
         mHttpTask.setOnTaskCallback(taskCallback);
         if (mStartThreadPool && sThreadPool != null) {
+            //启用线程池
             mStartThreadPool = false;
             if (sThreadPool.isShutdown() || sThreadPool.isTerminated()) {
                 JJLogger.logInfo(TAG, "TaskManager.execute : 线程池已关闭 错误码：" + CODE_CANCLE);
@@ -236,27 +257,6 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
     }
 
 
-    /**
-     * @return 该类的实例
-     */
-    @Override
-    public TaskManager execute() {
-        if (mStartThreadPool && sThreadPool != null) {
-            mStartThreadPool = false;
-            if (sThreadPool.isShutdown() || sThreadPool.isTerminated()) {
-                JJLogger.logInfo(TAG, "TaskManager.execute : 线程池已关闭 错误码：" + CODE_CANCLE);
-                return mInstance;
-            }
-            try {
-                sThreadPool.execute(mHttpTask);
-            } catch (RejectedExecutionException e) {
-                JJLogger.logInfo(TAG, "TaskManager.execute :" + sThreadPool.getActiveCount());
-            }
-        } else {
-            new Thread(mHttpTask).start();
-        }
-        return mInstance;
-    }
 
     /**
      * @param tag 线程标志

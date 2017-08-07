@@ -1,4 +1,4 @@
-package com.jingjiu.http.util;
+package com.jingjiu.http.common;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -15,6 +15,8 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Environment;
 import android.view.View;
+
+import com.jingjiu.http.core.InitSDK;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -56,10 +58,11 @@ public class CommonMethod {
      * 获取应用程序的版本号
      *
      * @return 版本号
+     * @param context
      */
-    public static int getAppVersion() {
+    public static int getAppVersion(final Context context) {
         try {
-            PackageInfo info = InitSDK.getContext().getPackageManager().getPackageInfo(InitSDK.getContext().getPackageName(), 0);
+            PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
             return info.versionCode;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();

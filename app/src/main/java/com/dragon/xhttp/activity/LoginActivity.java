@@ -13,13 +13,13 @@ import com.dragon.xhttp.R;
 import com.dragon.xhttp.bean.LoginInfo;
 import com.dragon.xhttp.constant.Code;
 import com.google.gson.Gson;
-import com.jingjiu.http.util.http.callback.OnTaskCallback;
-import com.jingjiu.http.util.http.core.manager.TaskManager;
-import com.jingjiu.http.util.http.response.Response;
-import com.jingjiu.http.util.logger.JJLogger;
+import com.jingjiu.http.core.http.callback.OnTaskCallback;
+import com.jingjiu.http.core.http.core.manager.TaskManager;
+import com.jingjiu.http.core.http.response.Response;
+import com.jingjiu.http.core.logger.JJLogger;
 
 import static com.dragon.xhttp.UtilWidget.getView;
-import static com.dragon.xhttp.api.WebApi.LOGIN_REGISTER_URL;
+import static com.dragon.xhttp.api.WebApi.LOGIN_URL;
 
 /**
  * A login screen that offers login via email/password.
@@ -45,10 +45,10 @@ public class LoginActivity extends AppCompatActivity {
         final String password = mPasswordEt.getText().toString();
 
         if (checkAccountPassword(account, password)) {
-            JJLogger.logInfo(TAG, "LoginActivity.loginOrRegister :");
-            TaskManager.getmInstance().initTask().post(LOGIN_REGISTER_URL)
+            TaskManager.getmInstance().initTask().post(LOGIN_URL)
                     .setParams("account", account)
                     .setParams("tag", Code.TAG_LOGIN)
+                    .setParams("platform","mobile_phone")
                     .setParams("password", password)
                     .setOnTaskCallback(new OnTaskCallback() {
                         @Override
@@ -56,7 +56,6 @@ public class LoginActivity extends AppCompatActivity {
                              JJLogger.logInfo(TAG,"LoginActivity.onSuccess :"+response.toString());
                             Gson gson = new Gson();
                             LoginInfo userBean = gson.fromJson(response.toString(), LoginInfo.class);
-
                             switch (userBean.getCode()) {
                                 case "1003":
                                     Toast.makeText(LoginActivity.this, "登录成功！", Toast.LENGTH_SHORT).show();
@@ -76,6 +75,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(final Exception ex, final String errorCode) {
+                             JJLogger.logInfo(TAG,"LoginActivity.onFailure :"+errorCode);
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         }
                     });

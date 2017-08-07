@@ -1,7 +1,7 @@
-package com.jingjiu.http.util.http.callback;
+package com.jingjiu.http.core.http.callback;
 
 
-import com.jingjiu.http.util.http.response.Response;
+import com.jingjiu.http.core.http.response.Response;
 
 /**
  * author xander on  2017/7/25.

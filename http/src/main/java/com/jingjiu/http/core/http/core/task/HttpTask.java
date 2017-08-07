@@ -1,14 +1,15 @@
-package com.jingjiu.http.util.http.core.task;
+package com.jingjiu.http.core.http.core.task;
 
 import android.text.TextUtils;
 
 import com.jingjiu.http.common.ErrorCode;
+import com.jingjiu.http.core.http.callback.OnTaskCallback;
+import com.jingjiu.http.core.http.response.Response;
+import com.jingjiu.http.core.logger.JJLogger;
 import com.jingjiu.http.exception.AdException;
-import com.jingjiu.http.util.http.callback.OnTaskCallback;
-import com.jingjiu.http.util.http.response.Response;
-import com.jingjiu.http.util.logger.JJLogger;
 
 import java.io.DataOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -19,14 +20,15 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
+import static com.jingjiu.http.common.CommonMethod.toByteArray;
 import static com.jingjiu.http.common.Configuration.HANDLER;
 import static com.jingjiu.http.common.ErrorCode.CODE_CANCLE;
 import static com.jingjiu.http.common.ErrorCode.CODE_CONNECT;
 import static com.jingjiu.http.common.ErrorCode.CODE_CONNECT_UNKNOWN_HOST;
 import static com.jingjiu.http.common.ErrorCode.CODE_REQUEST_URL;
 import static com.jingjiu.http.common.ErrorCode.CODE_TIME_OUT;
-import static com.jingjiu.http.util.CommonMethod.toByteArray;
 
 public class HttpTask implements Runnable, IHttpTask {
 
@@ -53,12 +55,12 @@ public class HttpTask implements Runnable, IHttpTask {
     /**
      * 请求参数
      */
-    private String mParams;
+    private String mParamsPost;
 
     /**
      * 处理请求参数或请求体
      */
-    private StringBuilder sbuf = new StringBuilder();
+    private StringBuilder mParamsBuilder = new StringBuilder();
     /**
      * 默认字符集
      */
@@ -85,6 +87,12 @@ public class HttpTask implements Runnable, IHttpTask {
      * 清请求结果的回调
      */
     private OnTaskCallback mTaskCallback;
+    private String mRandomNum = UUID.randomUUID().toString();//随机数
+    private String mNewLine = "\r\n";
+    private String mSplitLine = "-----------------------------" + mRandomNum + mNewLine;//数据分隔符
+    private String mEndLine = "-----------------------------" + mRandomNum + "--";//结束符
+    private String[] mUploadFilePaths;
+    private boolean upload_file;
 
     public HttpTask() {
         mResponse = new Response();
@@ -94,6 +102,32 @@ public class HttpTask implements Runnable, IHttpTask {
     public IHttpTask setCharset(String charset) {
         mCharset = charset;
         return this;
+    }
+
+    @Override
+    public IHttpTask uploadFiles(final String[] uploadFilePaths) {
+        this.mUploadFilePaths = uploadFilePaths;
+        upload_file = true;
+        uploadFileHeads();
+        return this;
+    }
+
+    @Override
+    public IHttpTask uploadFile(final String uploadFilePath) {
+        upload_file = true;
+        mUploadFilePaths = new String[]{uploadFilePath};
+        uploadFileHeads();
+        return this;
+    }
+
+    private void uploadFileHeads() {
+        this.setHeads("Accept", "*/*");
+        this.setHeads("Connection", "Keep-Alive");
+        this.setHeads("User-agent", "Android_xander");
+        this.setHeads("Charsert", "UTF-8");
+        this.setHeads("Accept-Encoding", "gzip,deflate");
+        this.setHeads("Content-Type", "multipart/form-data;boundary=" + mSplitLine);
+        JJLogger.logInfo(TAG, "HttpTask.uploadFileHeads :");
     }
 
     @Override
@@ -122,21 +156,20 @@ public class HttpTask implements Runnable, IHttpTask {
         return this;
     }
 
-    private void handleParams(final Map<String, String> stringMap) {
+    private void handleParams(final Map<String, String> paramsMap) {
         /*
         * 处理请求参数
         * */
-        if (stringMap != null) {
-            for (Map.Entry<String, String> entry : stringMap.entrySet()) {
-                sbuf.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
-            }
-            mParams = null;
-            if (sbuf.length() > 0) {
-                sbuf.deleteCharAt(sbuf.length() - 1);
+        if (paramsMap != null) {
+            for (Map.Entry<String, String> entry : paramsMap.entrySet()) {
+                mParamsBuilder.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
             }
 
-            mParams = sbuf.toString();
-            JJLogger.logInfo(TAG, "HttpTask.handleParams :" + mParams);
+            if (mParamsBuilder.length() > 0) {
+                mParamsBuilder.deleteCharAt(mParamsBuilder.length() - 1);
+            }
+            mUrl = mUrl + "?" + mParamsBuilder.toString();
+            JJLogger.logInfo(TAG, "HttpTask.handleParams :" + mUrl);
         }
     }
 
@@ -181,10 +214,8 @@ public class HttpTask implements Runnable, IHttpTask {
         if (TextUtils.isEmpty(mUrl)) {
             return;
         }
+        mParamsPost = null;
         handleParams(mParamsMap);
-        if (mHttpType == METHOD_GET && !TextUtils.isEmpty(mParams)) {
-            mUrl = mUrl + "?" + mParams;
-        }
 
         HttpURLConnection httpUrlCon = null;
         InputStream inputStream;
@@ -198,7 +229,7 @@ public class HttpTask implements Runnable, IHttpTask {
         try {
             JJLogger.logInfo(TAG, "HttpTask.run :" + mUrl);
             if (TextUtils.isEmpty(mUrl)) {
-                mResponse.setErrorInfo(new AdException("url 为空！"),ErrorCode.CODE_REQUEST_URL);
+                mResponse.setErrorInfo(new AdException("url 为空！"), ErrorCode.CODE_REQUEST_URL);
                 postRun(mResponse);
                 return;
             }
@@ -216,6 +247,7 @@ public class HttpTask implements Runnable, IHttpTask {
             if (mHeads != null) {
                 for (Map.Entry<String, String> entry : mHeads.entrySet()) {
                     httpUrlCon.setRequestProperty(entry.getKey(), entry.getValue());
+                    JJLogger.logInfo(TAG, entry.getKey() + ":" + entry.getValue());
                 }
             }
             switch (mHttpType) {
@@ -225,10 +257,10 @@ public class HttpTask implements Runnable, IHttpTask {
                 case METHOD__POST:
                     // 1、重新对请求报文进行  编码
                     httpUrlCon.setRequestMethod("POST");// 设置请求类型为
-                    byte[] postData = null;
+                    byte[] postParam = null;//请求参数
                     try {
-                        if (!TextUtils.isEmpty(mParams)) {
-                            postData = mParams.getBytes(mCharset);
+                        if (!TextUtils.isEmpty(mParamsPost)) {
+                            postParam = mParamsPost.getBytes(mCharset);
                         }
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
@@ -236,10 +268,6 @@ public class HttpTask implements Runnable, IHttpTask {
                     httpUrlCon.setDoInput(true); // 向连接中写入数据
                     httpUrlCon.setDoOutput(true); // 从连接中读取数据
                     httpUrlCon.setUseCaches(false); // 禁止缓存
-                    httpUrlCon.setInstanceFollowRedirects(true);
-                    if (postData != null) {
-                        httpUrlCon.setRequestProperty("Content-length", String.valueOf(postData.length));
-                    }
                     DataOutputStream out;
                     if (mIntercept) {
                         mResponse.setErrorInfo(new AdException("用户取消操作"), CODE_CANCLE);
@@ -248,8 +276,40 @@ public class HttpTask implements Runnable, IHttpTask {
                         return;
                     } else {
                         out = new DataOutputStream(httpUrlCon.getOutputStream()); // 获取输出流
-                        if (postData != null) {
-                            out.write(postData);// 将要传递的参数写入数据输出流
+                        if (postParam != null) {
+                            //一般的post请求
+                            out.write(postParam);// 将要传递的参数写入数据输出流
+                            out.write("\r\n".getBytes()); // 多个文件时，二个文件之间加入这个
+                        }
+                        if (upload_file) {
+                            /*
+                            * 文件上传
+                            * */
+                            upload_file = false;
+                            for (int i = 0; i < mUploadFilePaths.length; i++) {
+                                /*
+                                * 文件名
+                                * */
+                                String filename = mUploadFilePaths[i].substring(mUploadFilePaths[i].lastIndexOf("//") + 1);
+                                JJLogger.logInfo(TAG, "HttpTask.run :" + filename);
+                                //-------------------------------------子域--------------
+                                mParamsBuilder.append(mSplitLine);
+                                mParamsBuilder.append("Content-Disposition: form-data; " + "name=\"file").append(i).append("\";filename=\"").append(filename).append("\"");
+                                mParamsBuilder.append(mNewLine).append(mNewLine);
+                                out.writeBytes(mParamsBuilder.toString());
+                                //文件流处理
+                                FileInputStream fileInputStream = new FileInputStream(mUploadFilePaths[i]);
+                                int bufferSize = 1024;
+                                byte[] buffer = new byte[bufferSize];
+                                int length = -1;
+                                while ((length = fileInputStream.read(buffer)) != -1) {
+                                    out.write(buffer, 0, length);
+                                }
+                                out.writeBytes(new String(buffer));
+                                fileInputStream.close();
+                                //-------------------------------------子域--------------
+                            }
+                            out.writeBytes(mEndLine);
                         }
                         out.flush(); // 输出缓存
                         out.close(); // 关闭数据输出流
@@ -283,6 +343,7 @@ public class HttpTask implements Runnable, IHttpTask {
             mResponse.setErrorInfo(e, CODE_REQUEST_URL);
             postRun(mResponse);
         } catch (final IOException e) {
+            JJLogger.logInfo(TAG, "HttpTask.run :设置模式");
             mResponse.setErrorInfo(e, CODE_CONNECT);
             postRun(mResponse);
         } finally {

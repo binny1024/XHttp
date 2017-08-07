@@ -1,10 +1,10 @@
-package com.jingjiu.http.util;
+package com.jingjiu.http.core;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 
 import com.jingjiu.http.exception.AdException;
-import com.jingjiu.http.util.cache.DiskLruCacheHelper;
+import com.jingjiu.http.cache.DiskLruCacheHelper;
 
 import java.io.IOException;
 
