@@ -98,15 +98,16 @@ public class MainActivity extends Activity implements ViewHolderItemClickedCallb
                         }
                     });
         } else if (itemName.equals(getString(R.string.request_upload_file))) {
-            String path = Environment.getExternalStorageDirectory().getPath() + "/crash_lzhy_moneyhll.txt";
-            JJLogger.logInfo(TAG, "MainActivity.onItemClickedInList :" + path);
+            String basePtah = Environment.getExternalStorageDirectory().getPath();
+            String[] path = new String[]{basePtah+ "/setting.cfg",basePtah+"/Screenshot.png"};
+            JJLogger.logInfo(TAG,"MainActivity.onItemClickedInList :"+path);
             TaskManager.getmInstance().initTask().post(UPLOAD_FILE_URL)
-                    .uploadFile(path)
-                    .setHeads("platform", "mobile_phone")
+                    .uploadFiles(path)
+                    .setHeads("platform","mobile_phone")
                     .setOnTaskCallback(new OnTaskCallback() {
                         @Override
                         public void onSuccess(final Response response) {
-                            JJLogger.logInfo(TAG, "MainActivity.onSuccess :" +
+                            JJLogger.logInfo(TAG,"MainActivity.onSuccess :"+
                                     response.toString());
                             Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_LONG).show();
 
@@ -114,7 +115,7 @@ public class MainActivity extends Activity implements ViewHolderItemClickedCallb
 
                         @Override
                         public void onFailure(final Exception ex, final String errorCode) {
-                            JJLogger.logInfo(TAG, "MainActivity.onFailure :" + ex.getMessage());
+                            JJLogger.logInfo(TAG,"MainActivity.onFailure :"+ex.getMessage());
                         }
                     });
         }

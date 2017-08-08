@@ -20,7 +20,6 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import static com.jingjiu.http.common.CommonMethod.toByteArray;
 import static com.jingjiu.http.common.Configuration.HANDLER;
@@ -55,12 +54,12 @@ public class HttpTask implements Runnable, IHttpTask {
     /**
      * 请求参数
      */
-    private String mParamsPost;
+    private String mParams;
 
     /**
-     * 处理请求参数或请求体
+     * 处理上传文件的数据
      */
-    private StringBuilder mParamsBuilder = new StringBuilder();
+    private StringBuilder mPostDataBuilder = new StringBuilder();
     /**
      * 默认字符集
      */
@@ -87,10 +86,14 @@ public class HttpTask implements Runnable, IHttpTask {
      * 清请求结果的回调
      */
     private OnTaskCallback mTaskCallback;
-    private String mRandomNum = UUID.randomUUID().toString();//随机数
-    private String mNewLine = "\r\n";
-    private String mSplitLine = "-----------------------------" + mRandomNum + mNewLine;//数据分隔符
-    private String mEndLine = "-----------------------------" + mRandomNum + "--";//结束符
+
+    // 产生随机分隔内容
+    private final String mBoundary = java.util.UUID.randomUUID().toString();
+    private final String mPrefix = "--";//文件分隔符开始
+    private final String mChangeNewLine = "\r\n";//空行
+    private final String mSplitLine = mPrefix + mBoundary + mChangeNewLine;
+    private final String mMultipartFromData = "multipart/form-data";
+
     private String[] mUploadFilePaths;
     private boolean upload_file;
 
@@ -124,9 +127,10 @@ public class HttpTask implements Runnable, IHttpTask {
         this.setHeads("Accept", "*/*");
         this.setHeads("Connection", "Keep-Alive");
         this.setHeads("User-agent", "Android_xander");
-        this.setHeads("Charsert", "UTF-8");
+        this.setHeads("Charsert", mCharset);
         this.setHeads("Accept-Encoding", "gzip,deflate");
-        this.setHeads("Content-Type", "multipart/form-data;boundary=" + mSplitLine);
+        this.setHeads("Content-Type", mMultipartFromData
+                + ";boundary=" + mBoundary);
         JJLogger.logInfo(TAG, "HttpTask.uploadFileHeads :");
     }
 
@@ -160,16 +164,19 @@ public class HttpTask implements Runnable, IHttpTask {
         /*
         * 处理请求参数
         * */
+        StringBuilder paramBuilder = new StringBuilder();
         if (paramsMap != null) {
             for (Map.Entry<String, String> entry : paramsMap.entrySet()) {
-                mParamsBuilder.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
+                paramBuilder.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
             }
-
-            if (mParamsBuilder.length() > 0) {
-                mParamsBuilder.deleteCharAt(mParamsBuilder.length() - 1);
+            if (paramBuilder.length() > 0) {
+                paramBuilder.deleteCharAt(paramBuilder.length() - 1);
             }
-            mUrl = mUrl + "?" + mParamsBuilder.toString();
-            JJLogger.logInfo(TAG, "HttpTask.handleParams :" + mUrl);
+            mParams = paramBuilder.toString();
+            if (mHttpType == METHOD_GET) {
+                mUrl = mUrl + "?" + mParams;
+            }
+            JJLogger.logInfo(TAG, "HttpTask.handleParams :" + mParams);
         }
     }
 
@@ -188,6 +195,7 @@ public class HttpTask implements Runnable, IHttpTask {
             mHeads = new HashMap<>();
         }
         mHeads.put(key, value);
+        JJLogger.logInfo(TAG, "HttpTask.setHeads :" + mHeads.size());
         return this;
     }
 
@@ -214,9 +222,7 @@ public class HttpTask implements Runnable, IHttpTask {
         if (TextUtils.isEmpty(mUrl)) {
             return;
         }
-        mParamsPost = null;
         handleParams(mParamsMap);
-
         HttpURLConnection httpUrlCon = null;
         InputStream inputStream;
 
@@ -245,6 +251,7 @@ public class HttpTask implements Runnable, IHttpTask {
             }
             //设置请求头
             if (mHeads != null) {
+                JJLogger.logInfo(TAG, "HttpTask.run :" + mHeads.size());
                 for (Map.Entry<String, String> entry : mHeads.entrySet()) {
                     httpUrlCon.setRequestProperty(entry.getKey(), entry.getValue());
                     JJLogger.logInfo(TAG, entry.getKey() + ":" + entry.getValue());
@@ -259,8 +266,8 @@ public class HttpTask implements Runnable, IHttpTask {
                     httpUrlCon.setRequestMethod("POST");// 设置请求类型为
                     byte[] postParam = null;//请求参数
                     try {
-                        if (!TextUtils.isEmpty(mParamsPost)) {
-                            postParam = mParamsPost.getBytes(mCharset);
+                        if (!TextUtils.isEmpty(mParams)) {
+                            postParam = mParams.getBytes(mCharset);
                         }
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
@@ -268,51 +275,51 @@ public class HttpTask implements Runnable, IHttpTask {
                     httpUrlCon.setDoInput(true); // 向连接中写入数据
                     httpUrlCon.setDoOutput(true); // 从连接中读取数据
                     httpUrlCon.setUseCaches(false); // 禁止缓存
-                    DataOutputStream out;
+                    DataOutputStream outputStream;
                     if (mIntercept) {
                         mResponse.setErrorInfo(new AdException("用户取消操作"), CODE_CANCLE);
                         mIntercept = false;
                         postRun(mResponse);
                         return;
                     } else {
-                        out = new DataOutputStream(httpUrlCon.getOutputStream()); // 获取输出流
+                        outputStream = new DataOutputStream(httpUrlCon.getOutputStream()); // 获取输出流
                         if (postParam != null) {
-                            //一般的post请求
-                            out.write(postParam);// 将要传递的参数写入数据输出流
-                            out.write("\r\n".getBytes()); // 多个文件时，二个文件之间加入这个
-                        }
-                        if (upload_file) {
+                            //一般 post 请求
+                            outputStream.write(postParam);// 将要传递的参数写入数据输出流
+                        } else if (upload_file) {
                             /*
                             * 文件上传
                             * */
                             upload_file = false;
+//                            mPostDataBuilder.append(mChangeNewLine);
                             for (int i = 0; i < mUploadFilePaths.length; i++) {
-                                /*
-                                * 文件名
-                                * */
-                                String filename = mUploadFilePaths[i].substring(mUploadFilePaths[i].lastIndexOf("//") + 1);
+                                String uploadFile = mUploadFilePaths[i];
+                                String filename = uploadFile.substring(uploadFile.lastIndexOf("/") + 1);
                                 JJLogger.logInfo(TAG, "HttpTask.run :" + filename);
                                 //-------------------------------------子域--------------
-                                mParamsBuilder.append(mSplitLine);
-                                mParamsBuilder.append("Content-Disposition: form-data; " + "name=\"file").append(i).append("\";filename=\"").append(filename).append("\"");
-                                mParamsBuilder.append(mNewLine).append(mNewLine);
-                                out.writeBytes(mParamsBuilder.toString());
+                                mPostDataBuilder.append(mSplitLine);//加入分割线
+                                mPostDataBuilder.append("Content-Disposition: form-data; " + "name=\"file")
+                                        .append(i).append("\";filename=\"").append(filename).append("\"").append(mChangeNewLine)
+                                        .append(mChangeNewLine);//回车换行
+                                // 写入输出流中
+                                outputStream.write(mPostDataBuilder.toString().getBytes());
+                                mPostDataBuilder.append(mChangeNewLine);//加入空行，下面就是数据
                                 //文件流处理
-                                FileInputStream fileInputStream = new FileInputStream(mUploadFilePaths[i]);
-                                int bufferSize = 1024;
-                                byte[] buffer = new byte[bufferSize];
-                                int length = -1;
+                                FileInputStream fileInputStream = new FileInputStream(uploadFile);
+                                byte[] buffer = new byte[1024];
+                                int length;
                                 while ((length = fileInputStream.read(buffer)) != -1) {
-                                    out.write(buffer, 0, length);
+                                    outputStream.write(buffer, 0, length);
                                 }
-                                out.writeBytes(new String(buffer));
+                                outputStream.write(mChangeNewLine.getBytes());//加入换行符（必须）
                                 fileInputStream.close();
-                                //-------------------------------------子域--------------
                             }
-                            out.writeBytes(mEndLine);
+                            // 请求结束标志
+                            byte[] end_data = (mPrefix + mBoundary + mPrefix + mChangeNewLine).getBytes();//文件数据结尾
+                            outputStream.write(end_data);
                         }
-                        out.flush(); // 输出缓存
-                        out.close(); // 关闭数据输出流
+                        outputStream.flush(); // 输出缓存
+                        outputStream.close(); // 关闭数据输出流
                     }
                     break;
                 default:
@@ -321,11 +328,6 @@ public class HttpTask implements Runnable, IHttpTask {
 
             if (httpUrlCon.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 inputStream = httpUrlCon.getInputStream();
-                if (mIntercept) {
-                    mResponse.setErrorInfo(new AdException("用户取消"), ErrorCode.CODE_CANCLE);
-                    postRun(mResponse);
-                    return;
-                }
                 final byte[] bytes = toByteArray(inputStream);
                 mResponse.setBytes(bytes);
                 postRun(mResponse);
@@ -343,7 +345,6 @@ public class HttpTask implements Runnable, IHttpTask {
             mResponse.setErrorInfo(e, CODE_REQUEST_URL);
             postRun(mResponse);
         } catch (final IOException e) {
-            JJLogger.logInfo(TAG, "HttpTask.run :设置模式");
             mResponse.setErrorInfo(e, CODE_CONNECT);
             postRun(mResponse);
         } finally {

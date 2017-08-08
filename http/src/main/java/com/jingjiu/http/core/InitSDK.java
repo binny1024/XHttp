@@ -27,6 +27,13 @@ public final class InitSDK {
     static DiskLruCacheHelper mHelperAdImgCache;
     static DiskLruCacheHelper mHelperAdListAndAdInfoCache;
 
+    public static DiskLruCacheHelper getmHelperAdImgCache() {
+        return mHelperAdImgCache;
+    }
+
+    public static DiskLruCacheHelper getmHelperAdListAndAdInfoCache() {
+        return mHelperAdListAndAdInfoCache;
+    }
 
     /**
      * 初始化工具类

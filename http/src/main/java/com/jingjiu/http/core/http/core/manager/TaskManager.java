@@ -150,7 +150,7 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
         Map<String, String> stringMap = new HashMap<>();
         try {
             for (Map.Entry<String, String> entry : params.entrySet()) {
-                stringMap.put(entry.getKey(),URLEncoder.encode(entry.getValue(),"utf-8"));
+                stringMap.put(entry.getKey(), URLEncoder.encode(entry.getValue(), "utf-8"));
             }
             mHttpTask.setParams(stringMap);
         } catch (UnsupportedEncodingException e) {
@@ -174,6 +174,7 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
         } catch (UnsupportedEncodingException e) {
             mHttpTask.setParams(key, value);
         }
+        JJLogger.logInfo(TAG, "TaskManager.setParams :" + key + "= " + value);
         return mInstance;
     }
 
@@ -187,9 +188,7 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
         if (TextUtils.isEmpty(key)) {
             return mInstance;
         }
-        Map<String, String> heads = new HashMap<>();
-        heads.put(key, value);
-        mHttpTask.setHeads(heads);
+        mHttpTask.setHeads(key, value);
         return mInstance;
     }
 
@@ -255,7 +254,6 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
         }
         return mInstance;
     }
-
 
 
     /**
