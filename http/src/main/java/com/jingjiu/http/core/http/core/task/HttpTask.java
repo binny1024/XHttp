@@ -332,7 +332,7 @@ public class HttpTask implements Runnable, IHttpTask {
                 mResponse.setBytes(bytes);
                 postRun(mResponse);
             } else {
-                mResponse.setErrorInfo(new AdException("找不到服务器 "), CODE_CONNECT);
+                mResponse.setErrorInfo(new AdException("响应码为 ： "+httpUrlCon.getResponseCode() ), CODE_CONNECT);
                 postRun(mResponse);
             }
         } catch (UnknownHostException e) {
