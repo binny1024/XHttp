@@ -4,14 +4,14 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-version = "1.0.4"//这个是版本号，必须填写
+version = "1.0.2"//这个是版本号，必须填写
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 25
+        minSdkVersion 14
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
 
@@ -31,7 +31,7 @@ dependencies {
 }
 def siteUrl = 'https://github.com/Xander1024'      // 项目的主页   这个是说明，可随便填
 def gitUrl = 'https://github.com/Xander1024'      // Git仓库的url  这个是说明，可随便填
-group = "com.bealibs"    // 这里是groupId ,必须填写  一般填你唯一的包名，一旦写好好，就不要修改了
+group = "com.bean.libs"    // 这里是groupId ,必须填写  一般填你唯一的包名，一旦写好好，就不要修改了
 
 install {
     repositories.mavenInstaller {
@@ -91,7 +91,7 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = "maven"
-        name = "xhttp"
+        name = "http"
         //发布到JCenter上的项目名字，必须填写(新库修改)=================================================================================================
         websiteUrl = siteUrl
         vcsUrl = gitUrl
