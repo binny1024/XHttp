@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -27,7 +26,7 @@ import static com.dragon.xhttp.api.WebApi.LOGIN_URL;
 public class LoginActivity extends AppCompatActivity {
 
     protected final String TAG = this.getClass().getSimpleName();
-    protected AutoCompleteTextView mAccountAct;
+    protected EditText mAccountAct;
     protected EditText mPasswordEt;
     protected String errorInfo;
 
