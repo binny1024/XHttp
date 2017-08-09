@@ -1,4 +1,4 @@
-package com.dragon.xhttp.itemview.holder;
+package com.dragon.app.qq.itemview.holder;
 
 import android.widget.TextView;
 

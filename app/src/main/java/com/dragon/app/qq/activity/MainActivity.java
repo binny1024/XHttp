@@ -1,4 +1,4 @@
-package com.dragon.xhttp.activity;
+package com.dragon.app.qq.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -9,11 +9,13 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dragon.xhttp.R;
-import com.dragon.xhttp.itemview.bean.BeanMainActivity;
-import com.dragon.xhttp.itemview.callback.ViewHolderItemClickedCallback;
-import com.dragon.xhttp.itemview.data.Data;
-import com.dragon.xhttp.itemview.helper.ViewHolderHelperMain;
+import com.dragon.app.qq.UtilWidget;
+import com.dragon.app.qq.api.WebApi;
+import com.dragon.app.qq.itemview.bean.BeanMainActivity;
+import com.dragon.app.qq.itemview.callback.ViewHolderItemClickedCallback;
+import com.dragon.app.qq.itemview.data.Data;
+import com.dragon.app.qq.itemview.helper.ViewHolderHelperMain;
+import com.dragon.qq.R;
 import com.jingjiu.http.core.http.callback.OnTaskCallback;
 import com.jingjiu.http.core.http.core.manager.TaskManager;
 import com.jingjiu.http.core.http.response.Response;
@@ -22,10 +24,6 @@ import com.smart.holder.CommonAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.dragon.xhttp.UtilWidget.getView;
-import static com.dragon.xhttp.api.WebApi.LOGIN_URL;
-import static com.dragon.xhttp.api.WebApi.UPLOAD_FILE_URL;
 
 
 public class MainActivity extends Activity implements ViewHolderItemClickedCallback {
@@ -41,11 +39,11 @@ public class MainActivity extends Activity implements ViewHolderItemClickedCallb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        GridView gridView = getView(this, R.id.main_grid);
-        mName = getView(this, R.id.name);
-        mAge = getView(this, R.id.age);
-        mTextView = getView(this, R.id.result_data);
+        setTitle("QQ");
+        GridView gridView = UtilWidget.getView(this, R.id.main_grid);
+        mName = UtilWidget.getView(this, R.id.name);
+        mAge = UtilWidget.getView(this, R.id.age);
+        mTextView = UtilWidget.getView(this, R.id.result_data);
 
         List<BeanMainActivity> mItemBeanList = new ArrayList<>();
         BeanMainActivity bean;
@@ -63,7 +61,7 @@ public class MainActivity extends Activity implements ViewHolderItemClickedCallb
         mTextView.setText("");
         if (itemName.equals(getString(R.string.request_get))) {
             JJLogger.logInfo(TAG, "MainActivity.onItemClickedInList :");
-            TaskManager.getmInstance().initTask().get(LOGIN_URL)
+            TaskManager.getmInstance().initTask().get(WebApi.LOGIN_URL)
                     .setParams("account", mName.getText().toString())
                     .setParams("password", mAge.getText().toString())
                     .setOnTaskCallback(new OnTaskCallback() {
@@ -80,7 +78,7 @@ public class MainActivity extends Activity implements ViewHolderItemClickedCallb
                         }
                     });
         } else if (itemName.equals(getString(R.string.request_post))) {
-            TaskManager.getmInstance().initTask().post(LOGIN_URL)
+            TaskManager.getmInstance().initTask().post(WebApi.LOGIN_URL)
                     .setParams("account", mName.getText().toString())
                     .setParams("password", mAge.getText().toString())
                     .setOnTaskCallback(new OnTaskCallback() {
@@ -101,7 +99,7 @@ public class MainActivity extends Activity implements ViewHolderItemClickedCallb
             String basePtah = Environment.getExternalStorageDirectory().getPath();
             String[] path = new String[]{basePtah+ "/setting.cfg",basePtah+"/Screenshot.png"};
             JJLogger.logInfo(TAG,"MainActivity.onItemClickedInList :"+path);
-            TaskManager.getmInstance().initTask().post(UPLOAD_FILE_URL)
+            TaskManager.getmInstance().initTask().post(WebApi.UPLOAD_FILE_URL)
                     .uploadFiles(path)
                     .setHeads("platform","mobile_phone")
                     .setOnTaskCallback(new OnTaskCallback() {

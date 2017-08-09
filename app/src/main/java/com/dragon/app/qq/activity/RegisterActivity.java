@@ -1,4 +1,4 @@
-package com.dragon.xhttp.activity;
+package com.dragon.app.qq.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,74 +8,69 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.dragon.xhttp.R;
-import com.dragon.xhttp.bean.LoginInfo;
-import com.dragon.xhttp.constant.Code;
+import com.dragon.app.qq.bean.LoginInfo;
+import com.dragon.qq.R;
+import com.dragon.app.constant.Code;
 import com.google.gson.Gson;
 import com.jingjiu.http.core.http.callback.OnTaskCallback;
 import com.jingjiu.http.core.http.core.manager.TaskManager;
 import com.jingjiu.http.core.http.response.Response;
 import com.jingjiu.http.core.logger.JJLogger;
 
-import static com.dragon.xhttp.UtilWidget.getView;
-import static com.dragon.xhttp.api.WebApi.LOGIN_URL;
+import java.net.URLEncoder;
 
-/**
- * A login screen that offers login via email/password.
- */
-public class LoginActivity extends AppCompatActivity {
+import static com.dragon.app.qq.UtilWidget.getView;
+import static com.dragon.app.qq.api.WebApi.LOGIN_URL;
 
+public class RegisterActivity extends AppCompatActivity {
     protected final String TAG = this.getClass().getSimpleName();
     protected EditText mAccountAct;
     protected EditText mPasswordEt;
     protected String errorInfo;
-
+    protected EditText mAge;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
 
         mAccountAct = getView(this, R.id.account);
         mPasswordEt = getView(this, R.id.password);
+        mAge = getView(this, R.id.age);
     }
-
-    public void login(View view) {
+    public void register(View view) {
         final String account = mAccountAct.getText().toString();
         final String password = mPasswordEt.getText().toString();
+        final String age = mAge.getText().toString();
 
-        if (checkAccountPassword(account, password)) {
-            TaskManager.getmInstance().initTask().post(LOGIN_URL)
-                    .setParams("account", account)
-                    .setParams("tag", Code.TAG_LOGIN)
-                    .setParams("platform","mobile_phone")
+        if (checkAccountPassword(account, password, age)) {
+            JJLogger.logInfo(TAG, "QQLoginActivity.loginOrRegister :");
+            TaskManager.getmInstance().initTask().get(LOGIN_URL)
+                    .setParams("account", URLEncoder.encode(account))
+                    .setParams("tag", Code.TAG_REGISTER)
                     .setParams("password", password)
+                    .setParams("age", age)
                     .setOnTaskCallback(new OnTaskCallback() {
                         @Override
                         public void onSuccess(final Response response) {
-                             JJLogger.logInfo(TAG,"LoginActivity.onSuccess :"+response.toString());
+                            JJLogger.logInfo(TAG,"QQLoginActivity.onSuccess :"+response.toString());
                             Gson gson = new Gson();
                             LoginInfo userBean = gson.fromJson(response.toString(), LoginInfo.class);
+
                             switch (userBean.getCode()) {
-                                case "1003":
-                                    Toast.makeText(LoginActivity.this, "登录成功！", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                case "1007":
+                                    Toast.makeText(RegisterActivity.this, "注册成功！", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                                     finish();
                                     break;
-                                case "1001":
-                                    Toast.makeText(LoginActivity.this, "未查询到您的注册信息，请先注册！", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-                                    finish();
-                                    break;
-                                case "1004":
-                                    Toast.makeText(LoginActivity.this, "密码错误！", Toast.LENGTH_SHORT).show();
+                                default:
+                                    Toast.makeText(RegisterActivity.this, "注册失败！", Toast.LENGTH_SHORT).show();
                                     break;
                             }
                         }
 
                         @Override
                         public void onFailure(final Exception ex, final String errorCode) {
-                             JJLogger.logInfo(TAG,"LoginActivity.onFailure :"+errorCode);
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                         }
                     });
         } else {
@@ -83,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    protected boolean checkAccountPassword(final String account, final String password) {
+    protected boolean checkAccountPassword(final String account, final String password, final CharSequence age) {
         if (TextUtils.isEmpty(account)) {
             errorInfo = "账号为空";
             return false;
@@ -92,7 +87,10 @@ public class LoginActivity extends AppCompatActivity {
             errorInfo = "密码为空";
             return false;
         }
+        if (TextUtils.isEmpty(age)) {
+            errorInfo = "密码为空";
+            return false;
+        }
         return true;
     }
 }
-

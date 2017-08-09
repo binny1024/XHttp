@@ -1,4 +1,4 @@
-package com.dragon.xhttp.bean;
+package com.dragon.app.qq.bean;
 
 /**
  * author xander on  2017/8/4.

@@ -1,6 +1,6 @@
-package com.dragon.xhttp.itemview.data;
+package com.dragon.app.qq.itemview.data;
 
-import com.dragon.xhttp.R;
+import com.dragon.qq.R;
 import com.jingjiu.http.core.InitSDK;
 
 /**

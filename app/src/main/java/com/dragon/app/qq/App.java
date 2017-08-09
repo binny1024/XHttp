@@ -1,4 +1,4 @@
-package com.dragon.xhttp;
+package com.dragon.app.qq;
 
 import android.app.Application;
 

@@ -1,18 +1,18 @@
-package com.dragon.xhttp.itemview.helper;
+package com.dragon.app.qq.itemview.helper;
 
 import android.content.Context;
 import android.view.View;
 
-import com.dragon.xhttp.R;
-import com.dragon.xhttp.itemview.bean.BeanMainActivity;
-import com.dragon.xhttp.itemview.callback.ViewHolderItemClickedCallback;
-import com.dragon.xhttp.itemview.holder.ViewHolderMain;
+import com.dragon.app.qq.itemview.callback.ViewHolderItemClickedCallback;
+import com.dragon.qq.R;
+import com.dragon.app.qq.itemview.bean.BeanMainActivity;
+import com.dragon.app.qq.itemview.holder.ViewHolderMain;
 import com.smart.holder.iinterface.IViewHolder;
 import com.smart.holder.iinterface.IViewHolderHelper;
 
 import java.util.List;
 
-import static com.dragon.xhttp.UtilWidget.setViewAlphaAnimation;
+import static com.dragon.app.qq.UtilWidget.setViewAlphaAnimation;
 import static com.jingjiu.http.common.CommonMethod.getView;
 
 
