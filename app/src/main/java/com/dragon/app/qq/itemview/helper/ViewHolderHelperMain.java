@@ -3,9 +3,9 @@ package com.dragon.app.qq.itemview.helper;
 import android.content.Context;
 import android.view.View;
 
-import com.dragon.app.qq.itemview.callback.ViewHolderItemClickedCallback;
-import com.dragon.qq.R;
+import com.dragon.R;
 import com.dragon.app.qq.itemview.bean.BeanMainActivity;
+import com.dragon.app.qq.itemview.callback.ViewHolderItemClickedCallback;
 import com.dragon.app.qq.itemview.holder.ViewHolderMain;
 import com.smart.holder.iinterface.IViewHolder;
 import com.smart.holder.iinterface.IViewHolderHelper;

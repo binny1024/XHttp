@@ -170,7 +170,7 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
             return mInstance;
         }
         try {
-            mHttpTask.setParams(key, URLEncoder.encode(value, "utf-8"));
+            mHttpTask.setParams(key, URLEncoder.encode(value,"utf-8"));
         } catch (UnsupportedEncodingException e) {
             mHttpTask.setParams(key, value);
         }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.dragon.qq">
+          package="com.dragon">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -13,20 +13,21 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!--开屏页、启动页-->
-        <activity android:name="com.dragon.app.SplashActivity">
+
+        <!-- 开屏页、启动页 -->
+        <activity android:name=".app.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <!--QQ 主界面-->
-        <activity android:name="com.dragon.app.qq.activity.MainActivity"/>
-        <!--QQ 登录界面-->
-        <activity android:name="com.dragon.app.qq.activity.QQLoginActivity"/>
-        <!--QQ 注册界面-->
-        <activity android:name="com.dragon.app.qq.activity.RegisterActivity"/>
-
-
+        <!-- QQ 主界面 -->
+        <activity android:name=".app.qq.activity.MainActivity"/>
+        <!-- QQ 登录界面 -->
+        <activity android:name=".app.qq.activity.QQLoginActivity"/>
+        <!-- QQ 注册界面 -->
+        <activity android:name=".app.qq.activity.RegisterActivity"/>
     </application>
+
 </manifest>

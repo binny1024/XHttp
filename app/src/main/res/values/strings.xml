@@ -9,16 +9,13 @@
     <!-- Strings related to login -->
     <string name="account">QQ号/手机号/邮箱</string>
     <string name="password">密码</string>
-    <string name="prompt_age">年龄</string>
-    <string name="action_sign_in">登录</string>
+    <string name="age">年龄(选填)</string>
+    <string name="teltphone">手机号(选填)</string>
+    <string name="action_sign_in">登 录</string>
     <string name="action_register">注册</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="forget_password">忘记密码？</string>
+    <string name="register_new">新用户注册</string>
 
 </resources>

@@ -1,54 +1,65 @@
 package com.dragon.app.qq.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.dragon.app.qq.bean.LoginInfo;
-import com.dragon.qq.R;
+import com.dragon.R;
+import com.dragon.abs.activity.FullscreenActivity;
 import com.dragon.app.constant.Code;
+import com.dragon.app.qq.bean.LoginInfo;
 import com.google.gson.Gson;
 import com.jingjiu.http.core.http.callback.OnTaskCallback;
 import com.jingjiu.http.core.http.core.manager.TaskManager;
 import com.jingjiu.http.core.http.response.Response;
 import com.jingjiu.http.core.logger.JJLogger;
 
-import java.net.URLEncoder;
-
 import static com.dragon.app.qq.UtilWidget.getView;
 import static com.dragon.app.qq.api.WebApi.LOGIN_URL;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends FullscreenActivity {
     protected final String TAG = this.getClass().getSimpleName();
     protected EditText mAccountAct;
     protected EditText mPasswordEt;
     protected String errorInfo;
     protected EditText mAge;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+    protected EditText mTeltphone;
 
+    @Override
+    protected int initLayout() {
+        return R.layout.activity_register;
+    }
+
+    @Override
+    protected void initView() {
         mAccountAct = getView(this, R.id.account);
         mPasswordEt = getView(this, R.id.password);
         mAge = getView(this, R.id.age);
+        mTeltphone = getView(this, R.id.teltphone);
     }
+
+    @Override
+    protected void initData() {
+
+    }
+
     public void register(View view) {
         final String account = mAccountAct.getText().toString();
         final String password = mPasswordEt.getText().toString();
         final String age = mAge.getText().toString();
-
+        final String teltphone = mAge.getText().toString();
+        Log.i(TAG, "register: "+account);
         if (checkAccountPassword(account, password, age)) {
             JJLogger.logInfo(TAG, "QQLoginActivity.loginOrRegister :");
             TaskManager.getmInstance().initTask().get(LOGIN_URL)
-                    .setParams("account", URLEncoder.encode(account))
+                    .setParams("account", account)
                     .setParams("tag", Code.TAG_REGISTER)
                     .setParams("password", password)
                     .setParams("age", age)
+                    .setParams("teltphone", teltphone)
                     .setOnTaskCallback(new OnTaskCallback() {
                         @Override
                         public void onSuccess(final Response response) {

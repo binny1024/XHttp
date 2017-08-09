@@ -2,8 +2,6 @@ package com.dragon.app.qq.activity;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
@@ -11,11 +9,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.dragon.R;
+import com.dragon.abs.activity.FullscreenActivity;
+import com.dragon.app.constant.Code;
 import com.dragon.app.qq.UtilWidget;
 import com.dragon.app.qq.api.WebApi;
 import com.dragon.app.qq.bean.LoginInfo;
-import com.dragon.app.constant.Code;
-import com.dragon.qq.R;
 import com.google.gson.Gson;
 import com.jingjiu.http.core.http.callback.OnTaskCallback;
 import com.jingjiu.http.core.http.core.manager.TaskManager;
@@ -25,26 +24,31 @@ import com.jingjiu.http.core.logger.JJLogger;
 /**
  * A login screen that offers login via email/password.
  */
-public class QQLoginActivity extends AppCompatActivity implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
+public class QQLoginActivity extends FullscreenActivity implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
 
     protected final String TAG = this.getClass().getSimpleName();
     protected EditText mAccountAct;
     protected EditText mPasswordEt;
     protected String errorInfo;
     private VideoView mVideoView;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+    protected int initLayout() {
+        return R.layout.activity_login;
+    }
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+    @Override
+    protected void initView() {
         mVideoView = UtilWidget.getView(this, R.id.videoView);
         mAccountAct = UtilWidget.getView(this, R.id.account);
         mPasswordEt = UtilWidget.getView(this, R.id.password);
+    }
 
+    @Override
+    protected void initData() {
         initVideoView();
     }
+
     private void initVideoView() {
         //设置屏幕常亮
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -72,13 +76,10 @@ public class QQLoginActivity extends AppCompatActivity implements MediaPlayer.On
                             switch (userBean.getCode()) {
                                 case "1003":
                                     Toast.makeText(QQLoginActivity.this, "登录成功！", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(QQLoginActivity.this, MainActivity.class));
-                                    finish();
+                                    intoApp();
                                     break;
                                 case "1001":
                                     Toast.makeText(QQLoginActivity.this, "未查询到您的注册信息，请先注册！", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(QQLoginActivity.this, RegisterActivity.class));
-                                    finish();
                                     break;
                                 case "1004":
                                     Toast.makeText(QQLoginActivity.this, "密码错误！", Toast.LENGTH_SHORT).show();
@@ -88,13 +89,17 @@ public class QQLoginActivity extends AppCompatActivity implements MediaPlayer.On
 
                         @Override
                         public void onFailure(final Exception ex, final String errorCode) {
-                             JJLogger.logInfo(TAG,"QQLoginActivity.onFailure :"+errorCode);
-                            startActivity(new Intent(QQLoginActivity.this, MainActivity.class));
+                            intoApp();
                         }
                     });
         } else {
-            Toast.makeText(this, "您的 " + errorInfo + " !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "错误： " + errorInfo + " !", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void intoApp() {
+        startActivity(new Intent(QQLoginActivity.this, MainActivity.class));
+        finish();
     }
 
     protected boolean checkAccountPassword(final String account, final String password) {
@@ -119,6 +124,18 @@ public class QQLoginActivity extends AppCompatActivity implements MediaPlayer.On
     public void onPrepared(final MediaPlayer mp) {
         //开始播放
         mVideoView.start();
+    }
+
+    public void forgetPassword(View view) {
+
+    }
+
+    public void registerNew(View view) {
+        register();
+    }
+
+    private void register() {
+        startActivity(new Intent(QQLoginActivity.this, RegisterActivity.class));
     }
 }
 

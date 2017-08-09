@@ -9,13 +9,13 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dragon.R;
 import com.dragon.app.qq.UtilWidget;
 import com.dragon.app.qq.api.WebApi;
 import com.dragon.app.qq.itemview.bean.BeanMainActivity;
 import com.dragon.app.qq.itemview.callback.ViewHolderItemClickedCallback;
 import com.dragon.app.qq.itemview.data.Data;
 import com.dragon.app.qq.itemview.helper.ViewHolderHelperMain;
-import com.dragon.qq.R;
 import com.jingjiu.http.core.http.callback.OnTaskCallback;
 import com.jingjiu.http.core.http.core.manager.TaskManager;
 import com.jingjiu.http.core.http.response.Response;
