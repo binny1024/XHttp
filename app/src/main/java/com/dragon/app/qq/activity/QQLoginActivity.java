@@ -9,6 +9,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -120,6 +121,7 @@ public class QQLoginActivity extends FullscreenActivity implements MediaPlayer.O
 
                         @Override
                         public void onFailure(final Exception ex, final String errorCode) {
+                            Log.i(TAG, "onFailure: "+ex.getMessage());
                             intoApp();
                         }
                     });
@@ -129,7 +131,7 @@ public class QQLoginActivity extends FullscreenActivity implements MediaPlayer.O
     }
 
     private void intoApp() {
-        startActivity(new Intent(QQLoginActivity.this, MainActivity.class));
+        startActivity(new Intent(QQLoginActivity.this, QQMainActivity.class));
         finish();
     }
 

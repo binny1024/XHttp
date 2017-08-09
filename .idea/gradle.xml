@@ -5,12 +5,13 @@
       <GradleProjectSettings>
         <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="C:\android-studio\gradle\gradle-2.14.1" />
+        <option name="gradleHome" value="C:\Android Studio\gradle\gradle-2.14.1" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/http" />
+            <option value="$PROJECT_DIR$/pager-bottom-tab-strip" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
