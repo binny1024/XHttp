@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.dragon.R;
 import com.dragon.abs.activity.FullscreenActivity;
-import com.dragon.app.constant.Code;
+import com.dragon.constant.Code;
 import com.dragon.app.qq.bean.LoginInfo;
 import com.google.gson.Gson;
 import com.jingjiu.http.core.http.callback.OnTaskCallback;
@@ -17,8 +17,8 @@ import com.jingjiu.http.core.http.core.manager.TaskManager;
 import com.jingjiu.http.core.http.response.Response;
 import com.jingjiu.http.core.logger.JJLogger;
 
-import static com.dragon.app.qq.UtilWidget.getView;
-import static com.dragon.app.qq.api.WebApi.LOGIN_URL;
+import static com.dragon.util.UtilWidget.getView;
+import static com.dragon.api.WebApi.LOGIN_URL;
 
 public class RegisterActivity extends FullscreenActivity {
     protected final String TAG = this.getClass().getSimpleName();
@@ -50,8 +50,8 @@ public class RegisterActivity extends FullscreenActivity {
         final String account = mAccountAct.getText().toString();
         final String password = mPasswordEt.getText().toString();
         final String age = mAge.getText().toString();
-        final String teltphone = mAge.getText().toString();
-        Log.i(TAG, "register: "+account);
+        final String telephone = mTeltphone.getText().toString();
+        Log.i(TAG, "register: "+telephone);
         if (checkAccountPassword(account, password, age)) {
             JJLogger.logInfo(TAG, "QQLoginActivity.loginOrRegister :");
             TaskManager.getmInstance().initTask().get(LOGIN_URL)
@@ -59,7 +59,7 @@ public class RegisterActivity extends FullscreenActivity {
                     .setParams("tag", Code.TAG_REGISTER)
                     .setParams("password", password)
                     .setParams("age", age)
-                    .setParams("teltphone", teltphone)
+                    .setParams("telephone", telephone)
                     .setOnTaskCallback(new OnTaskCallback() {
                         @Override
                         public void onSuccess(final Response response) {

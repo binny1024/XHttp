@@ -1,4 +1,4 @@
-package com.dragon.app.constant;
+package com.dragon.constant;
 
 /**
  * author xander on  2017/8/4.

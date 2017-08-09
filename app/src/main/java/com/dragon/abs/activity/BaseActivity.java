@@ -10,11 +10,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      * 日志输出标志
      **/
     protected final String TAG = this.getClass().getSimpleName();
-
-    /**
-     * 是否全屏
-     */
-    protected boolean mFullScreen;
+    protected BaseActivity mActivity = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

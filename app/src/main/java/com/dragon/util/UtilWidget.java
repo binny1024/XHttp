@@ -1,4 +1,4 @@
-package com.dragon.app.qq;
+package com.dragon.util;
 
 import android.app.Activity;
 import android.view.View;

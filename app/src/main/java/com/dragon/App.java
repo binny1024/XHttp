@@ -1,4 +1,4 @@
-package com.dragon.app.qq;
+package com.dragon;
 
 import android.app.Application;
 

@@ -10,8 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dragon.R;
-import com.dragon.app.qq.UtilWidget;
-import com.dragon.app.qq.api.WebApi;
+import com.dragon.util.UtilWidget;
+import com.dragon.api.WebApi;
 import com.dragon.app.qq.itemview.bean.BeanMainActivity;
 import com.dragon.app.qq.itemview.callback.ViewHolderItemClickedCallback;
 import com.dragon.app.qq.itemview.data.Data;

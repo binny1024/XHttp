@@ -1,25 +1,33 @@
 package com.dragon.app.qq.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.dragon.R;
 import com.dragon.abs.activity.FullscreenActivity;
-import com.dragon.app.constant.Code;
-import com.dragon.app.qq.UtilWidget;
-import com.dragon.app.qq.api.WebApi;
+import com.dragon.api.WebApi;
 import com.dragon.app.qq.bean.LoginInfo;
+import com.dragon.constant.Code;
 import com.google.gson.Gson;
 import com.jingjiu.http.core.http.callback.OnTaskCallback;
 import com.jingjiu.http.core.http.core.manager.TaskManager;
 import com.jingjiu.http.core.http.response.Response;
 import com.jingjiu.http.core.logger.JJLogger;
+
+import static com.dragon.util.UtilWidget.getView;
 
 /**
  * A login screen that offers login via email/password.
@@ -30,7 +38,8 @@ public class QQLoginActivity extends FullscreenActivity implements MediaPlayer.O
     protected EditText mAccountAct;
     protected EditText mPasswordEt;
     protected String errorInfo;
-    private VideoView mVideoView;
+    private VideoView mSpalshVideo;
+    private TextView mItemTv;
 
     @Override
     protected int initLayout() {
@@ -39,24 +48,46 @@ public class QQLoginActivity extends FullscreenActivity implements MediaPlayer.O
 
     @Override
     protected void initView() {
-        mVideoView = UtilWidget.getView(this, R.id.videoView);
-        mAccountAct = UtilWidget.getView(this, R.id.account);
-        mPasswordEt = UtilWidget.getView(this, R.id.password);
+        mSpalshVideo = getView(this, R.id.videoView);
+        mAccountAct = getView(this, R.id.account);
+        mPasswordEt = getView(this, R.id.password);
+        mItemTv = getView(this, R.id.item);
     }
 
     @Override
     protected void initData() {
         initVideoView();
+        String text = "登录即代表阅读并同意服务条款";
+        int len = text.length();
+        SpannableString spannableString = new SpannableString(text);
+        mItemTv.setMovementMethod(LinkMovementMethod.getInstance());//必须设置否则无效
+        spannableString.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(final View widget) {
+                startActivity(new Intent(mActivity,ItemActivity.class));
+            }
+
+            @Override
+            public void updateDrawState(final TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(Color.parseColor("#0061ff"));
+                ds.setUnderlineText(false);    //去除超链接的下划线
+            }
+        }, len - 4, len, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        //改变选中文本的高亮颜色
+//        mItemTv.setHighlightColor(Color.BLUE);
+        mItemTv.setText(spannableString);
     }
 
     private void initVideoView() {
         //设置屏幕常亮
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        mVideoView.setVideoPath("android.resource://" + getPackageName() + "/" + R.raw.mqr);
+        mSpalshVideo.setVideoPath("android.resource://" + getPackageName() + "/" + R.raw.mqr);
         //设置相关的监听
-        mVideoView.setOnPreparedListener(this);
-        mVideoView.setOnCompletionListener(this);
+        mSpalshVideo.setOnPreparedListener(this);
+        mSpalshVideo.setOnCompletionListener(this);
     }
+
     public void login(View view) {
         final String account = mAccountAct.getText().toString();
         final String password = mPasswordEt.getText().toString();
@@ -65,12 +96,12 @@ public class QQLoginActivity extends FullscreenActivity implements MediaPlayer.O
             TaskManager.getmInstance().initTask().post(WebApi.LOGIN_URL)
                     .setParams("account", account)
                     .setParams("tag", Code.TAG_LOGIN)
-                    .setParams("platform","mobile_phone")
+                    .setParams("platform", "mobile_phone")
                     .setParams("password", password)
                     .setOnTaskCallback(new OnTaskCallback() {
                         @Override
                         public void onSuccess(final Response response) {
-                             JJLogger.logInfo(TAG,"QQLoginActivity.onSuccess :"+response.toString());
+                            JJLogger.logInfo(TAG, "QQLoginActivity.onSuccess :" + response.toString());
                             Gson gson = new Gson();
                             LoginInfo userBean = gson.fromJson(response.toString(), LoginInfo.class);
                             switch (userBean.getCode()) {
@@ -117,13 +148,13 @@ public class QQLoginActivity extends FullscreenActivity implements MediaPlayer.O
     @Override
     public void onCompletion(final MediaPlayer mp) {
         //开始播放
-        mVideoView.start();
+        mSpalshVideo.start();
     }
 
     @Override
     public void onPrepared(final MediaPlayer mp) {
         //开始播放
-        mVideoView.start();
+        mSpalshVideo.start();
     }
 
     public void forgetPassword(View view) {

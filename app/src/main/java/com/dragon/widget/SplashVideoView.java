@@ -1,4 +1,4 @@
-package com.dragon.view;
+package com.dragon.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;

@@ -7,7 +7,7 @@
     android:gravity="center"
     tools:context="com.dragon.app.qq.activity.QQLoginActivity">
     <!--播放视频-->
-    <com.dragon.view.SplashVideoView
+    <com.dragon.widget.SplashVideoView
         android:id="@+id/videoView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -73,6 +73,16 @@
                 android:textSize="20sp"
                 android:textColor="@color/colorBlue"/>
         </RelativeLayout>
-    </LinearLayout>
 
+    </LinearLayout>
+    <TextView
+        android:id="@+id/item"
+        android:layout_marginBottom="50dp"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 </RelativeLayout>

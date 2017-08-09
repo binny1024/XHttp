@@ -7,5 +7,5 @@
     android:layout_height="match_parent"
     android:scaleType="fitXY"
     android:src="@mipmap/splash_qq"
-    tools:context="com.dragon.app.SplashActivity">
+    tools:context="com.dragon.SplashActivity">
 </ImageView>

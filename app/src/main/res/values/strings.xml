@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">后台开发测试</string>
+    <string name="app_name">App demo</string>
 
     <string name="request_get">get请求</string>
     <string name="request_post">post请求</string>

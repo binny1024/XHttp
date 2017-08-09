@@ -1,13 +1,12 @@
-package com.dragon.app;
+package com.dragon;
 
 import android.content.Intent;
 import android.os.Handler;
 
-import com.dragon.R;
 import com.dragon.abs.activity.FullscreenActivity;
 import com.dragon.app.qq.activity.QQLoginActivity;
 
-import static com.dragon.app.constant.Code.DELAY_TIME;
+import static com.dragon.constant.Code.DELAY_TIME;
 
 public class SplashActivity extends FullscreenActivity {
 

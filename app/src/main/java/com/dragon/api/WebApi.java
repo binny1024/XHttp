@@ -1,4 +1,4 @@
-package com.dragon.app.qq.api;
+package com.dragon.api;
 
 /**
  * author xander on  2017/8/3.

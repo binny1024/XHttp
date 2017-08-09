@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
-        android:name="com.dragon.app.qq.App"
+        android:name="com.dragon.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme">
 
         <!-- 开屏页、启动页 -->
-        <activity android:name=".app.SplashActivity">
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -28,6 +28,8 @@
         <activity android:name=".app.qq.activity.QQLoginActivity"/>
         <!-- QQ 注册界面 -->
         <activity android:name=".app.qq.activity.RegisterActivity"/>
+        <!-- QQ 协议 -->
+        <activity android:name=".app.qq.activity.ItemActivity"/>
     </application>
 
 </manifest>
