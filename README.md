@@ -4,7 +4,7 @@
 ![](https://github.com/Xbean1024/XHttp/blob/master/gif/3.gif)
 
 ##### 引用方式
-       compile 'com.bean.libs:http:1.0.2'
+       compile 'com.bean.libs:http:1.0.3'
 #### 请使用代理进行测试
 ### 一、网络请求，默认情况下不启用线程池
 #### 1.1、请求json
@@ -40,7 +40,7 @@
                            Log.i("xxx", "onFailure  " +errorCode);
                        }
                    });
-#### 1.3、文件上传
+#### 1.3、多文件上传
 	String basePtah = Environment.getExternalStorageDirectory().getPath();
 	String[] path = new String[]{basePtah+ "/setting.cfg",basePtah+"/Screenshot.png"};
 	TaskManager.getmInstance()
@@ -62,8 +62,29 @@
                         JJLogger.logInfo(TAG,"MainActivity.onFailure :"+ex.getMessage());
                     }
                 });
+#### 1.4、单文件上传
+	String basePtah = Environment.getExternalStorageDirectory().getPath();
+	String path = basePtah+ "/setting.cfg";
+	TaskManager.getmInstance()
+				.initTask()
+				.post(WebApi.UPLOAD_FILE_URL)//url
+  				.setHeads("platform","mobile_phone")//设置请求头
+                .uploadFile(path)//文件路径（完整路径）
+                .setOnTaskCallback(new OnTaskCallback() {
+                    @Override
+                    public void onSuccess(final Response response) {
+                        JJLogger.logInfo(TAG,"MainActivity.onSuccess :"+
+                                response.toString());
+                        Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_LONG).show();
 
-#### 1.4 、启用并行线程池
+                    }
+
+                    @Override
+                    public void onFailure(final Exception ex, final String errorCode) {
+                        JJLogger.logInfo(TAG,"MainActivity.onFailure :"+ex.getMessage());
+                    }
+                });
+#### 1.5 、启用并行线程池
 	 final StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < 20; i++) {
                 final int finalI = i;
@@ -85,7 +106,7 @@
                             }
                         });
             }
-#### 1.5 、启用串行线程池
+#### 1.6 、启用串行线程池
 	 final StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < 20; i++) {
                 final int finalI = i;
