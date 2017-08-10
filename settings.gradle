@@ -1,1 +1,1 @@
-include ':app', ':http', ':pager-bottom-tab-strip'
+include ':app', ':http'

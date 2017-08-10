@@ -27,5 +27,5 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.1'
     compile 'com.bean.list_grid_view:adapter:1.0.0'
     compile 'com.android.support:support-v4:25.3.1'
-    compile project(':pager-bottom-tab-strip')
+
 }
