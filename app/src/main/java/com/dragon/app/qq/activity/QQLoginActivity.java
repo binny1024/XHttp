@@ -134,7 +134,7 @@ public class QQLoginActivity extends FullscreenActivity implements MediaPlayer.O
     }
 
     private void intoApp() {
-        startActivity(new Intent(QQLoginActivity.this, QQMainActivity.class));
+        startActivity(new Intent(QQLoginActivity.this, MainActivity.class));
         finishAllCST();
     }
 

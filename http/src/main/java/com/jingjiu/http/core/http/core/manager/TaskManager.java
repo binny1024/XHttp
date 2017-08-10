@@ -7,6 +7,7 @@ import android.util.Log;
 import com.jingjiu.http.core.http.callback.OnTaskCallback;
 import com.jingjiu.http.core.http.core.IHttpSettings;
 import com.jingjiu.http.core.http.core.IThreadPoolSettings;
+import com.jingjiu.http.core.http.core.pool.IThreadPool;
 import com.jingjiu.http.core.http.core.pool.ThreadPool;
 import com.jingjiu.http.core.http.core.task.HttpTask;
 import com.jingjiu.http.core.logger.JJLogger;
@@ -16,8 +17,6 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.TimeUnit;
 
 import static com.jingjiu.http.common.ErrorCode.CODE_CANCLE;
 
@@ -36,30 +35,39 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
      */
     private HttpTask mHttpTask;
 
-    /**
-     * 线程池核心线程数
-     */
-    private static final int CORE_POOL_SIZE = 10;
 
-    /**
-     * 线程池最大线程数
-     */
-    private static final int MAXIMUM_POOL_SIZE = 100;
-
-    /**
-     * 存活时间
-     */
-    private static final int KEEP_ALIVE = 15;
 
     /**
      * 线程池
      */
-    private static ThreadPool sThreadPool;
+    private static IThreadPool sCurrentThreadPool;
+    private static IThreadPool sSerialThreadPool;
 
     /**
      * 开启线程池
      */
-    private boolean mStartThreadPool = true;
+    private boolean mStartCurrentThreadPool = true;
+    /**
+     * 开启线程池
+     */
+    private boolean mStartSerailThreadPool = true;
+    /**
+     * cpu 数
+     */
+    private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
+    /**
+     * 线程池核心线程数
+     */
+
+    private static final int CORE_POOL_SIZE = CPU_COUNT + 1;
+    /**
+     * 线程池最大线程数
+     */
+    private static final int MAXIMUM_POOL_SIZE = CPU_COUNT * 2 + 1;
+    /**
+     * 存活时间
+     */
+    private static final long KEEP_ALIVE = 0L;
     /**
      * 定义一个静态私有变量(不初始化，不使用final关键字，使用volatile保证了多线程访问时instance变量的可见性，
      * 避免了instance初始化时其他变量属性还没赋值完时，被另外线程调用)
@@ -97,27 +105,45 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
         return mInstance;
     }
 
-
     @Override
     public TaskManager initTask() {
         mHttpTask = new HttpTask();
         return mInstance;
     }
-
     @Override
-    public TaskManager startThreadPool() {
-        mStartThreadPool = true;
-        if (sThreadPool == null) {
-            sThreadPool = new ThreadPool(0, Integer.MAX_VALUE,
-                    KEEP_ALIVE, TimeUnit.SECONDS,
-                    new SynchronousQueue<Runnable>());
+    public TaskManager startSerialThreadPool() {
+        mStartSerailThreadPool = true;
+        if (sSerialThreadPool == null) {
+            sSerialThreadPool = new ThreadPool(1,1,0L);
         }
         return mInstance;
     }
 
     @Override
+    public TaskManager startConcurrenceThreadPool() {
+        mStartCurrentThreadPool = true;
+        if (sCurrentThreadPool == null) {
+            sCurrentThreadPool = new ThreadPool(CORE_POOL_SIZE,MAXIMUM_POOL_SIZE,KEEP_ALIVE);
+        }
+        return mInstance;
+    }
+
+    @Override
+    public TaskManager customThreadPool(final IThreadPool poolExecutor) {
+        sCurrentThreadPool = poolExecutor;
+        mStartCurrentThreadPool = true;
+        return mInstance;
+    }
+
+    @Override
     public TaskManager closeThreadPool() {
-        sThreadPool.shutdownNow();
+        if (sSerialThreadPool != null) {
+            sSerialThreadPool.closeThreadPool();
+        }
+        if (sCurrentThreadPool != null) {
+            sCurrentThreadPool.closeThreadPool();
+        }
+
         return mInstance;
     }
 
@@ -237,19 +263,31 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
     @Override
     public TaskManager setOnTaskCallback(final OnTaskCallback taskCallback) {
         mHttpTask.setOnTaskCallback(taskCallback);
-        if (mStartThreadPool && sThreadPool != null) {
+        if (mStartSerailThreadPool && sSerialThreadPool != null) {
             //启用线程池
-            mStartThreadPool = false;
-            if (sThreadPool.isShutdown() || sThreadPool.isTerminated()) {
-                JJLogger.logInfo(TAG, "TaskManager.execute : 线程池已关闭 错误码：" + CODE_CANCLE);
+            mStartSerailThreadPool = false;
+           if (sSerialThreadPool.isShutdownPool() || sSerialThreadPool.isShutdownPool()) {
+                JJLogger.logInfo(TAG, "TaskManager.start : 线程池已关闭 错误码：" + CODE_CANCLE);
                 return mInstance;
             }
             try {
-                sThreadPool.execute(mHttpTask);
+                sSerialThreadPool.start(mHttpTask);
             } catch (RejectedExecutionException e) {
-                JJLogger.logInfo(TAG, "TaskManager.execute :" + sThreadPool.getActiveCount());
+                JJLogger.logInfo(TAG, "TaskManager.start :" + sCurrentThreadPool.getCount());
             }
-        } else {
+        }else if (mStartCurrentThreadPool && sCurrentThreadPool != null) {
+            //启用线程池
+            mStartCurrentThreadPool = false;
+            if (sCurrentThreadPool.isShutdownPool() || sCurrentThreadPool.isShutdownPool()) {
+                JJLogger.logInfo(TAG, "TaskManager.start : 线程池已关闭 错误码：" + CODE_CANCLE);
+                return mInstance;
+            }
+            try {
+                sCurrentThreadPool.start(mHttpTask);
+            } catch (RejectedExecutionException e) {
+                JJLogger.logInfo(TAG, "TaskManager.start :" + sCurrentThreadPool.getCount());
+            }
+        }else {
             new Thread(mHttpTask).start();
         }
         return mInstance;

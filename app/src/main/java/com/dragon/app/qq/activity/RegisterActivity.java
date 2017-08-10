@@ -73,7 +73,7 @@ public class RegisterActivity extends FullscreenActivity {
                             switch (userBean.getCode()) {
                                 case "1007":
                                     Toast.makeText(RegisterActivity.this, "注册成功！", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(RegisterActivity.this, QQMainActivity.class));
+                                    startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                                     finishAllCST();
                                     break;
                                 default:

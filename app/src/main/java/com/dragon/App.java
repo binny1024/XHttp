@@ -20,7 +20,7 @@ public class App extends Application {
 //        activityLifecycleCallbacks(this);
         try {
             InitSDK.init(this);
-            JJLogger.debug(true);
+            JJLogger.debug(false);
         } catch (AdException | IOException e) {
             e.printStackTrace();
         }

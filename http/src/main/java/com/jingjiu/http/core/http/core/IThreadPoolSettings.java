@@ -1,5 +1,7 @@
 package com.jingjiu.http.core.http.core;
 
+import com.jingjiu.http.core.http.core.pool.IThreadPool;
+
 /**
  * author xander on  2017/8/1.
  * function 对线程池的操作
@@ -21,10 +23,19 @@ public interface IThreadPoolSettings<T extends IThreadPoolSettings> {
     T setTag(String tag);
 
     /**
-     * 开启线程池
+     * 开启串行线程池
      */
-    T startThreadPool();
+    T startSerialThreadPool();
+    /**
+     * 开启并行线程池
+     */
+    T startConcurrenceThreadPool();
 
+    /**
+     * @param poolExecutor 自定义线程池
+     * @return 管理器
+     */
+    T customThreadPool(IThreadPool poolExecutor);
     /**
      * 关闭线程池
      */
