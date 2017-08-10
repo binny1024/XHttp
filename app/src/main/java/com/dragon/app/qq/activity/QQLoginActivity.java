@@ -28,6 +28,8 @@ import com.jingjiu.http.core.http.core.manager.TaskManager;
 import com.jingjiu.http.core.http.response.Response;
 import com.jingjiu.http.core.logger.JJLogger;
 
+import static com.dragon.manager.ManagerActivity.addActivityCST;
+import static com.dragon.manager.ManagerActivity.finishAllCST;
 import static com.dragon.util.UtilWidget.getView;
 
 /**
@@ -44,6 +46,7 @@ public class QQLoginActivity extends FullscreenActivity implements MediaPlayer.O
 
     @Override
     protected int initLayout() {
+        addActivityCST(this);
         return R.layout.activity_login;
     }
 
@@ -132,7 +135,7 @@ public class QQLoginActivity extends FullscreenActivity implements MediaPlayer.O
 
     private void intoApp() {
         startActivity(new Intent(QQLoginActivity.this, QQMainActivity.class));
-        finish();
+        finishAllCST();
     }
 
     protected boolean checkAccountPassword(final String account, final String password) {

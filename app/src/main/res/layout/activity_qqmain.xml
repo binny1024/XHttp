@@ -4,15 +4,9 @@
                 android:id="@+id/layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_above="@+id/tab"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-    <me.majiajie.pagerbottomtabstrip.PagerBottomTabLayout
-        android:id="@+id/tab"
-        app:elevation="8dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"/>
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="QQ 主界面"/>
 </RelativeLayout>

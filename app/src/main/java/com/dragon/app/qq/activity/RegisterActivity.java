@@ -17,6 +17,8 @@ import com.jingjiu.http.core.http.core.manager.TaskManager;
 import com.jingjiu.http.core.http.response.Response;
 import com.jingjiu.http.core.logger.JJLogger;
 
+import static com.dragon.manager.ManagerActivity.addActivityCST;
+import static com.dragon.manager.ManagerActivity.finishAllCST;
 import static com.dragon.util.UtilWidget.getView;
 import static com.dragon.api.WebApi.LOGIN_URL;
 
@@ -30,6 +32,7 @@ public class RegisterActivity extends FullscreenActivity {
 
     @Override
     protected int initLayout() {
+        addActivityCST(this);
         return R.layout.activity_register;
     }
 
@@ -70,8 +73,8 @@ public class RegisterActivity extends FullscreenActivity {
                             switch (userBean.getCode()) {
                                 case "1007":
                                     Toast.makeText(RegisterActivity.this, "注册成功！", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-                                    finish();
+                                    startActivity(new Intent(RegisterActivity.this, QQMainActivity.class));
+                                    finishAllCST();
                                     break;
                                 default:
                                     Toast.makeText(RegisterActivity.this, "注册失败！", Toast.LENGTH_SHORT).show();
