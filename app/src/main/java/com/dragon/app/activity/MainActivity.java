@@ -1,4 +1,4 @@
-package com.dragon.app.qq.activity;
+package com.dragon.app.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -11,13 +11,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dragon.R;
+import com.dragon.app.itemview.bean.BeanMainActivity;
+import com.dragon.app.itemview.callback.ViewHolderItemClickedCallback;
+import com.dragon.app.itemview.data.Data;
+import com.dragon.app.itemview.helper.ViewHolderHelperMain;
 import com.dragon.constant.Code;
 import com.dragon.util.UtilWidget;
 import com.dragon.api.WebApi;
-import com.dragon.app.qq.itemview.bean.BeanMainActivity;
-import com.dragon.app.qq.itemview.callback.ViewHolderItemClickedCallback;
-import com.dragon.app.qq.itemview.data.Data;
-import com.dragon.app.qq.itemview.helper.ViewHolderHelperMain;
 import com.jingjiu.http.core.http.callback.OnTaskCallback;
 import com.jingjiu.http.core.http.core.manager.TaskManager;
 import com.jingjiu.http.core.http.response.Response;

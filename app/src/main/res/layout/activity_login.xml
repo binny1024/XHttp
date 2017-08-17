@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@mipmap/login_skin"
     android:gravity="center"
-    tools:context="com.dragon.app.qq.activity.QQLoginActivity">
+    tools:context="com.dragon.app.activity.LoginActivity">
     <!--播放视频-->
     <com.dragon.widget.SplashVideoView
         android:id="@+id/videoView"

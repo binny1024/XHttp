@@ -1,4 +1,4 @@
-package com.dragon.app.qq.itemview.callback;
+package com.dragon.app.itemview.callback;
 
 /**
  * function

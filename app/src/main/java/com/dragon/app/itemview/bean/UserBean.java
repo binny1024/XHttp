@@ -1,4 +1,4 @@
-package com.dragon.app.qq.itemview.bean;
+package com.dragon.app.itemview.bean;
 
 import java.util.List;
 

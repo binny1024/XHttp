@@ -23,14 +23,14 @@
             </intent-filter>
         </activity>
         <!-- QQ 主界面 -->
-        <activity android:name=".app.qq.activity.MainActivity"/>
+        <activity android:name=".app.activity.MainActivity"/>
         <!-- QQ 登录界面 -->
-        <activity android:name=".app.qq.activity.QQLoginActivity"/>
+        <activity android:name=".app.activity.LoginActivity"/>
         <!-- QQ 注册界面 -->
-        <activity android:name=".app.qq.activity.RegisterActivity"/>
+        <activity android:name=".app.activity.RegisterActivity"/>
         <!-- QQ 协议 -->
-        <activity android:name=".app.qq.activity.ItemActivity"/>
-        <activity android:name=".app.qq.activity.QQMainActivity">
+        <activity android:name=".app.activity.ItemActivity"/>
+        <activity android:name=".app.activity.QQMainActivity">
         </activity>
     </application>
 

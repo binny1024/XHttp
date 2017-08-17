@@ -1,4 +1,4 @@
-package com.dragon.app.qq.activity;
+package com.dragon.app.activity;
 
 import android.content.Intent;
 import android.text.TextUtils;
@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.dragon.R;
 import com.dragon.abs.activity.FullscreenActivity;
 import com.dragon.constant.Code;
-import com.dragon.app.qq.bean.LoginInfo;
+import com.dragon.app.bean.LoginInfo;
 import com.google.gson.Gson;
 import com.jingjiu.http.core.http.callback.OnTaskCallback;
 import com.jingjiu.http.core.http.core.manager.TaskManager;
@@ -50,15 +50,15 @@ public class RegisterActivity extends FullscreenActivity {
     }
 
     public void register(View view) {
-        final String account = mAccountAct.getText().toString();
+        final String name = mAccountAct.getText().toString();
         final String password = mPasswordEt.getText().toString();
         final String age = mAge.getText().toString();
         final String telephone = mTeltphone.getText().toString();
         Log.i(TAG, "register: "+telephone);
-        if (checkAccountPassword(account, password, age)) {
-            JJLogger.logInfo(TAG, "QQLoginActivity.loginOrRegister :");
+        if (checkAccountPassword(name, password, age)) {
+            JJLogger.logInfo(TAG, "LoginActivity.loginOrRegister :");
             TaskManager.getmInstance().initTask().get(LOGIN_URL)
-                    .setParams("account", account)
+                    .setParams("name", name)
                     .setParams("tag", Code.TAG_REGISTER)
                     .setParams("password", password)
                     .setParams("age", age)
@@ -66,7 +66,7 @@ public class RegisterActivity extends FullscreenActivity {
                     .setOnTaskCallback(new OnTaskCallback() {
                         @Override
                         public void onSuccess(final Response response) {
-                            JJLogger.logInfo(TAG,"QQLoginActivity.onSuccess :"+response.toString());
+                            JJLogger.logInfo(TAG,"LoginActivity.onSuccess :"+response.toString());
                             Gson gson = new Gson();
                             LoginInfo userBean = gson.fromJson(response.toString(), LoginInfo.class);
 
@@ -98,10 +98,6 @@ public class RegisterActivity extends FullscreenActivity {
             return false;
         }
         if (TextUtils.isEmpty(password)) {
-            errorInfo = "密码为空";
-            return false;
-        }
-        if (TextUtils.isEmpty(age)) {
             errorInfo = "密码为空";
             return false;
         }

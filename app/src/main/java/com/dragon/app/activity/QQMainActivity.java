@@ -1,4 +1,4 @@
-package com.dragon.app.qq.activity;
+package com.dragon.app.activity;
 
 
 import com.dragon.R;

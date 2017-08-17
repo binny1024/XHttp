@@ -1,4 +1,4 @@
-package com.dragon.app.qq.fragment;
+package com.dragon.app.fragment;
 
 
 import android.content.Context;

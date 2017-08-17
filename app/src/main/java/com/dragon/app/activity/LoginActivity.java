@@ -1,4 +1,4 @@
-package com.dragon.app.qq.activity;
+package com.dragon.app.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -20,7 +20,7 @@ import android.widget.VideoView;
 import com.dragon.R;
 import com.dragon.abs.activity.FullscreenActivity;
 import com.dragon.api.WebApi;
-import com.dragon.app.qq.bean.LoginInfo;
+import com.dragon.app.bean.LoginInfo;
 import com.dragon.constant.Code;
 import com.google.gson.Gson;
 import com.jingjiu.http.core.http.callback.OnTaskCallback;
@@ -35,7 +35,7 @@ import static com.dragon.util.UtilWidget.getView;
 /**
  * A login screen that offers login via email/password.
  */
-public class QQLoginActivity extends FullscreenActivity implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
+public class LoginActivity extends FullscreenActivity implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
 
     protected final String TAG = this.getClass().getSimpleName();
     protected EditText mAccountAct;
@@ -93,31 +93,31 @@ public class QQLoginActivity extends FullscreenActivity implements MediaPlayer.O
     }
 
     public void login(View view) {
-        final String account = mAccountAct.getText().toString();
+        final String name = mAccountAct.getText().toString();
         final String password = mPasswordEt.getText().toString();
 
-        if (checkAccountPassword(account, password)) {
+        if (checkAccountPassword(name, password)) {
             TaskManager.getmInstance().initTask().post(WebApi.LOGIN_URL)
-                    .setParams("account", account)
+                    .setParams("name", name)
                     .setParams("tag", Code.TAG_LOGIN)
                     .setParams("platform", "mobile_phone")
                     .setParams("password", password)
                     .setOnTaskCallback(new OnTaskCallback() {
                         @Override
                         public void onSuccess(final Response response) {
-                            JJLogger.logInfo(TAG, "QQLoginActivity.onSuccess :" + response.toString());
+                            JJLogger.logInfo(TAG, "LoginActivity.onSuccess :" + response.toString());
                             Gson gson = new Gson();
                             LoginInfo userBean = gson.fromJson(response.toString(), LoginInfo.class);
                             switch (userBean.getCode()) {
                                 case "1003":
-                                    Toast.makeText(QQLoginActivity.this, "登录成功！", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, "登录成功！", Toast.LENGTH_SHORT).show();
                                     intoApp();
                                     break;
                                 case "1001":
-                                    Toast.makeText(QQLoginActivity.this, "未查询到您的注册信息，请先注册！", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, "未查询到您的注册信息，请先注册！", Toast.LENGTH_SHORT).show();
                                     break;
                                 case "1004":
-                                    Toast.makeText(QQLoginActivity.this, "密码错误！", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, "密码错误！", Toast.LENGTH_SHORT).show();
                                     break;
                             }
                         }
@@ -134,7 +134,7 @@ public class QQLoginActivity extends FullscreenActivity implements MediaPlayer.O
     }
 
     private void intoApp() {
-        startActivity(new Intent(QQLoginActivity.this, MainActivity.class));
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
         finishAllCST();
     }
 
@@ -171,7 +171,7 @@ public class QQLoginActivity extends FullscreenActivity implements MediaPlayer.O
     }
 
     private void register() {
-        startActivity(new Intent(QQLoginActivity.this, RegisterActivity.class));
+        startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
     }
 }
 
