@@ -8,4 +8,5 @@
 
     <color name="black_overlay">#66000000</color>
     <color name="balck">#000000</color>
+    <color name="grey">#CBCBCB</color>
 </resources>

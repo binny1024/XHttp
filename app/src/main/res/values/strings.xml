@@ -9,15 +9,19 @@
     <string name="current_pool_test">并行线程池测试</string>
 
     <!-- Strings related to login -->
-    <string name="account">QQ号/手机号/邮箱</string>
-    <string name="password">密码</string>
-    <string name="age">年龄(选填)</string>
-    <string name="teltphone">手机号(选填)</string>
+    <string name="account">账号:</string>
+    <string name="password">密码:</string>
+    <string name="age">年龄:</string>
+    <string name="teltphone">手机号:</string>
     <string name="action_sign_in">登 录</string>
     <string name="action_register">注册</string>
 
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="forget_password">忘记密码？</string>
     <string name="register_new">新用户注册</string>
+    <string name="telephone">请输入您的手机号</string>
+    <string name="new_password">新密码</string>
+    <string name="cancel">取消</string>
+    <string name="sure_modify">确定</string>
 
 </resources>

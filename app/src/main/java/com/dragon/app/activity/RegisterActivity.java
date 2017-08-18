@@ -21,6 +21,7 @@ import static com.dragon.manager.ManagerActivity.addActivityCST;
 import static com.dragon.manager.ManagerActivity.finishAllCST;
 import static com.dragon.util.UtilWidget.getView;
 import static com.dragon.api.WebApi.LOGIN_URL;
+import static com.dragon.util.UtilWidget.setViewAlphaAnimation;
 
 public class RegisterActivity extends FullscreenActivity {
     protected final String TAG = this.getClass().getSimpleName();
@@ -50,11 +51,12 @@ public class RegisterActivity extends FullscreenActivity {
     }
 
     public void register(View view) {
+        setViewAlphaAnimation(view);
         final String name = mAccountAct.getText().toString();
         final String password = mPasswordEt.getText().toString();
         final String age = mAge.getText().toString();
         final String telephone = mTeltphone.getText().toString();
-        Log.i(TAG, "register: "+telephone);
+        Log.i(TAG, "splash_kiss: "+telephone);
         if (checkAccountPassword(name, password, age)) {
             JJLogger.logInfo(TAG, "LoginActivity.loginOrRegister :");
             TaskManager.getmInstance().initTask().get(LOGIN_URL)
