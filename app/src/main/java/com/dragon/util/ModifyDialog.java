@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.dragon.R;
 
+import static com.dragon.util.UtilWidget.setViewAlphaAnimation;
+
 /**
  * author xander on  2017/8/18.
  * function
@@ -52,7 +54,7 @@ public class ModifyDialog extends Dialog {
         mSureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-
+                setViewAlphaAnimation(mSureBtn);
                 String name = mName.getText().toString();
                 String telephone = mPhone.getText().toString();
                 String password = mNewPassword.getText().toString();
@@ -74,6 +76,7 @@ public class ModifyDialog extends Dialog {
         mCancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
+                setViewAlphaAnimation(mCancelBtn);
                 mListener.onCancel();
             }
         });
