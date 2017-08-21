@@ -21,7 +21,7 @@ import static com.dragon.util.UtilWidget.setViewAlphaAnimation;
 public class ModifyDialog extends Dialog {
     public interface OnModifyDialogListener{
         void onSure(final String name, final String password, final String telephone);
-        void onCancel();
+        void onCancel(final Dialog dialog);
     }
     private Activity mActivity;
     private EditText mName;
@@ -30,11 +30,14 @@ public class ModifyDialog extends Dialog {
     private Button mCancelBtn;
     private Button mSureBtn;
     private OnModifyDialogListener mListener;
+    private ModifyDialog mDialog;
 
     public ModifyDialog(final Activity context) {
 //        super(context);
         super(context, R.style.no_frame_transparent);
         mActivity = context;
+        mDialog = this;
+
     }
 
     public ModifyDialog setOnModifyDialogListener( OnModifyDialogListener listener){
@@ -77,7 +80,7 @@ public class ModifyDialog extends Dialog {
             @Override
             public void onClick(final View v) {
                 setViewAlphaAnimation(mCancelBtn);
-                mListener.onCancel();
+                mListener.onCancel(mDialog);
             }
         });
     }

@@ -1,5 +1,6 @@
 package com.dragon.app.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -175,7 +176,8 @@ public class LoginActivity extends FullscreenActivity implements MediaPlayer.OnP
                         .setOnTaskCallback(new OnTaskCallback() {
                             @Override
                             public void onSuccess(final Response response) {
-                                JJLogger.logInfo(TAG, "LoginActivity.onSuccess :" + response.toString());
+
+                               Log.i(TAG, "LoginActivity.onSuccess :" +response.toString());
 //                                Gson gson = new Gson();
 //                                LoginInfo userBean = gson.fromJson(response.toString(), LoginInfo.class);
 //                                switch (userBean.getCode()) {
@@ -198,8 +200,8 @@ public class LoginActivity extends FullscreenActivity implements MediaPlayer.OnP
             }
 
             @Override
-            public void onCancel() {
-
+            public void onCancel(final Dialog dialog) {
+                dialog.dismiss();
             }
         }).show();
 
