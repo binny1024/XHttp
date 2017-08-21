@@ -19,10 +19,12 @@ import static com.dragon.util.UtilWidget.setViewAlphaAnimation;
  */
 
 public class ModifyDialog extends Dialog {
-    public interface OnModifyDialogListener{
-        void onSure(final String name, final String password, final String telephone);
+    public interface OnModifyDialogListener {
+        void onSure(final String name, final String password, final String telephone, final Dialog dialog);
+
         void onCancel(final Dialog dialog);
     }
+
     private Activity mActivity;
     private EditText mName;
     private EditText mPhone;
@@ -40,7 +42,7 @@ public class ModifyDialog extends Dialog {
 
     }
 
-    public ModifyDialog setOnModifyDialogListener( OnModifyDialogListener listener){
+    public ModifyDialog setOnModifyDialogListener(OnModifyDialogListener listener) {
         mListener = listener;
         return this;
     }
@@ -63,15 +65,12 @@ public class ModifyDialog extends Dialog {
                 String password = mNewPassword.getText().toString();
                 if (TextUtils.isEmpty(name)) {
                     Toast.makeText(mActivity, "请输入账号！", Toast.LENGTH_SHORT).show();
-                }
-                else if (TextUtils.isEmpty(password)) {
+                } else if (TextUtils.isEmpty(password)) {
                     Toast.makeText(mActivity, "请输入新密码！", Toast.LENGTH_SHORT).show();
-                }
-                else if (TextUtils.isEmpty(telephone)) {
+                } else if (TextUtils.isEmpty(telephone)) {
                     Toast.makeText(mActivity, "请输入手机号！", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    mListener.onSure(name,password,telephone);
+                } else {
+                    mListener.onSure(name, password, telephone, mDialog);
                 }
 
             }

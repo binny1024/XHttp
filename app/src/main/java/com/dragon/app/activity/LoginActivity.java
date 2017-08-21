@@ -168,7 +168,7 @@ public class LoginActivity extends FullscreenActivity implements MediaPlayer.OnP
 
         new ModifyDialog(this).setOnModifyDialogListener(new ModifyDialog.OnModifyDialogListener() {
             @Override
-            public void onSure(final String name, final String password, final String telephone) {
+            public void onSure(final String name, final String password, final String telephone, final Dialog dialog) {
                 TaskManager.getmInstance().initTask().post(MODIFY_URL)
                         .setParams("name", name)
                         .setParams("password", password)
@@ -178,23 +178,22 @@ public class LoginActivity extends FullscreenActivity implements MediaPlayer.OnP
                             public void onSuccess(final Response response) {
 
                                Log.i(TAG, "LoginActivity.onSuccess :" +response.toString());
-//                                Gson gson = new Gson();
-//                                LoginInfo userBean = gson.fromJson(response.toString(), LoginInfo.class);
-//                                switch (userBean.getCode()) {
-//                                    case "1003":
-//                                        Toast.makeText(LoginActivity.this, "登录成功！", Toast.LENGTH_SHORT).show();
-//                                        intoApp();
-//                                        break;
-//                                    default:
-//                                        Toast.makeText(LoginActivity.this, userBean.getMsg(), Toast.LENGTH_SHORT).show();
-//                                        break;
-//                                }
+                                Gson gson = new Gson();
+                                LoginInfo userBean = gson.fromJson(response.toString(), LoginInfo.class);
+                                switch (userBean.getCode()) {
+                                    case "1012":
+                                        Toast.makeText(LoginActivity.this, "登录成功！", Toast.LENGTH_SHORT).show();
+                                        dialog.dismiss();
+                                        break;
+                                    default:
+                                        Toast.makeText(LoginActivity.this, userBean.getMsg(), Toast.LENGTH_SHORT).show();
+                                        break;
+                                }
                             }
 
                             @Override
                             public void onFailure(final Exception ex, final String errorCode) {
-                                Log.i(TAG, "onFailure: " + ex.getMessage());
-                                intoApp();
+                                Toast.makeText(LoginActivity.this, "请求失败" +errorCode, Toast.LENGTH_SHORT).show();
                             }
                         });
             }
