@@ -4,7 +4,7 @@
 ![](https://github.com/Xbean1024/XHttp/blob/master/gif/3.gif)
 
 ##### 引用方式
-       compile 'com.bean.libs:http:1.0.3'
+       compile 'com.bean.libs:http:1.0.4'
 #### 请使用代理进行测试
 ### 一、网络请求，默认情况下不启用线程池
 #### 1.1、请求json

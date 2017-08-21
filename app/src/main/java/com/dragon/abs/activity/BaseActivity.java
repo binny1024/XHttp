@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.dragon.widget.BaseTitleBar;
+
 
 public abstract class BaseActivity extends AppCompatActivity {
     /**
@@ -11,6 +13,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      **/
     protected final String TAG = this.getClass().getSimpleName();
     protected BaseActivity mActivity = this;
+    protected BaseTitleBar mTitleBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

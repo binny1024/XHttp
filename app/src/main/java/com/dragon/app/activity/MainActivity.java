@@ -1,7 +1,5 @@
 package com.dragon.app.activity;
 
-import android.app.Activity;
-import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
@@ -11,13 +9,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dragon.R;
+import com.dragon.abs.activity.FullscreenActivity;
+import com.dragon.api.WebApi;
 import com.dragon.app.itemview.bean.BeanMainActivity;
 import com.dragon.app.itemview.callback.ViewHolderItemClickedCallback;
 import com.dragon.app.itemview.data.Data;
 import com.dragon.app.itemview.helper.ViewHolderHelperMain;
 import com.dragon.constant.Code;
-import com.dragon.util.UtilWidget;
-import com.dragon.api.WebApi;
+import com.dragon.widget.BaseTitleBar;
 import com.jingjiu.http.core.http.callback.OnTaskCallback;
 import com.jingjiu.http.core.http.core.manager.TaskManager;
 import com.jingjiu.http.core.http.response.Response;
@@ -27,8 +26,10 @@ import com.smart.holder.CommonAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.dragon.util.UtilWidget.getView;
 
-public class MainActivity extends Activity implements ViewHolderItemClickedCallback {
+
+public class MainActivity extends FullscreenActivity implements ViewHolderItemClickedCallback {
 
     private final String TAG = "timeout";
 
@@ -36,19 +37,36 @@ public class MainActivity extends Activity implements ViewHolderItemClickedCallb
     private EditText mAge;//用于获取要查询的广告id的图片
     private TextView mTextView1;//数据展示
     private TextView mTextView2;//数据展示
+    private GridView gridView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected int initLayout() {
+        return R.layout.activity_main;
+    }
 
-        setTitle("QQ");
-        GridView gridView = UtilWidget.getView(this, R.id.main_grid);
-        mName = UtilWidget.getView(this, R.id.name);
-        mAge = UtilWidget.getView(this, R.id.age);
-        mTextView1 = UtilWidget.getView(this, R.id.result_data);
-        mTextView2 = UtilWidget.getView(this, R.id.result_data2);
+    @Override
+    protected void initView() {
+        mTitleBar = getView(this,R.id.base_title_bar);
+        gridView = getView(this, R.id.main_grid);
+        mName = getView(this, R.id.name);
+        mAge = getView(this, R.id.age);
+        mTextView1 = getView(this, R.id.result_data);
+        mTextView2 = getView(this, R.id.result_data2);
+    }
 
+    @Override
+    protected void initData() {
+        mTitleBar.setBaseTitleBar("XHttp框架测试", R.mipmap.back, R.mipmap.share, new BaseTitleBar.OnBaseTitleBarButtonListener() {
+            @Override
+            public void onLeftButton() {
+                finish();
+            }
+
+            @Override
+            public void onRightButton() {
+                Toast.makeText(MainActivity.this, "分享", Toast.LENGTH_SHORT).show();
+            }
+        });
         List<BeanMainActivity> mItemBeanList = new ArrayList<>();
         BeanMainActivity bean;
         for (int i = 0; i < Data.ITEMS_MAIN.length; i++) {
