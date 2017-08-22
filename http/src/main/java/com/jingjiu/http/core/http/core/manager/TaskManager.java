@@ -89,7 +89,7 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
     }
 
     //定义一个共有的静态方法，返回该类型实例
-    public static TaskManager getmInstance() {
+    public static TaskManager getInstance() {
         mInstance = SingletonHolder.TASK_MANAGER;
         return mInstance;
     }

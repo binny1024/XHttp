@@ -59,7 +59,7 @@ public class RegisterActivity extends FullscreenActivity {
         Log.i(TAG, "splash_kiss: "+telephone);
         if (checkAccountPassword(name, password, age)) {
             JJLogger.logInfo(TAG, "LoginActivity.loginOrRegister :");
-            TaskManager.getmInstance().initTask().get(LOGIN_URL)
+            TaskManager.getInstance().initTask().get(LOGIN_URL)
                     .setParams("name", name)
                     .setParams("tag", Code.TAG_REGISTER)
                     .setParams("password", password)
