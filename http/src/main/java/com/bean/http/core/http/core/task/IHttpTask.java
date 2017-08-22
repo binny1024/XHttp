@@ -1,6 +1,6 @@
-package com.jingjiu.http.core.http.core.task;
+package com.bean.http.core.http.core.task;
 
-import com.jingjiu.http.core.http.core.IHttpSettings;
+import com.bean.http.core.http.core.IHttpSettings;
 
 /**
  * author xander on  2017/7/27.

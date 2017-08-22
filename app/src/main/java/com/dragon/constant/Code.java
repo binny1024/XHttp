@@ -10,4 +10,7 @@ public class Code {
     public static final String TAG_LOGIN = "3";
     public static final String TAG_UPDATE = "2";
     public static final int DELAY_TIME = 2000;
+
+    public static final String USER_NAME = "name";
+    public static final String USER_PASSWORD = "password";
 }

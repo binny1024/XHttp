@@ -1,12 +1,12 @@
-package com.jingjiu.http.core.http.core.task;
+package com.bean.http.core.http.core.task;
 
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.jingjiu.http.core.http.callback.OnTaskCallback;
-import com.jingjiu.http.core.http.response.Response;
-import com.jingjiu.http.core.logger.JJLogger;
-import com.jingjiu.http.exception.SDKException;
+import com.bean.http.core.http.callback.OnTaskCallback;
+import com.bean.http.core.http.response.Response;
+import com.bean.http.core.logger.JJLogger;
+import com.bean.http.exception.SDKException;
 
 import java.io.DataOutputStream;
 import java.io.FileInputStream;
@@ -21,13 +21,13 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.jingjiu.http.common.CommonMethod.toByteArray;
-import static com.jingjiu.http.common.Configuration.HANDLER;
-import static com.jingjiu.http.common.ErrorCode.CODE_CANCLE;
-import static com.jingjiu.http.common.ErrorCode.CODE_CONNECT;
-import static com.jingjiu.http.common.ErrorCode.CODE_CONNECT_UNKNOWN_HOST;
-import static com.jingjiu.http.common.ErrorCode.CODE_REQUEST_URL;
-import static com.jingjiu.http.common.ErrorCode.CODE_TIME_OUT;
+import static com.bean.http.common.CommonMethod.toByteArray;
+import static com.bean.http.common.Configuration.HANDLER;
+import static com.bean.http.common.ErrorCode.CODE_CANCLE;
+import static com.bean.http.common.ErrorCode.CODE_CONNECT;
+import static com.bean.http.common.ErrorCode.CODE_CONNECT_UNKNOWN_HOST;
+import static com.bean.http.common.ErrorCode.CODE_REQUEST_URL;
+import static com.bean.http.common.ErrorCode.CODE_TIME_OUT;
 
 public class HttpTask implements Runnable, IHttpTask {
 

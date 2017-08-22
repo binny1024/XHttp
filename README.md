@@ -1,13 +1,19 @@
-# XHttp
-不依赖第三方的网络请求框架
-#### 展示
+# XHttp  目前支持功能
+
+1、不依赖第三方的网络请求框架;
+
+2、支持get、post、post文件上传;
+
+3、支持重定向;
+
+
+#### demo展示(代传)
 ![](https://github.com/Xbean1024/XHttp/blob/master/gif/3.gif)
 
-##### 引用方式（各个版本）
+##### 引用方式
 
-       compile 'com.bean.libs:http:1.0.4'
-    -------------------------------------------------
-       compile 'com.bean.libs:http:1.0.7'//版本支持重定向
+       compile 'com.bean.libs:http:1.0.0'//改以来刚提交，审核大概2天，敬请等待
+
 #### 请使用代理进行测试
 ### 一、网络请求，默认情况下不启用线程池
 #### 1.1、请求json

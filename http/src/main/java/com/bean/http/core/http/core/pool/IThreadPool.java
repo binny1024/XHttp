@@ -1,4 +1,4 @@
-package com.jingjiu.http.core.http.core.pool;
+package com.bean.http.core.http.core.pool;
 
 /**
  * author xander on  2017/8/10.

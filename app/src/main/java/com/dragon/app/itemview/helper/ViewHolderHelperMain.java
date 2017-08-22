@@ -13,7 +13,7 @@ import com.smart.holder.iinterface.IViewHolderHelper;
 import java.util.List;
 
 import static com.dragon.util.UtilWidget.setViewAlphaAnimation;
-import static com.jingjiu.http.common.CommonMethod.getView;
+import static com.bean.http.common.CommonMethod.getView;
 
 
 /**

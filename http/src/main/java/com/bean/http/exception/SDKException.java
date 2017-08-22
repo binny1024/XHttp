@@ -1,4 +1,4 @@
-package com.jingjiu.http.exception;
+package com.bean.http.exception;
 
 /**
  * function

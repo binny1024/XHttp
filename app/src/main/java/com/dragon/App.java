@@ -2,8 +2,8 @@ package com.dragon;
 
 import android.app.Application;
 
-import com.jingjiu.http.core.logger.JJLogger;
-import com.jingjiu.http.exception.SDKException;
+import com.bean.http.core.logger.JJLogger;
+import com.bean.http.exception.SDKException;
 
 import java.io.IOException;
 

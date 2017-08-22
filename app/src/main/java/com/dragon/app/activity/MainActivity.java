@@ -17,15 +17,17 @@ import com.dragon.app.itemview.data.Data;
 import com.dragon.app.itemview.helper.ViewHolderHelperMain;
 import com.dragon.constant.Code;
 import com.dragon.widget.BaseTitleBar;
-import com.jingjiu.http.core.http.callback.OnTaskCallback;
-import com.jingjiu.http.core.http.core.manager.TaskManager;
-import com.jingjiu.http.core.http.response.Response;
-import com.jingjiu.http.core.logger.JJLogger;
+import com.bean.http.core.http.callback.OnTaskCallback;
+import com.bean.http.core.http.core.manager.XHttp;
+import com.bean.http.core.http.response.Response;
+import com.bean.http.core.logger.JJLogger;
 import com.smart.holder.CommonAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.dragon.constant.Code.USER_NAME;
+import static com.dragon.constant.Code.USER_PASSWORD;
 import static com.dragon.util.UtilWidget.getView;
 
 
@@ -82,9 +84,9 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
         //item的 点击回调
         if (itemName.equals(getString(R.string.request_get))) {
             JJLogger.logInfo(TAG, "MainActivity.onItemClickedInList :");
-            TaskManager.getInstance().initTask().get(WebApi.LOGIN_URL)
-                    .setParams("account", mName.getText().toString())
-                    .setParams("password", mAge.getText().toString())
+            XHttp.getInstance().initHttp().get(WebApi.LOGIN_URL)
+                    .setParams(USER_NAME, mName.getText().toString())
+                    .setParams(USER_PASSWORD, mAge.getText().toString())
                     .setParams("tag", Code.TAG_LOGIN)
                     .setParams("platform", "mobile_phone")
                     .setOnTaskCallback(new OnTaskCallback() {
@@ -101,9 +103,9 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
                         }
                     });
         } else if (itemName.equals(getString(R.string.request_post))) {
-            TaskManager.getInstance().initTask().post(WebApi.LOGIN_URL)
-                    .setParams("account", mName.getText().toString())
-                    .setParams("password", mAge.getText().toString())
+            XHttp.getInstance().initHttp().post(WebApi.LOGIN_URL)
+                    .setParams(USER_NAME, mName.getText().toString())
+                    .setParams(USER_PASSWORD, mAge.getText().toString())
                     .setParams("tag", Code.TAG_LOGIN)
                     .setParams("platform", "mobile_phone")
                     .setOnTaskCallback(new OnTaskCallback() {
@@ -125,7 +127,7 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
             String basePtah = Environment.getExternalStorageDirectory().getPath();
             String[] path = new String[]{basePtah+ "/setting.cfg",basePtah+"/Screenshot.png"};
             JJLogger.logInfo(TAG,"MainActivity.onItemClickedInList :"+path);
-            TaskManager.getInstance().initTask().post(WebApi.UPLOAD_FILE_URL)
+            XHttp.getInstance().initHttp().post(WebApi.UPLOAD_FILE_URL)
                     .uploadFiles(path)
                     .setHeads("platform","mobile_phone")
                     .setOnTaskCallback(new OnTaskCallback() {
@@ -147,9 +149,9 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
             final StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < 20; i++) {
                 final int finalI = i;
-                TaskManager.getInstance().initTask().post(WebApi.LOGIN_URL)
-                        .setParams("account", mName.getText().toString())
-                        .setParams("password", mAge.getText().toString())
+                XHttp.getInstance().initHttp().post(WebApi.LOGIN_URL)
+                        .setParams(USER_NAME, mName.getText().toString())
+                        .setParams(USER_PASSWORD, mAge.getText().toString())
                         .startConcurrenceThreadPool()
                         .setOnTaskCallback(new OnTaskCallback() {
                             @Override
@@ -170,9 +172,9 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
             final StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < 20; i++) {
                 final int finalI = i;
-                TaskManager.getInstance().initTask().post(WebApi.LOGIN_URL)
-                        .setParams("account", mName.getText().toString())
-                        .setParams("password", mAge.getText().toString())
+                XHttp.getInstance().initHttp().post(WebApi.LOGIN_URL)
+                        .setParams(USER_NAME, mName.getText().toString())
+                        .setParams(USER_PASSWORD, mAge.getText().toString())
                         .startSerialThreadPool()
                         .setOnTaskCallback(new OnTaskCallback() {
                             @Override

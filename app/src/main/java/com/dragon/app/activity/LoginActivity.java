@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.bean.http.core.http.core.manager.XHttp;
 import com.dragon.R;
 import com.dragon.abs.activity.FullscreenActivity;
 import com.dragon.api.WebApi;
@@ -25,12 +26,13 @@ import com.dragon.app.bean.LoginInfo;
 import com.dragon.constant.Code;
 import com.dragon.util.ModifyDialog;
 import com.google.gson.Gson;
-import com.jingjiu.http.core.http.callback.OnTaskCallback;
-import com.jingjiu.http.core.http.core.manager.TaskManager;
-import com.jingjiu.http.core.http.response.Response;
-import com.jingjiu.http.core.logger.JJLogger;
+import com.bean.http.core.http.callback.OnTaskCallback;
+import com.bean.http.core.http.response.Response;
+import com.bean.http.core.logger.JJLogger;
 
 import static com.dragon.api.WebApi.MODIFY_URL;
+import static com.dragon.constant.Code.USER_NAME;
+import static com.dragon.constant.Code.USER_PASSWORD;
 import static com.dragon.manager.ManagerActivity.addActivityCST;
 import static com.dragon.manager.ManagerActivity.finishAllCST;
 import static com.dragon.util.UtilWidget.getView;
@@ -102,11 +104,11 @@ public class LoginActivity extends FullscreenActivity implements MediaPlayer.OnP
         final String password = mPasswordEt.getText().toString();
 
         if (checkAccountPassword(name, password)) {
-            TaskManager.getInstance().initTask().post(WebApi.LOGIN_URL)
-                    .setParams("name", name)
+            XHttp.getInstance().initHttp().post(WebApi.LOGIN_URL)
+                    .setParams(USER_NAME, name)
                     .setParams("tag", Code.TAG_LOGIN)
                     .setParams("platform", "mobile_phone")
-                    .setParams("password", password)
+                    .setParams(USER_PASSWORD, password)
                     .setOnTaskCallback(new OnTaskCallback() {
                         @Override
                         public void onSuccess(final Response response) {
@@ -169,9 +171,9 @@ public class LoginActivity extends FullscreenActivity implements MediaPlayer.OnP
         new ModifyDialog(this).setOnModifyDialogListener(new ModifyDialog.OnModifyDialogListener() {
             @Override
             public void onSure(final String name, final String password, final String telephone, final Dialog dialog) {
-                TaskManager.getInstance().initTask().post(MODIFY_URL)
-                        .setParams("name", name)
-                        .setParams("password", password)
+                XHttp.getInstance().initHttp().post(MODIFY_URL)
+                        .setParams(USER_NAME, name)
+                        .setParams(USER_PASSWORD, password)
                         .setParams("telephone", telephone)
                         .setOnTaskCallback(new OnTaskCallback() {
                             @Override

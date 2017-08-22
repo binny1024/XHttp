@@ -1,16 +1,16 @@
-package com.jingjiu.http.core.http.core.manager;
+package com.bean.http.core.http.core.manager;
 
 
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.jingjiu.http.core.http.callback.OnTaskCallback;
-import com.jingjiu.http.core.http.core.IHttpSettings;
-import com.jingjiu.http.core.http.core.IThreadPoolSettings;
-import com.jingjiu.http.core.http.core.pool.IThreadPool;
-import com.jingjiu.http.core.http.core.pool.ThreadPool;
-import com.jingjiu.http.core.http.core.task.HttpTask;
-import com.jingjiu.http.core.logger.JJLogger;
+import com.bean.http.core.http.callback.OnTaskCallback;
+import com.bean.http.core.http.core.IHttpSettings;
+import com.bean.http.core.http.core.IThreadPoolSettings;
+import com.bean.http.core.http.core.pool.IThreadPool;
+import com.bean.http.core.http.core.pool.ThreadPool;
+import com.bean.http.core.http.core.task.HttpTask;
+import com.bean.http.core.logger.JJLogger;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.RejectedExecutionException;
 
-import static com.jingjiu.http.common.ErrorCode.CODE_CANCLE;
+import static com.bean.http.common.ErrorCode.CODE_CANCLE;
 
 
 /**
@@ -26,7 +26,7 @@ import static com.jingjiu.http.common.ErrorCode.CODE_CANCLE;
  * function  处理具体的业务逻辑 ，获取字符串
  */
 @SuppressWarnings("unchecked")
-public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSettings<TaskManager> {
+public class XHttp implements IHttpSettings<XHttp>, IThreadPoolSettings<XHttp> {
 
     private final String TAG = "xander";
 
@@ -72,30 +72,30 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
      * 定义一个静态私有变量(不初始化，不使用final关键字，使用volatile保证了多线程访问时instance变量的可见性，
      * 避免了instance初始化时其他变量属性还没赋值完时，被另外线程调用)
      */
-    private static volatile TaskManager mInstance;
+    private static volatile XHttp mInstance;
     /**
      * 异步任务管理器
      */
     private static Map<String, HttpTask> mTaskMap;
 
     // 定义一个私有构造方法
-    private TaskManager() {
+    private XHttp() {
 
     }
 
     private static class SingletonHolder {
-        private static final TaskManager TASK_MANAGER = new TaskManager();
+        private static final XHttp TASK_MANAGER = new XHttp();
         ;
     }
 
     //定义一个共有的静态方法，返回该类型实例
-    public static TaskManager getInstance() {
+    public static XHttp getInstance() {
         mInstance = SingletonHolder.TASK_MANAGER;
         return mInstance;
     }
 
     @Override
-    public TaskManager setTag(String tag) {
+    public XHttp setTag(String tag) {
         if (!TextUtils.isEmpty(tag)) {
             if (mTaskMap == null) {
                 mTaskMap = new HashMap<>();
@@ -106,12 +106,12 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
     }
 
     @Override
-    public TaskManager initTask() {
+    public XHttp initHttp() {
         mHttpTask = new HttpTask();
         return mInstance;
     }
     @Override
-    public TaskManager startSerialThreadPool() {
+    public XHttp startSerialThreadPool() {
         mStartSerailThreadPool = true;
         if (sSerialThreadPool == null) {
             sSerialThreadPool = new ThreadPool(1,1,0L);
@@ -120,7 +120,7 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
     }
 
     @Override
-    public TaskManager startConcurrenceThreadPool() {
+    public XHttp startConcurrenceThreadPool() {
         mStartCurrentThreadPool = true;
         if (sCurrentThreadPool == null) {
             sCurrentThreadPool = new ThreadPool(CORE_POOL_SIZE,MAXIMUM_POOL_SIZE,KEEP_ALIVE);
@@ -129,14 +129,14 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
     }
 
     @Override
-    public TaskManager customThreadPool(final IThreadPool poolExecutor) {
+    public XHttp customThreadPool(final IThreadPool poolExecutor) {
         sCurrentThreadPool = poolExecutor;
         mStartCurrentThreadPool = true;
         return mInstance;
     }
 
     @Override
-    public TaskManager closeThreadPool() {
+    public XHttp closeThreadPool() {
         if (sSerialThreadPool != null) {
             sSerialThreadPool.closeThreadPool();
         }
@@ -152,7 +152,7 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
      * @return 该类的实例
      */
     @Override
-    public TaskManager get(String url) {
+    public XHttp get(String url) {
         mHttpTask.get(url);
         return mInstance;
     }
@@ -162,7 +162,7 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
      * @return 该类的实例
      */
     @Override
-    public TaskManager post(String url) {
+    public XHttp post(String url) {
         mHttpTask.post(url);
         return mInstance;
     }
@@ -172,7 +172,7 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
      * @return 该类的实例
      */
     @Override
-    public TaskManager setParams(Map<String, String> params) {
+    public XHttp setParams(Map<String, String> params) {
         Map<String, String> stringMap = new HashMap<>();
         try {
             for (Map.Entry<String, String> entry : params.entrySet()) {
@@ -191,7 +191,7 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
      * @return 该类的实例
      */
     @Override
-    public TaskManager setParams(String key, String value) {
+    public XHttp setParams(String key, String value) {
         if (TextUtils.isEmpty(key)) {
             return mInstance;
         }
@@ -200,7 +200,7 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
         } catch (UnsupportedEncodingException e) {
             mHttpTask.setParams(key, value);
         }
-        JJLogger.logInfo(TAG, "TaskManager.setParams :" + key + "= " + value);
+        JJLogger.logInfo(TAG, "XHttp.setParams :" + key + "= " + value);
         return mInstance;
     }
 
@@ -210,7 +210,7 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
      * @return 该类的实例
      */
     @Override
-    public TaskManager setHeads(String key, String value) {
+    public XHttp setHeads(String key, String value) {
         if (TextUtils.isEmpty(key)) {
             return mInstance;
         }
@@ -223,7 +223,7 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
      * @return 该类的实例
      */
     @Override
-    public TaskManager setHeads(Map<String, String> heads) {
+    public XHttp setHeads(Map<String, String> heads) {
         mHttpTask.setHeads(heads);
         return mInstance;
     }
@@ -233,7 +233,7 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
      * @return 该类的实例
      */
     @Override
-    public TaskManager setTimeout(int timeout) {
+    public XHttp setTimeout(int timeout) {
         mHttpTask.setTimeout(timeout);
         return mInstance;
     }
@@ -243,49 +243,49 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
      * @return 该类的实例
      */
     @Override
-    public TaskManager setCharset(String charset) {
+    public XHttp setCharset(String charset) {
         mHttpTask.setCharset(charset);
         return mInstance;
     }
 
     @Override
-    public TaskManager uploadFiles(final String[] uploadFilePaths) {
+    public XHttp uploadFiles(final String[] uploadFilePaths) {
         mHttpTask.uploadFiles(uploadFilePaths);
         return mInstance;
     }
 
     @Override
-    public TaskManager uploadFile(final String uploadFilePath) {
+    public XHttp uploadFile(final String uploadFilePath) {
         mHttpTask.uploadFile(uploadFilePath);
         return mInstance;
     }
 
     @Override
-    public TaskManager setOnTaskCallback(final OnTaskCallback taskCallback) {
+    public XHttp setOnTaskCallback(final OnTaskCallback taskCallback) {
         mHttpTask.setOnTaskCallback(taskCallback);
         if (mStartSerailThreadPool && sSerialThreadPool != null) {
             //启用线程池
             mStartSerailThreadPool = false;
            if (sSerialThreadPool.isShutdownPool() || sSerialThreadPool.isShutdownPool()) {
-                JJLogger.logInfo(TAG, "TaskManager.start : 线程池已关闭 错误码：" + CODE_CANCLE);
+                JJLogger.logInfo(TAG, "XHttp.start : 线程池已关闭 错误码：" + CODE_CANCLE);
                 return mInstance;
             }
             try {
                 sSerialThreadPool.start(mHttpTask);
             } catch (RejectedExecutionException e) {
-                JJLogger.logInfo(TAG, "TaskManager.start :" + sCurrentThreadPool.getCount());
+                JJLogger.logInfo(TAG, "XHttp.start :" + sCurrentThreadPool.getCount());
             }
         }else if (mStartCurrentThreadPool && sCurrentThreadPool != null) {
             //启用线程池
             mStartCurrentThreadPool = false;
             if (sCurrentThreadPool.isShutdownPool() || sCurrentThreadPool.isShutdownPool()) {
-                JJLogger.logInfo(TAG, "TaskManager.start : 线程池已关闭 错误码：" + CODE_CANCLE);
+                JJLogger.logInfo(TAG, "XHttp.start : 线程池已关闭 错误码：" + CODE_CANCLE);
                 return mInstance;
             }
             try {
                 sCurrentThreadPool.start(mHttpTask);
             } catch (RejectedExecutionException e) {
-                JJLogger.logInfo(TAG, "TaskManager.start :" + sCurrentThreadPool.getCount());
+                JJLogger.logInfo(TAG, "XHttp.start :" + sCurrentThreadPool.getCount());
             }
         }else {
             new Thread(mHttpTask).start();
@@ -306,7 +306,7 @@ public class TaskManager implements IHttpSettings<TaskManager>, IThreadPoolSetti
         if (taskSize > 0) {
             for (final Map.Entry<String, HttpTask> entry : mTaskMap.entrySet()) {
                 if (entry.getKey().equals(tag)) {
-                    Log.i(TAG, "TaskManager.cancel :" + entry.getKey());
+                    Log.i(TAG, "XHttp.cancel :" + entry.getKey());
                     entry.getValue().cancle();
                 }
             }

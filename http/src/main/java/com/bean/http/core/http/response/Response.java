@@ -1,4 +1,4 @@
-package com.jingjiu.http.core.http.response;
+package com.bean.http.core.http.response;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

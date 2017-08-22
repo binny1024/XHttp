@@ -1,6 +1,6 @@
-package com.jingjiu.http.core.http.core;
+package com.bean.http.core.http.core;
 
-import com.jingjiu.http.core.http.callback.OnTaskCallback;
+import com.bean.http.core.http.callback.OnTaskCallback;
 
 import java.util.Map;
 

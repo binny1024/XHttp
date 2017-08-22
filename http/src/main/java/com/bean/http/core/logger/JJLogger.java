@@ -1,4 +1,4 @@
-package com.jingjiu.http.core.logger;
+package com.bean.http.core.logger;
 
 import android.text.TextUtils;
 import android.util.Log;

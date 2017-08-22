@@ -1,4 +1,4 @@
-package com.jingjiu.http.common;
+package com.bean.http.common;
 
 /**
  * author xander on  2017/7/28.

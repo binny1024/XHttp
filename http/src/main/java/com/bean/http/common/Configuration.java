@@ -1,4 +1,4 @@
-package com.jingjiu.http.common;
+package com.bean.http.common;
 
 import android.os.Handler;
 import android.os.Looper;

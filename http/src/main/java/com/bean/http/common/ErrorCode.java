@@ -1,4 +1,4 @@
-package com.jingjiu.http.common;
+package com.bean.http.common;
 
 /**
  * function sdk 错误码

@@ -12,11 +12,13 @@ import com.dragon.abs.activity.FullscreenActivity;
 import com.dragon.constant.Code;
 import com.dragon.app.bean.LoginInfo;
 import com.google.gson.Gson;
-import com.jingjiu.http.core.http.callback.OnTaskCallback;
-import com.jingjiu.http.core.http.core.manager.TaskManager;
-import com.jingjiu.http.core.http.response.Response;
-import com.jingjiu.http.core.logger.JJLogger;
+import com.bean.http.core.http.callback.OnTaskCallback;
+import com.bean.http.core.http.core.manager.XHttp;
+import com.bean.http.core.http.response.Response;
+import com.bean.http.core.logger.JJLogger;
 
+import static com.dragon.constant.Code.USER_NAME;
+import static com.dragon.constant.Code.USER_PASSWORD;
 import static com.dragon.manager.ManagerActivity.addActivityCST;
 import static com.dragon.manager.ManagerActivity.finishAllCST;
 import static com.dragon.util.UtilWidget.getView;
@@ -59,10 +61,10 @@ public class RegisterActivity extends FullscreenActivity {
         Log.i(TAG, "splash_kiss: "+telephone);
         if (checkAccountPassword(name, password, age)) {
             JJLogger.logInfo(TAG, "LoginActivity.loginOrRegister :");
-            TaskManager.getInstance().initTask().get(LOGIN_URL)
-                    .setParams("name", name)
+            XHttp.getInstance().initHttp().get(LOGIN_URL)
+                    .setParams(USER_NAME, name)
                     .setParams("tag", Code.TAG_REGISTER)
-                    .setParams("password", password)
+                    .setParams(USER_PASSWORD, password)
                     .setParams("age", age)
                     .setParams("telephone", telephone)
                     .setOnTaskCallback(new OnTaskCallback() {

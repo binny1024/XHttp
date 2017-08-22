@@ -1,6 +1,6 @@
-package com.jingjiu.http.core.http.core;
+package com.bean.http.core.http.core;
 
-import com.jingjiu.http.core.http.core.pool.IThreadPool;
+import com.bean.http.core.http.core.pool.IThreadPool;
 
 /**
  * author xander on  2017/8/1.
@@ -13,7 +13,7 @@ public interface IThreadPoolSettings<T extends IThreadPoolSettings> {
      *
      * @return 该接口的实例
      */
-    T initTask();
+    T initHttp();
     /**
      * 该任务的一个人标志，身份
      *
