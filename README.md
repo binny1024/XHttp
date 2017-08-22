@@ -12,7 +12,7 @@
 
 ##### 引用方式
 
-       compile 'com.bean.libs:http:1.0.0'//改以来刚提交，审核大概2天，敬请等待
+       compile 'com.bean.libs:http:1.0.0'
 
 #### 请使用代理进行测试
 ### 一、网络请求，默认情况下不启用线程池
