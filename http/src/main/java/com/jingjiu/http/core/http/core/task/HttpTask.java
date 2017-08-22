@@ -1,8 +1,8 @@
 package com.jingjiu.http.core.http.core.task;
 
 import android.text.TextUtils;
+import android.util.Log;
 
-import com.jingjiu.http.common.ErrorCode;
 import com.jingjiu.http.core.http.callback.OnTaskCallback;
 import com.jingjiu.http.core.http.response.Response;
 import com.jingjiu.http.core.logger.JJLogger;
@@ -20,6 +20,7 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.jingjiu.http.common.CommonMethod.toByteArray;
 import static com.jingjiu.http.common.Configuration.HANDLER;
@@ -229,24 +230,30 @@ public class HttpTask implements Runnable, IHttpTask {
         if (mIntercept) {
             mResponse.setErrorInfo(new AdException("用户取消操作"), CODE_CANCLE);
             mIntercept = false;
-            postRun(mResponse);
+            postRun(mResponse, CODE_CANCLE,"");
             return;
         }
+        int responseCode = 0;
+        String responseCodeStr ="Before";
+        String redirection = "";//重定向链接
         try {
             JJLogger.logInfo(TAG, "HttpTask.run :" + mUrl);
             if (TextUtils.isEmpty(mUrl)) {
-                mResponse.setErrorInfo(new AdException("url 为空！"), ErrorCode.CODE_REQUEST_URL);
-                postRun(mResponse);
+                mResponse.setErrorInfo(new AdException("url 为空！"), CODE_REQUEST_URL);
+                postRun(mResponse, CODE_REQUEST_URL, "");
                 return;
             }
             URL httpUrl = new URL(mUrl);
             httpUrlCon = (HttpURLConnection) httpUrl.openConnection();
+            responseCode = httpUrlCon.getResponseCode();
+            responseCodeStr = String.valueOf(responseCode);
+            redirection =httpUrlCon.getHeaderField("location");
             httpUrlCon.setConnectTimeout(mHttpTimeout);// 建立连接超时时间
             httpUrlCon.setReadTimeout(mHttpTimeout);//数据传输超时时间，很重要，必须设置。
             if (mIntercept) {
                 mResponse.setErrorInfo(new AdException("用户取消操作"), CODE_CANCLE);
                 mIntercept = false;
-                postRun(mResponse);
+                postRun(mResponse, responseCodeStr, responseCodeStr);
                 return;
             }
             //设置请求头
@@ -279,7 +286,7 @@ public class HttpTask implements Runnable, IHttpTask {
                     if (mIntercept) {
                         mResponse.setErrorInfo(new AdException("用户取消操作"), CODE_CANCLE);
                         mIntercept = false;
-                        postRun(mResponse);
+                        postRun(mResponse, responseCodeStr, "");
                         return;
                     } else {
                         outputStream = new DataOutputStream(httpUrlCon.getOutputStream()); // 获取输出流
@@ -326,27 +333,29 @@ public class HttpTask implements Runnable, IHttpTask {
                     break;
             }
 
-            if (httpUrlCon.getResponseCode() == HttpURLConnection.HTTP_OK) {
+            if (responseCode == HttpURLConnection.HTTP_OK) {
                 inputStream = httpUrlCon.getInputStream();
                 final byte[] bytes = toByteArray(inputStream);
                 mResponse.setBytes(bytes);
-                postRun(mResponse);
-            } else {
-                mResponse.setErrorInfo(new AdException("响应码为 ： "+httpUrlCon.getResponseCode() ), CODE_CONNECT);
-                postRun(mResponse);
+                postRun(mResponse, String.valueOf(responseCode), "");
+            } else if (httpUrlCon.getResponseCode() == HttpURLConnection.HTTP_BAD_GATEWAY ) {
+
+            }else {
+                mResponse.setErrorInfo(new AdException("找不到服务器 "), CODE_CONNECT);
+                postRun(mResponse, String.valueOf(responseCode), redirection);
             }
         } catch (UnknownHostException e) {
             mResponse.setErrorInfo(e, CODE_CONNECT_UNKNOWN_HOST);
-            postRun(mResponse);
+            postRun(mResponse, responseCodeStr, "");
         } catch (SocketTimeoutException e) {
             mResponse.setErrorInfo(e, CODE_TIME_OUT);
-            postRun(mResponse);
+            postRun(mResponse, responseCodeStr, "");
         } catch (MalformedURLException e) {
             mResponse.setErrorInfo(e, CODE_REQUEST_URL);
-            postRun(mResponse);
+            postRun(mResponse, responseCodeStr, "");
         } catch (final IOException e) {
             mResponse.setErrorInfo(e, CODE_CONNECT);
-            postRun(mResponse);
+            postRun(mResponse, responseCodeStr, "");
         } finally {
             if (httpUrlCon != null) {
                 httpUrlCon.disconnect(); // 断开连接
@@ -356,13 +365,21 @@ public class HttpTask implements Runnable, IHttpTask {
 
     /**
      * @param response 请求结果
+     * @param responseCode
+     * @param redirectUrl
      */
-    private void postRun(final Response response) {
+    private void postRun(final Response response, final String responseCode, final String redirectUrl) {
+        if (Objects.equals(responseCode, "302")) {
+            new Thread(this).start();
+            mUrl = redirectUrl;
+            Log.i(TAG, "重定向地址: "+redirectUrl);
+            return;
+        }
         HANDLER.post(new Runnable() {
             @Override
             public void run() {
                 if (mIntercept) {
-                    mTaskCallback.onFailure(response.getException(), ErrorCode.CODE_CANCLE);
+                    mTaskCallback.onFailure(response.getException(), CODE_CANCLE);
                 } else {
                     if (response.toBytes() == null) {
                         mTaskCallback.onFailure(response.getException(), response.getErrorCode());

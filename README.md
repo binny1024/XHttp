@@ -3,8 +3,12 @@
 #### 展示
 ![](https://github.com/Xbean1024/XHttp/blob/master/gif/3.gif)
 
-##### 引用方式
+##### 引用方式（各个版本）
+
        compile 'com.bean.libs:http:1.0.4'
+
+       //1.0.5 版本支持重定向
+       compile 'com.bean.libs:http:1.0.5'
 #### 请使用代理进行测试
 ### 一、网络请求，默认情况下不启用线程池
 #### 1.1、请求json
