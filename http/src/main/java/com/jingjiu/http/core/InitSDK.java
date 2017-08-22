@@ -4,12 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 
 import com.jingjiu.http.exception.AdException;
-import com.jingjiu.http.cache.DiskLruCacheHelper;
 
 import java.io.IOException;
 
-import static com.jingjiu.http.common.Configuration.AD_BITMAP_CACHE;
-import static com.jingjiu.http.common.Configuration.AD_LIST_CACHE;
 import static com.jingjiu.http.common.Verification.bWorking;
 
 /**
@@ -24,16 +21,6 @@ public final class InitSDK {
     @SuppressLint("StaticFieldLeak")
 
     static Context mContext;
-    static DiskLruCacheHelper mHelperAdImgCache;
-    static DiskLruCacheHelper mHelperAdListAndAdInfoCache;
-
-    public static DiskLruCacheHelper getmHelperAdImgCache() {
-        return mHelperAdImgCache;
-    }
-
-    public static DiskLruCacheHelper getmHelperAdListAndAdInfoCache() {
-        return mHelperAdListAndAdInfoCache;
-    }
 
     /**
      * 初始化工具类
@@ -49,12 +36,6 @@ public final class InitSDK {
         }
         if (mContext == null) {
             mContext = context.getApplicationContext();
-        }
-        if (mHelperAdImgCache == null) {
-            mHelperAdImgCache = new DiskLruCacheHelper(mContext, AD_BITMAP_CACHE);
-        }
-        if (mHelperAdListAndAdInfoCache == null) {
-            mHelperAdListAndAdInfoCache = new DiskLruCacheHelper(mContext, AD_LIST_CACHE);
         }
     }
 
