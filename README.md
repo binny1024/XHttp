@@ -139,8 +139,8 @@
             }
 #### 2、取消请求（TaskManager 取消请求）
 ###### 2.1、取消单个请求
-      TaskManager.getmInstance().cancel("bbb");
+      XHttp.getInstance().cancel("bbb");
 ###### 2.2、取消所有请求
-     TaskManager.getmInstance().cancelAll();
+     XHttp.getInstance().cancelAll();
 ##### QQ：交流群 ：192268854
 ![](https://github.com/Xbean1024/XHttp/blob/master/gif/QQ.JPG)
