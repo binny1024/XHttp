@@ -6,7 +6,7 @@ import android.util.Log;
 import com.jingjiu.http.core.http.callback.OnTaskCallback;
 import com.jingjiu.http.core.http.response.Response;
 import com.jingjiu.http.core.logger.JJLogger;
-import com.jingjiu.http.exception.AdException;
+import com.jingjiu.http.exception.SDKException;
 
 import java.io.DataOutputStream;
 import java.io.FileInputStream;
@@ -20,7 +20,6 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import static com.jingjiu.http.common.CommonMethod.toByteArray;
 import static com.jingjiu.http.common.Configuration.HANDLER;
@@ -228,7 +227,7 @@ public class HttpTask implements Runnable, IHttpTask {
         InputStream inputStream;
 
         if (mIntercept) {
-            mResponse.setErrorInfo(new AdException("用户取消操作"), CODE_CANCLE);
+            mResponse.setErrorInfo(new SDKException("用户取消操作"), CODE_CANCLE);
             mIntercept = false;
             postRun(mResponse, CODE_CANCLE,"");
             return;
@@ -239,19 +238,17 @@ public class HttpTask implements Runnable, IHttpTask {
         try {
             JJLogger.logInfo(TAG, "HttpTask.run :" + mUrl);
             if (TextUtils.isEmpty(mUrl)) {
-                mResponse.setErrorInfo(new AdException("url 为空！"), CODE_REQUEST_URL);
+                mResponse.setErrorInfo(new SDKException("url 为空！"), CODE_REQUEST_URL);
                 postRun(mResponse, CODE_REQUEST_URL, "");
                 return;
             }
             URL httpUrl = new URL(mUrl);
             httpUrlCon = (HttpURLConnection) httpUrl.openConnection();
-            responseCode = httpUrlCon.getResponseCode();
-            responseCodeStr = String.valueOf(responseCode);
-            redirection =httpUrlCon.getHeaderField("location");
+
             httpUrlCon.setConnectTimeout(mHttpTimeout);// 建立连接超时时间
             httpUrlCon.setReadTimeout(mHttpTimeout);//数据传输超时时间，很重要，必须设置。
             if (mIntercept) {
-                mResponse.setErrorInfo(new AdException("用户取消操作"), CODE_CANCLE);
+                mResponse.setErrorInfo(new SDKException("用户取消操作"), CODE_CANCLE);
                 mIntercept = false;
                 postRun(mResponse, responseCodeStr, responseCodeStr);
                 return;
@@ -261,7 +258,6 @@ public class HttpTask implements Runnable, IHttpTask {
                 JJLogger.logInfo(TAG, "HttpTask.run :" + mHeads.size());
                 for (Map.Entry<String, String> entry : mHeads.entrySet()) {
                     httpUrlCon.setRequestProperty(entry.getKey(), entry.getValue());
-                    JJLogger.logInfo(TAG, entry.getKey() + ":" + entry.getValue());
                 }
             }
             switch (mHttpType) {
@@ -284,7 +280,7 @@ public class HttpTask implements Runnable, IHttpTask {
                     httpUrlCon.setUseCaches(false); // 禁止缓存
                     DataOutputStream outputStream;
                     if (mIntercept) {
-                        mResponse.setErrorInfo(new AdException("用户取消操作"), CODE_CANCLE);
+                        mResponse.setErrorInfo(new SDKException("用户取消操作"), CODE_CANCLE);
                         mIntercept = false;
                         postRun(mResponse, responseCodeStr, "");
                         return;
@@ -332,7 +328,9 @@ public class HttpTask implements Runnable, IHttpTask {
                 default:
                     break;
             }
-
+            redirection =httpUrlCon.getHeaderField("location");
+            responseCode = httpUrlCon.getResponseCode();
+            responseCodeStr = String.valueOf(responseCode);
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 inputStream = httpUrlCon.getInputStream();
                 final byte[] bytes = toByteArray(inputStream);
@@ -341,7 +339,7 @@ public class HttpTask implements Runnable, IHttpTask {
             } else if (httpUrlCon.getResponseCode() == HttpURLConnection.HTTP_BAD_GATEWAY ) {
 
             }else {
-                mResponse.setErrorInfo(new AdException("找不到服务器 "), CODE_CONNECT);
+                mResponse.setErrorInfo(new SDKException("找不到服务器 "), CODE_CONNECT);
                 postRun(mResponse, String.valueOf(responseCode), redirection);
             }
         } catch (UnknownHostException e) {

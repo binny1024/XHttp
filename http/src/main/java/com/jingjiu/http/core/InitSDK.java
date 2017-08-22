@@ -3,7 +3,7 @@ package com.jingjiu.http.core;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
-import com.jingjiu.http.exception.AdException;
+import com.jingjiu.http.exception.SDKException;
 
 import java.io.IOException;
 
@@ -29,10 +29,10 @@ public final class InitSDK {
      * @param context 上下文
      * @throws IOException 初始化缓存失败
      */
-    public static void init(Context context) throws AdException, IOException {
+    public static void init(Context context) throws SDKException, IOException {
         if (context == null) {
             bWorking = false;
-            throw new AdException("请确保 init(Context context) 参数不为空!!!");
+            throw new SDKException("请确保 init(Context context) 参数不为空!!!");
         }
         if (mContext == null) {
             mContext = context.getApplicationContext();

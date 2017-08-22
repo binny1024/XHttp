@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.jingjiu.http.core.InitSDK;
 import com.jingjiu.http.core.logger.JJLogger;
-import com.jingjiu.http.exception.AdException;
+import com.jingjiu.http.exception.SDKException;
 
 import java.io.IOException;
 
@@ -21,7 +21,7 @@ public class App extends Application {
         try {
             InitSDK.init(this);
             JJLogger.debug(false);
-        } catch (AdException | IOException e) {
+        } catch (SDKException | IOException e) {
             e.printStackTrace();
         }
     }
