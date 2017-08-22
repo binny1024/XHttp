@@ -336,9 +336,7 @@ public class HttpTask implements Runnable, IHttpTask {
                 final byte[] bytes = toByteArray(inputStream);
                 mResponse.setBytes(bytes);
                 postRun(mResponse, String.valueOf(responseCode), "");
-            } else if (httpUrlCon.getResponseCode() == HttpURLConnection.HTTP_BAD_GATEWAY ) {
-
-            }else {
+            } else {
                 mResponse.setErrorInfo(new SDKException("找不到服务器 "), CODE_CONNECT);
                 postRun(mResponse, String.valueOf(responseCode), redirection);
             }

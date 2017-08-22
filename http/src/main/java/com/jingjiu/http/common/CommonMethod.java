@@ -1,7 +1,6 @@
 package com.jingjiu.http.common;
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -10,13 +9,9 @@ import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Environment;
 import android.view.View;
-
-import com.jingjiu.http.core.InitSDK;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -176,16 +171,7 @@ public class CommonMethod {
         return new BitmapDrawable(bm);
     }
 
-    public static ApplicationInfo getAdAppInfo() {
-        ApplicationInfo appInfo = null;
-        try {
-            appInfo = InitSDK.getContext().getPackageManager().getApplicationInfo(
-                    InitSDK.getContext().getPackageName(), PackageManager.GET_META_DATA);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return appInfo;
-    }
+
 
 
     //获得独一无二的Psuedo ID
@@ -210,23 +196,7 @@ public class CommonMethod {
         //使用硬件信息拼凑出来的15位号码
         return new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
     }
-    /**
-     * 检测网络是否连接
-     * @return
-     */
-    /**
-     * 判断当前是否有网络连接
-     * toast 是否开启内置的信息提示
-     * ture 开启弹窗提示用户
-     * false 不提示用户
-     */
-    public static boolean isActiveConnected() {
-        ConnectivityManager mConnectivityManager = (ConnectivityManager) InitSDK.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        ;
-        NetworkInfo mActiveNetworkInfo;//当前正在活动的网络
-        mActiveNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
-        return mActiveNetworkInfo != null && mActiveNetworkInfo.isConnected();
-    }
+
 
     public static byte[] toByteArray(InputStream in) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
