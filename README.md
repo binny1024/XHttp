@@ -17,7 +17,7 @@
 #### 请使用代理进行测试
 ### 一、网络请求，默认情况下不启用线程池
 #### 1.1、请求json
-          TaskManager.getInstance().initTask().get("http://3434343434")
+          XHttp.getInstance().initTask().get("http://3434343434")
                   .setTag("aaa")
                   .setOnTaskCallback(new OnTaskCallback() {
                       @Override
@@ -33,7 +33,7 @@
                       }
                   });
 #### 1.2、请求图片
-         TaskManager.getInstance().initTask().get("http://sdadadadasd")
+         XHttp.getInstance().initTask().get("http://sdadadadasd")
                    .setTag("bbb")
                    .setTimeout(5000)
                    .setOnTaskCallback(new OnTaskCallback() {
@@ -52,7 +52,7 @@
 #### 1.3、多文件上传
 	String basePtah = Environment.getExternalStorageDirectory().getPath();
 	String[] path = new String[]{basePtah+ "/setting.cfg",basePtah+"/Screenshot.png"};
-	TaskManager.getInstance()
+	XHttp.getInstance()
 				.initTask()
 				.post(WebApi.UPLOAD_FILE_URL)//url
   				.setHeads("platform","mobile_phone")//设置请求头
@@ -74,7 +74,7 @@
 #### 1.4、单文件上传
 	String basePtah = Environment.getExternalStorageDirectory().getPath();
 	String path = basePtah+ "/setting.cfg";
-	TaskManager.getInstance()
+	XHttp.getInstance()
 				.initTask()
 				.post(WebApi.UPLOAD_FILE_URL)//url
   				.setHeads("platform","mobile_phone")//设置请求头
@@ -97,7 +97,7 @@
 	 final StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < 20; i++) {
                 final int finalI = i;
-                TaskManager.getInstance().initTask().post(WebApi.LOGIN_URL)
+                XHttp.getInstance().initTask().post(WebApi.LOGIN_URL)
                         .setParams("account", mName.getText().toString())
                         .setParams("password", mAge.getText().toString())
                         .startConcurrenceThreadPool()
@@ -119,7 +119,7 @@
 	 final StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < 20; i++) {
                 final int finalI = i;
-                TaskManager.getInstance().initTask().post(WebApi.LOGIN_URL)
+                XHttp.getInstance().initTask().post(WebApi.LOGIN_URL)
                         .setParams("account", mName.getText().toString())
                         .setParams("password", mAge.getText().toString())
                         .startSerialThreadPool()
