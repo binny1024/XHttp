@@ -369,7 +369,7 @@ public class HttpTask implements Runnable, IHttpTask {
      * @param redirectUrl
      */
     private void postRun(final Response response, final String responseCode, final String redirectUrl) {
-        if (Objects.equals(responseCode, "302")) {
+        if (responseCode.equals( "302")) {
             new Thread(this).start();
             mUrl = redirectUrl;
             Log.i(TAG, "重定向地址: "+redirectUrl);

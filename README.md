@@ -8,7 +8,7 @@
        compile 'com.bean.libs:http:1.0.4'
 
        //1.0.5 版本支持重定向
-       compile 'com.bean.libs:http:1.0.5'
+       compile 'com.bean.libs:http:1.0.6'
 #### 请使用代理进行测试
 ### 一、网络请求，默认情况下不启用线程池
 #### 1.1、请求json
