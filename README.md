@@ -11,6 +11,9 @@
 ##### 登陆
 
 ![](https://github.com/Xbean1024/XHttp/blob/master/gif/login.gif)
+##### 注册
+
+![](https://github.com/Xbean1024/XHttp/blob/master/gif/register.gif)
 
 ##### 引用方式
 旧版本1.0.0 ：
@@ -21,6 +24,9 @@
     compile 'com.bean.libs:http:1.0.1'
 
 #### 请使用代理进行测试
+
+#### 打开日志开关，在 activity 或者 application 的onCreate()中调用
+    JJLogger.debug(true);
 ### 一、网络请求，默认情况下不启用线程池
 #### 1.1、请求json
           XHttp.getInstance()

@@ -7,22 +7,21 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.dragon.R;
-import com.dragon.abs.activity.FullscreenActivity;
-import com.dragon.constant.Code;
-import com.dragon.app.bean.LoginInfo;
-import com.google.gson.Gson;
 import com.bean.http.core.http.callback.OnTaskCallback;
 import com.bean.http.core.http.core.manager.XHttp;
 import com.bean.http.core.http.response.Response;
 import com.bean.http.core.logger.JJLogger;
+import com.dragon.R;
+import com.dragon.abs.activity.FullscreenActivity;
+import com.dragon.app.bean.LoginInfo;
+import com.google.gson.Gson;
 
+import static com.dragon.api.WebApi.REGISTER_URL;
 import static com.dragon.constant.Code.USER_NAME;
 import static com.dragon.constant.Code.USER_PASSWORD;
 import static com.dragon.manager.ManagerActivity.addActivityCST;
 import static com.dragon.manager.ManagerActivity.finishAllCST;
 import static com.dragon.util.UtilWidget.getView;
-import static com.dragon.api.WebApi.LOGIN_URL;
 import static com.dragon.util.UtilWidget.setViewAlphaAnimation;
 
 public class RegisterActivity extends FullscreenActivity {
@@ -62,9 +61,8 @@ public class RegisterActivity extends FullscreenActivity {
         if (checkAccountPassword(name, password, age)) {
             JJLogger.logInfo(TAG, "LoginActivity.loginOrRegister :");
             XHttp.getInstance()
-                    .get(LOGIN_URL)
+                    .get(REGISTER_URL)
                     .setParams(USER_NAME, name)
-                    .setParams("tag", Code.TAG_REGISTER)
                     .setParams(USER_PASSWORD, password)
                     .setParams("age", age)
                     .setParams("telephone", telephone)
