@@ -7,7 +7,7 @@
 3、支持重定向;
 
 
-#### demo展示(代传)
+#### demo展示
 ##### 登陆
 
 ![](https://github.com/Xbean1024/XHttp/blob/master/gif/login.gif)
