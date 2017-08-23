@@ -11,8 +11,7 @@
 ![](https://github.com/Xbean1024/XHttp/blob/master/gif/3.gif)
 
 ##### 引用方式
-[https://github.com/XBean1024/XHttp/blob/master/1.0.0.md](https://github.com/XBean1024/XHttp/blob/master/1.0.0.md "1.0.0版本使用文档.md")
-
+旧版本 ：[https://github.com/XBean1024/XHttp/blob/master/1.0.0.md ](https://github.com/XBean1024/XHttp/blob/master/1.0.0.md  "旧版本")
 
        新版本 ：
        compile 'com.bean.libs:http:1.0.1'
