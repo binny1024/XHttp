@@ -8,7 +8,8 @@
 
 
 #### demo展示(代传)
-![](https://github.com/Xbean1024/XHttp/blob/master/gif/3.gif)
+登陆
+![](https://github.com/Xbean1024/XHttp/blob/master/gif/login.gif)
 
 ##### 引用方式
 旧版本 ：[https://github.com/XBean1024/XHttp/blob/master/1.0.0.md ](https://github.com/XBean1024/XHttp/blob/master/1.0.0.md  "旧版本")
