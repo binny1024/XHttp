@@ -8,14 +8,17 @@
 
 
 #### demo展示(代传)
-登陆
+##### 登陆
+
 ![](https://github.com/Xbean1024/XHttp/blob/master/gif/login.gif)
 
 ##### 引用方式
-旧版本 ：[https://github.com/XBean1024/XHttp/blob/master/1.0.0.md ](https://github.com/XBean1024/XHttp/blob/master/1.0.0.md  "旧版本")
+旧版本1.0.0 ：
+[https://github.com/XBean1024/XHttp/blob/master/1.0.0.md ](https://github.com/XBean1024/XHttp/blob/master/1.0.0.md  "旧版本")
 
-       新版本 ：
-       compile 'com.bean.libs:http:1.0.1'
+新版本 ：
+
+    compile 'com.bean.libs:http:1.0.1'
 
 #### 请使用代理进行测试
 ### 一、网络请求，默认情况下不启用线程池
