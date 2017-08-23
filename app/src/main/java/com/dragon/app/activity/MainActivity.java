@@ -84,7 +84,7 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
         //item的 点击回调
         if (itemName.equals(getString(R.string.request_get))) {
             JJLogger.logInfo(TAG, "MainActivity.onItemClickedInList :");
-            XHttp.getInstance().initHttp().get(WebApi.LOGIN_URL)
+            XHttp.getInstance().get(WebApi.LOGIN_URL)
                     .setParams(USER_NAME, mName.getText().toString())
                     .setParams(USER_PASSWORD, mAge.getText().toString())
                     .setParams("tag", Code.TAG_LOGIN)
@@ -103,7 +103,7 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
                         }
                     });
         } else if (itemName.equals(getString(R.string.request_post))) {
-            XHttp.getInstance().initHttp().post(WebApi.LOGIN_URL)
+            XHttp.getInstance().post(WebApi.LOGIN_URL)
                     .setParams(USER_NAME, mName.getText().toString())
                     .setParams(USER_PASSWORD, mAge.getText().toString())
                     .setParams("tag", Code.TAG_LOGIN)
@@ -127,7 +127,7 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
             String basePtah = Environment.getExternalStorageDirectory().getPath();
             String[] path = new String[]{basePtah+ "/setting.cfg",basePtah+"/Screenshot.png"};
             JJLogger.logInfo(TAG,"MainActivity.onItemClickedInList :"+path);
-            XHttp.getInstance().initHttp().post(WebApi.UPLOAD_FILE_URL)
+            XHttp.getInstance().post(WebApi.UPLOAD_FILE_URL)
                     .uploadFiles(path)
                     .setHeads("platform","mobile_phone")
                     .setOnTaskCallback(new OnTaskCallback() {
@@ -149,7 +149,7 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
             final StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < 20; i++) {
                 final int finalI = i;
-                XHttp.getInstance().initHttp().post(WebApi.LOGIN_URL)
+                XHttp.getInstance().post(WebApi.LOGIN_URL)
                         .setParams(USER_NAME, mName.getText().toString())
                         .setParams(USER_PASSWORD, mAge.getText().toString())
                         .startConcurrenceThreadPool()
@@ -172,7 +172,7 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
             final StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < 20; i++) {
                 final int finalI = i;
-                XHttp.getInstance().initHttp().post(WebApi.LOGIN_URL)
+                XHttp.getInstance().post(WebApi.LOGIN_URL)
                         .setParams(USER_NAME, mName.getText().toString())
                         .setParams(USER_PASSWORD, mAge.getText().toString())
                         .startSerialThreadPool()

@@ -36,7 +36,6 @@ public class XHttp implements IHttpSettings<XHttp>, IThreadPoolSettings<XHttp> {
     private HttpTask mHttpTask;
 
 
-
     /**
      * 线程池
      */
@@ -110,11 +109,12 @@ public class XHttp implements IHttpSettings<XHttp>, IThreadPoolSettings<XHttp> {
         mHttpTask = new HttpTask();
         return mInstance;
     }
+
     @Override
     public XHttp startSerialThreadPool() {
         mStartSerailThreadPool = true;
         if (sSerialThreadPool == null) {
-            sSerialThreadPool = new ThreadPool(1,1,0L);
+            sSerialThreadPool = new ThreadPool(1, 1, 0L);
         }
         return mInstance;
     }
@@ -123,7 +123,7 @@ public class XHttp implements IHttpSettings<XHttp>, IThreadPoolSettings<XHttp> {
     public XHttp startConcurrenceThreadPool() {
         mStartCurrentThreadPool = true;
         if (sCurrentThreadPool == null) {
-            sCurrentThreadPool = new ThreadPool(CORE_POOL_SIZE,MAXIMUM_POOL_SIZE,KEEP_ALIVE);
+            sCurrentThreadPool = new ThreadPool(CORE_POOL_SIZE, MAXIMUM_POOL_SIZE, KEEP_ALIVE);
         }
         return mInstance;
     }
@@ -153,6 +153,7 @@ public class XHttp implements IHttpSettings<XHttp>, IThreadPoolSettings<XHttp> {
      */
     @Override
     public XHttp get(String url) {
+        mHttpTask = new HttpTask();
         mHttpTask.get(url);
         return mInstance;
     }
@@ -163,6 +164,7 @@ public class XHttp implements IHttpSettings<XHttp>, IThreadPoolSettings<XHttp> {
      */
     @Override
     public XHttp post(String url) {
+        mHttpTask = new HttpTask();
         mHttpTask.post(url);
         return mInstance;
     }
@@ -196,7 +198,7 @@ public class XHttp implements IHttpSettings<XHttp>, IThreadPoolSettings<XHttp> {
             return mInstance;
         }
         try {
-            mHttpTask.setParams(key, URLEncoder.encode(value,"utf-8"));
+            mHttpTask.setParams(key, URLEncoder.encode(value, "utf-8"));
         } catch (UnsupportedEncodingException e) {
             mHttpTask.setParams(key, value);
         }
@@ -266,7 +268,7 @@ public class XHttp implements IHttpSettings<XHttp>, IThreadPoolSettings<XHttp> {
         if (mStartSerailThreadPool && sSerialThreadPool != null) {
             //启用线程池
             mStartSerailThreadPool = false;
-           if (sSerialThreadPool.isShutdownPool() || sSerialThreadPool.isShutdownPool()) {
+            if (sSerialThreadPool.isShutdownPool() || sSerialThreadPool.isShutdownPool()) {
                 JJLogger.logInfo(TAG, "XHttp.start : 线程池已关闭 错误码：" + CODE_CANCLE);
                 return mInstance;
             }
@@ -275,7 +277,7 @@ public class XHttp implements IHttpSettings<XHttp>, IThreadPoolSettings<XHttp> {
             } catch (RejectedExecutionException e) {
                 JJLogger.logInfo(TAG, "XHttp.start :" + sCurrentThreadPool.getCount());
             }
-        }else if (mStartCurrentThreadPool && sCurrentThreadPool != null) {
+        } else if (mStartCurrentThreadPool && sCurrentThreadPool != null) {
             //启用线程池
             mStartCurrentThreadPool = false;
             if (sCurrentThreadPool.isShutdownPool() || sCurrentThreadPool.isShutdownPool()) {
@@ -287,7 +289,7 @@ public class XHttp implements IHttpSettings<XHttp>, IThreadPoolSettings<XHttp> {
             } catch (RejectedExecutionException e) {
                 JJLogger.logInfo(TAG, "XHttp.start :" + sCurrentThreadPool.getCount());
             }
-        }else {
+        } else {
             new Thread(mHttpTask).start();
         }
         return mInstance;

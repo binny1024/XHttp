@@ -104,7 +104,8 @@ public class LoginActivity extends FullscreenActivity implements MediaPlayer.OnP
         final String password = mPasswordEt.getText().toString();
 
         if (checkAccountPassword(name, password)) {
-            XHttp.getInstance().initHttp().post(WebApi.LOGIN_URL)
+            XHttp.getInstance()
+                    .post(WebApi.LOGIN_URL)
                     .setParams(USER_NAME, name)
                     .setParams("tag", Code.TAG_LOGIN)
                     .setParams("platform", "mobile_phone")
@@ -171,7 +172,8 @@ public class LoginActivity extends FullscreenActivity implements MediaPlayer.OnP
         new ModifyDialog(this).setOnModifyDialogListener(new ModifyDialog.OnModifyDialogListener() {
             @Override
             public void onSure(final String name, final String password, final String telephone, final Dialog dialog) {
-                XHttp.getInstance().initHttp().post(MODIFY_URL)
+                XHttp.getInstance()
+                        .post(MODIFY_URL)
                         .setParams(USER_NAME, name)
                         .setParams(USER_PASSWORD, password)
                         .setParams("telephone", telephone)
