@@ -11,7 +11,9 @@
 ![](https://github.com/Xbean1024/XHttp/blob/master/gif/3.gif)
 
 ##### 引用方式
-
+       旧版本：
+       [https://github.com/Xbean1024/XHttp/blob/master/gif/3.gif]
+       新版本 ：
        compile 'com.bean.libs:http:1.0.1'
 
 #### 请使用代理进行测试
