@@ -1,4 +1,4 @@
-package com.dragon.util;
+package com.dragon.widget;
 
 import android.app.Activity;
 import android.app.Dialog;

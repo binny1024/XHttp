@@ -24,7 +24,7 @@ import com.dragon.abs.activity.FullscreenActivity;
 import com.dragon.api.WebApi;
 import com.dragon.app.bean.LoginInfo;
 import com.dragon.constant.Code;
-import com.dragon.util.ModifyDialog;
+import com.dragon.widget.ModifyDialog;
 import com.google.gson.Gson;
 import com.bean.http.core.http.callback.OnTaskCallback;
 import com.bean.http.core.http.response.Response;
