@@ -21,7 +21,7 @@
 
 新版本 ：
 
-    compile 'com.bean.libs:http:1.0.1'
+    compile 'com.bean.libraries:xhttp:1.0.0'
 
 #### 请使用代理进行测试
 
