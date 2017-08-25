@@ -16,12 +16,8 @@
 ![](https://github.com/Xbean1024/XHttp/blob/master/gif/register.gif)
 
 ##### 引用方式
-旧版本1.0.0 ：
-[https://github.com/XBean1024/XHttp/blob/master/1.0.0.md ](https://github.com/XBean1024/XHttp/blob/master/1.0.0.md  "旧版本")
 
-新版本 ：
-
-    compile 'com.bean.libraries:xhttp:1.0.0'
+    compile 'com.bean.libraries:xhttp:1.0.1'
 
 #### 请使用代理进行测试
 
