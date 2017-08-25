@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.bean.http.core.http.callback.OnTaskCallback;
+import com.bean.http.core.http.callback.OnXHttpCallback;
 import com.bean.http.core.http.core.manager.XHttp;
 import com.bean.http.core.http.response.Response;
 import com.bean.http.core.logger.JJLogger;
@@ -66,7 +66,7 @@ public class RegisterActivity extends FullscreenActivity {
                     .setParams(USER_PASSWORD, password)
                     .setParams("age", age)
                     .setParams("telephone", telephone)
-                    .setOnTaskCallback(new OnTaskCallback() {
+                    .setOnXHttpCallback(new OnXHttpCallback() {
                         @Override
                         public void onSuccess(final Response response) {
                             JJLogger.logInfo(TAG,"LoginActivity.onSuccess :"+response.toString());

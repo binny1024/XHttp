@@ -3,7 +3,7 @@ package com.bean.http.core.http.core.task;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.bean.http.core.http.callback.OnTaskCallback;
+import com.bean.http.core.http.callback.OnXHttpCallback;
 import com.bean.http.core.http.response.Response;
 import com.bean.http.core.logger.JJLogger;
 import com.bean.http.exception.SDKException;
@@ -85,7 +85,7 @@ public class HttpTask implements Runnable, IHttpTask {
     /**
      * 清请求结果的回调
      */
-    private OnTaskCallback mTaskCallback;
+    private OnXHttpCallback mTaskCallback;
 
     // 产生随机分隔内容
     private final String mBoundary = java.util.UUID.randomUUID().toString();
@@ -206,7 +206,7 @@ public class HttpTask implements Runnable, IHttpTask {
     }
 
     @Override
-    public IHttpTask setOnTaskCallback(OnTaskCallback taskCallback) {
+    public IHttpTask setOnXHttpCallback(OnXHttpCallback taskCallback) {
         mTaskCallback = taskCallback;
         return this;
     }

@@ -8,7 +8,7 @@ import com.bean.http.core.http.response.Response;
  * function
  */
 
-public interface OnTaskCallback {
+public interface OnXHttpCallback {
     /**
      * 请求成功
      *

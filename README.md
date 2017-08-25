@@ -32,7 +32,7 @@
           XHttp.getInstance()
                   .get("http://3434343434")
                   .setTag("aaa")
-                  .setOnTaskCallback(new OnTaskCallback() {
+                  .setOnXHttpCallback(new OnXHttpCallback() {
                       @Override
                       public void onSuccess(Response response) {
                           Log.i("xxx", "response  " +response.toString());
@@ -50,7 +50,7 @@
                    .get("http://sdadadadasd")
                    .setTag("bbb")
                    .setTimeout(5000)
-                   .setOnTaskCallback(new OnTaskCallback() {
+                   .setOnXHttpCallback(new OnXHttpCallback() {
                        @Override
                        public void onSuccess(final Response response) {
                            mImageView.setImageBitmap(response.toBitmap());
@@ -71,7 +71,7 @@
                         .setParams(USER_PASSWORD, mAge.getText().toString())
                         .setParams("tag", Code.TAG_LOGIN)
                         .setParams("platform", "mobile_phone")
-                        .setOnTaskCallback(new OnTaskCallback() {
+                        .setOnXHttpCallback(new OnXHttpCallback() {
                             @Override
                             public void onSuccess(final Response response) {
                                 JJLogger.logInfo(TAG, "MainActivity.onSuccess :" +
@@ -92,7 +92,7 @@
             .post(WebApi.UPLOAD_FILE_URL)//url
             .setHeads("platform","mobile_phone")//设置请求头
             .uploadFile(path)//文件路径（完整路径）
-            .setOnTaskCallback(new OnTaskCallback() {
+            .setOnXHttpCallback(new OnXHttpCallback() {
                 @Override
                 public void onSuccess(final Response response) {
                     JJLogger.logInfo(TAG,"MainActivity.onSuccess :"+
@@ -115,7 +115,7 @@
             .setParams("account", mName.getText().toString())
             .setParams("password", mAge.getText().toString())
             .startConcurrenceThreadPool()
-            .setOnTaskCallback(new OnTaskCallback() {
+            .setOnXHttpCallback(new OnXHttpCallback() {
                 @Override
                 public void onSuccess(final Response response) {
                     Log.i("task","MainActivity.onSuccess 任务"+ finalI +"完成:");
@@ -138,7 +138,7 @@
         .setParams("account", mName.getText().toString())
         .setParams("password", mAge.getText().toString())
         .startSerialThreadPool()
-        .setOnTaskCallback(new OnTaskCallback() {
+        .setOnXHttpCallback(new OnXHttpCallback() {
             @Override
             public void onSuccess(final Response response) {
                 Log.i("task","MainActivity.onSuccess 任务"+ finalI +"完成:");
@@ -152,7 +152,7 @@
             }
         });
     }
-#### 2、取消请求（TaskManager 取消请求）
+#### 2、取消请求（XHttpManager 取消请求）
 ###### 2.1、取消单个请求
       XHttp.getInstance().cancel("bbb");
 ###### 2.2、取消所有请求

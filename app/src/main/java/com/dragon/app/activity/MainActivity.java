@@ -17,7 +17,7 @@ import com.dragon.app.itemview.data.Data;
 import com.dragon.app.itemview.helper.ViewHolderHelperMain;
 import com.dragon.constant.Code;
 import com.dragon.widget.BaseTitleBar;
-import com.bean.http.core.http.callback.OnTaskCallback;
+import com.bean.http.core.http.callback.OnXHttpCallback;
 import com.bean.http.core.http.core.manager.XHttp;
 import com.bean.http.core.http.response.Response;
 import com.bean.http.core.logger.JJLogger;
@@ -89,7 +89,7 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
                     .setParams(USER_PASSWORD, mAge.getText().toString())
                     .setParams("tag", Code.TAG_LOGIN)
                     .setParams("platform", "mobile_phone")
-                    .setOnTaskCallback(new OnTaskCallback() {
+                    .setOnXHttpCallback(new OnXHttpCallback() {
                         @Override
                         public void onSuccess(final Response response) {
                             JJLogger.logInfo(TAG, "MainActivity.onSuccess :" +
@@ -108,7 +108,7 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
                     .setParams(USER_PASSWORD, mAge.getText().toString())
                     .setParams("tag", Code.TAG_LOGIN)
                     .setParams("platform", "mobile_phone")
-                    .setOnTaskCallback(new OnTaskCallback() {
+                    .setOnXHttpCallback(new OnXHttpCallback() {
                         @Override
                         public void onSuccess(final Response response) {
                             JJLogger.logInfo(TAG, "MainActivity.onSuccess :" +
@@ -130,7 +130,7 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
             XHttp.getInstance().post(WebApi.UPLOAD_FILE_URL)
                     .uploadFiles(path)
                     .setHeads("platform","mobile_phone")
-                    .setOnTaskCallback(new OnTaskCallback() {
+                    .setOnXHttpCallback(new OnXHttpCallback() {
                         @Override
                         public void onSuccess(final Response response) {
                             JJLogger.logInfo(TAG,"MainActivity.onSuccess :"+
@@ -153,7 +153,7 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
                         .setParams(USER_NAME, mName.getText().toString())
                         .setParams(USER_PASSWORD, mAge.getText().toString())
                         .startConcurrenceThreadPool()
-                        .setOnTaskCallback(new OnTaskCallback() {
+                        .setOnXHttpCallback(new OnXHttpCallback() {
                             @Override
                             public void onSuccess(final Response response) {
                                 Log.i("task","MainActivity.onSuccess 任务"+ finalI +"完成:");
@@ -176,7 +176,7 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
                         .setParams(USER_NAME, mName.getText().toString())
                         .setParams(USER_PASSWORD, mAge.getText().toString())
                         .startSerialThreadPool()
-                        .setOnTaskCallback(new OnTaskCallback() {
+                        .setOnXHttpCallback(new OnXHttpCallback() {
                             @Override
                             public void onSuccess(final Response response) {
                                 Log.i("task","MainActivity.onSuccess 任务"+ finalI +"完成:");

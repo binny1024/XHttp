@@ -4,7 +4,7 @@ package com.bean.http.core.http.core.manager;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.bean.http.core.http.callback.OnTaskCallback;
+import com.bean.http.core.http.callback.OnXHttpCallback;
 import com.bean.http.core.http.core.IHttpSettings;
 import com.bean.http.core.http.core.IThreadPoolSettings;
 import com.bean.http.core.http.core.pool.IThreadPool;
@@ -263,8 +263,8 @@ public class XHttp implements IHttpSettings<XHttp>, IThreadPoolSettings<XHttp> {
     }
 
     @Override
-    public XHttp setOnTaskCallback(final OnTaskCallback taskCallback) {
-        mHttpTask.setOnTaskCallback(taskCallback);
+    public XHttp setOnXHttpCallback(final OnXHttpCallback taskCallback) {
+        mHttpTask.setOnXHttpCallback(taskCallback);
         if (mStartSerailThreadPool && sSerialThreadPool != null) {
             //启用线程池
             mStartSerailThreadPool = false;

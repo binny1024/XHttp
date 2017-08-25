@@ -26,7 +26,7 @@ import com.dragon.app.bean.LoginInfo;
 import com.dragon.constant.Code;
 import com.dragon.widget.ModifyDialog;
 import com.google.gson.Gson;
-import com.bean.http.core.http.callback.OnTaskCallback;
+import com.bean.http.core.http.callback.OnXHttpCallback;
 import com.bean.http.core.http.response.Response;
 import com.bean.http.core.logger.JJLogger;
 
@@ -110,7 +110,7 @@ public class LoginActivity extends FullscreenActivity implements MediaPlayer.OnP
                     .setParams("tag", Code.TAG_LOGIN)
                     .setParams("platform", "mobile_phone")
                     .setParams(USER_PASSWORD, password)
-                    .setOnTaskCallback(new OnTaskCallback() {
+                    .setOnXHttpCallback(new OnXHttpCallback() {
                         @Override
                         public void onSuccess(final Response response) {
                             JJLogger.logInfo(TAG, "LoginActivity.onSuccess :" + response.toString());
@@ -177,7 +177,7 @@ public class LoginActivity extends FullscreenActivity implements MediaPlayer.OnP
                         .setParams(USER_NAME, name)
                         .setParams(USER_PASSWORD, password)
                         .setParams("telephone", telephone)
-                        .setOnTaskCallback(new OnTaskCallback() {
+                        .setOnXHttpCallback(new OnXHttpCallback() {
                             @Override
                             public void onSuccess(final Response response) {
 

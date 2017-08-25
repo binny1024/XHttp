@@ -1,6 +1,6 @@
 package com.bean.http.core.http.core;
 
-import com.bean.http.core.http.callback.OnTaskCallback;
+import com.bean.http.core.http.callback.OnXHttpCallback;
 
 import java.util.Map;
 
@@ -93,6 +93,6 @@ public interface IHttpSettings <T>{
      *
      * @param taskCallback 回调接口
      */
-    T setOnTaskCallback(OnTaskCallback taskCallback);
+    T setOnXHttpCallback(OnXHttpCallback taskCallback);
 
 }
