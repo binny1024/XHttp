@@ -8,6 +8,7 @@ import android.view.View;
  * status bar and navigation/system bar) with user interaction.
  */
 public abstract class FullscreenActivity extends BaseActivity  {
+    protected String mErrorInfo;
     @Override
     protected void initSystemUI() {
         super.initSystemUI();

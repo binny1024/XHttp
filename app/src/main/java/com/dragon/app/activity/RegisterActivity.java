@@ -23,12 +23,12 @@ import static com.dragon.manager.ManagerActivity.addActivityCST;
 import static com.dragon.manager.ManagerActivity.finishAllCST;
 import static com.dragon.util.UtilWidget.getView;
 import static com.dragon.util.UtilWidget.setViewAlphaAnimation;
+import static com.dragon.util.UtilWidget.showErrorInfo;
 
 public class RegisterActivity extends FullscreenActivity {
     protected final String TAG = this.getClass().getSimpleName();
     protected EditText mAccountAct;
     protected EditText mPasswordEt;
-    protected String errorInfo;
     protected EditText mAge;
     protected EditText mTeltphone;
 
@@ -80,7 +80,7 @@ public class RegisterActivity extends FullscreenActivity {
                                     finishAllCST();
                                     break;
                                 default:
-                                    Toast.makeText(RegisterActivity.this, "注册失败！", Toast.LENGTH_SHORT).show();
+                                    showErrorInfo(RegisterActivity.this, userBean.getMsg());
                                     break;
                             }
                         }
@@ -91,17 +91,18 @@ public class RegisterActivity extends FullscreenActivity {
                         }
                     });
         } else {
-            Toast.makeText(this, "您的 " + errorInfo + " !", Toast.LENGTH_SHORT).show();
+            showErrorInfo(RegisterActivity.this, mErrorInfo);
+
         }
     }
 
     protected boolean checkAccountPassword(final String account, final String password, final CharSequence age) {
         if (TextUtils.isEmpty(account)) {
-            errorInfo = "账号为空";
+            mErrorInfo = "账号为空";
             return false;
         }
         if (TextUtils.isEmpty(password)) {
-            errorInfo = "密码为空";
+            mErrorInfo = "密码为空";
             return false;
         }
         return true;

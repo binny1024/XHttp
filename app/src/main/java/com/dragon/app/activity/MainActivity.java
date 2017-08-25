@@ -6,8 +6,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.bean.http.core.http.callback.OnXHttpCallback;
+import com.bean.http.core.http.core.manager.XHttp;
+import com.bean.http.core.http.response.Response;
+import com.bean.http.core.logger.JJLogger;
 import com.dragon.R;
 import com.dragon.abs.activity.FullscreenActivity;
 import com.dragon.api.WebApi;
@@ -17,10 +20,6 @@ import com.dragon.app.itemview.data.Data;
 import com.dragon.app.itemview.helper.ViewHolderHelperMain;
 import com.dragon.constant.Code;
 import com.dragon.widget.BaseTitleBar;
-import com.bean.http.core.http.callback.OnXHttpCallback;
-import com.bean.http.core.http.core.manager.XHttp;
-import com.bean.http.core.http.response.Response;
-import com.bean.http.core.logger.JJLogger;
 import com.smart.holder.CommonAdapter;
 
 import java.util.ArrayList;
@@ -29,6 +28,7 @@ import java.util.List;
 import static com.dragon.constant.Code.USER_NAME;
 import static com.dragon.constant.Code.USER_PASSWORD;
 import static com.dragon.util.UtilWidget.getView;
+import static com.dragon.util.UtilWidget.showErrorInfo;
 
 
 public class MainActivity extends FullscreenActivity implements ViewHolderItemClickedCallback {
@@ -66,7 +66,7 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
 
             @Override
             public void onRightButton() {
-                Toast.makeText(MainActivity.this, "分享", Toast.LENGTH_SHORT).show();
+                showErrorInfo(MainActivity.this,  "分享");
             }
         });
         List<BeanMainActivity> mItemBeanList = new ArrayList<>();
@@ -94,7 +94,7 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
                         public void onSuccess(final Response response) {
                             JJLogger.logInfo(TAG, "MainActivity.onSuccess :" +
                                     response.toString());
-                            Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_LONG).show();
+                            showErrorInfo(MainActivity.this,  response.toString());
                         }
 
                         @Override
@@ -113,7 +113,7 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
                         public void onSuccess(final Response response) {
                             JJLogger.logInfo(TAG, "MainActivity.onSuccess :" +
                                     response.toString());
-                            Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_LONG).show();
+                            showErrorInfo(MainActivity.this,  response.toString());
 
                         }
 
@@ -135,7 +135,7 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
                         public void onSuccess(final Response response) {
                             JJLogger.logInfo(TAG,"MainActivity.onSuccess :"+
                                     response.toString());
-                            Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_LONG).show();
+                            showErrorInfo(MainActivity.this,  response.toString());
 
                         }
 

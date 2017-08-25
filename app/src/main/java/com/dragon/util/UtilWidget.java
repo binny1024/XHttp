@@ -1,6 +1,7 @@
 package com.dragon.util;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 
@@ -32,4 +33,9 @@ public final class UtilWidget {
         view.startAnimation(alphaAni);        // 添加光效动画到VIew
     }
 
+    public static void showErrorInfo(Activity activity,final String message) {
+        new AlertDialog.Builder(activity)
+                .setTitle(" 出错啦 ").setMessage(message)
+                .setPositiveButton(" 确定 ", null).show();
+    }
 }

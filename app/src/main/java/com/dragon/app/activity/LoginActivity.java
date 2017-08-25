@@ -18,7 +18,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.bean.http.core.http.callback.OnXHttpCallback;
 import com.bean.http.core.http.core.manager.XHttp;
+import com.bean.http.core.http.response.Response;
+import com.bean.http.core.logger.JJLogger;
 import com.dragon.R;
 import com.dragon.abs.activity.FullscreenActivity;
 import com.dragon.api.WebApi;
@@ -26,9 +29,6 @@ import com.dragon.app.bean.LoginInfo;
 import com.dragon.constant.Code;
 import com.dragon.widget.ModifyDialog;
 import com.google.gson.Gson;
-import com.bean.http.core.http.callback.OnXHttpCallback;
-import com.bean.http.core.http.response.Response;
-import com.bean.http.core.logger.JJLogger;
 
 import static com.dragon.api.WebApi.MODIFY_URL;
 import static com.dragon.constant.Code.USER_NAME;
@@ -37,6 +37,7 @@ import static com.dragon.manager.ManagerActivity.addActivityCST;
 import static com.dragon.manager.ManagerActivity.finishAllCST;
 import static com.dragon.util.UtilWidget.getView;
 import static com.dragon.util.UtilWidget.setViewAlphaAnimation;
+import static com.dragon.util.UtilWidget.showErrorInfo;
 
 /**
  * A login screen that offers login via email/password.
@@ -46,7 +47,6 @@ public class LoginActivity extends FullscreenActivity implements MediaPlayer.OnP
     protected final String TAG = this.getClass().getSimpleName();
     protected EditText mAccountAct;
     protected EditText mPasswordEt;
-    protected String errorInfo;
     private VideoView mSpalshVideo;
     private TextView mItemTv;
 
@@ -122,21 +122,23 @@ public class LoginActivity extends FullscreenActivity implements MediaPlayer.OnP
                                     intoApp();
                                     break;
                                 default:
-                                    Toast.makeText(LoginActivity.this, userBean.getMsg(), Toast.LENGTH_SHORT).show();
+                                    showErrorInfo(LoginActivity.this,userBean.getMsg());
                                     break;
                             }
                         }
 
                         @Override
                         public void onFailure(final Exception ex, final String errorCode) {
-                            Log.i(TAG, "onFailure: " + ex.getMessage());
+                            showErrorInfo(LoginActivity.this,ex.getMessage());
                             intoApp();
                         }
                     });
         } else {
-            Toast.makeText(this, "错误： " + errorInfo + " !", Toast.LENGTH_SHORT).show();
+            showErrorInfo(LoginActivity.this, mErrorInfo);
         }
     }
+
+
 
     private void intoApp() {
         startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -145,11 +147,11 @@ public class LoginActivity extends FullscreenActivity implements MediaPlayer.OnP
 
     protected boolean checkAccountPassword(final String account, final String password) {
         if (TextUtils.isEmpty(account)) {
-            errorInfo = "账号为空";
+            mErrorInfo = "账号为空";
             return false;
         }
         if (TextUtils.isEmpty(password)) {
-            errorInfo = "密码为空";
+            mErrorInfo = "密码为空";
             return false;
         }
         return true;
