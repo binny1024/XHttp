@@ -18,21 +18,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.bean.http.core.http.callback.OnXHttpCallback;
-import com.bean.http.core.http.core.manager.XHttp;
-import com.bean.http.core.http.response.Response;
-import com.bean.http.core.logger.JJLogger;
+import com.bean.xhttp.core.http.callback.OnXHttpCallback;
+import com.bean.xhttp.XHttp;
+import com.bean.xhttp.core.http.response.Response;
+import com.bean.xhttp.core.logger.JJLogger;
 import com.dragon.R;
 import com.dragon.abs.activity.FullscreenActivity;
 import com.dragon.api.WebApi;
 import com.dragon.app.bean.LoginInfo;
-import com.dragon.constant.Code;
 import com.dragon.widget.ModifyDialog;
 import com.google.gson.Gson;
 
 import static com.dragon.api.WebApi.MODIFY_URL;
 import static com.dragon.constant.Code.USER_NAME;
 import static com.dragon.constant.Code.USER_PASSWORD;
+import static com.dragon.constant.Code.USER_PLATFORM;
 import static com.dragon.manager.ManagerActivity.addActivityCST;
 import static com.dragon.manager.ManagerActivity.finishAllCST;
 import static com.dragon.util.UtilWidget.getView;
@@ -107,8 +107,7 @@ public class LoginActivity extends FullscreenActivity implements MediaPlayer.OnP
             XHttp.getInstance()
                     .post(WebApi.LOGIN_URL)
                     .setParams(USER_NAME, name)
-                    .setParams("tag", Code.TAG_LOGIN)
-                    .setParams("platform", "mobile_phone")
+                    .setParams(USER_PLATFORM, "mobile_phone")
                     .setParams(USER_PASSWORD, password)
                     .setOnXHttpCallback(new OnXHttpCallback() {
                         @Override

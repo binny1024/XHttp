@@ -1,4 +1,4 @@
-package com.bean.http.core.logger;
+package com.bean.xhttp.core.logger;
 
 import android.text.TextUtils;
 import android.util.Log;

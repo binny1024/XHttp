@@ -1,7 +1,7 @@
-package com.bean.http.core.http.callback;
+package com.bean.xhttp.core.http.callback;
 
 
-import com.bean.http.core.http.response.Response;
+import com.bean.xhttp.core.http.response.Response;
 
 /**
  * author xander on  2017/7/25.

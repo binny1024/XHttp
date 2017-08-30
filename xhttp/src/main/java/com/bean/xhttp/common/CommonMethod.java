@@ -1,4 +1,4 @@
-package com.bean.http.common;
+package com.bean.xhttp.common;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;

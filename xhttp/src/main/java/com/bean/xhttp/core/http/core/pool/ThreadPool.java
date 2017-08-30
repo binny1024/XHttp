@@ -1,4 +1,4 @@
-package com.bean.http.core.http.core.pool;
+package com.bean.xhttp.core.http.core.pool;
 
 import android.util.Log;
 

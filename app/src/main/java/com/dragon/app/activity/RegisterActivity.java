@@ -7,10 +7,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.bean.http.core.http.callback.OnXHttpCallback;
-import com.bean.http.core.http.core.manager.XHttp;
-import com.bean.http.core.http.response.Response;
-import com.bean.http.core.logger.JJLogger;
+import com.bean.xhttp.core.http.callback.OnXHttpCallback;
+import com.bean.xhttp.XHttp;
+import com.bean.xhttp.core.http.response.Response;
+import com.bean.xhttp.core.logger.JJLogger;
 import com.dragon.R;
 import com.dragon.abs.activity.FullscreenActivity;
 import com.dragon.app.bean.LoginInfo;

@@ -1,4 +1,4 @@
-package com.bean.http.core.http.response;
+package com.bean.xhttp.core.http.response;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

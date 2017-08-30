@@ -1,4 +1,4 @@
-package com.bean.http.exception;
+package com.bean.xhttp.exception;
 
 /**
  * function

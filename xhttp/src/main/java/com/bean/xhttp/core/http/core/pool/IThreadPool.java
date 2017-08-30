@@ -1,4 +1,4 @@
-package com.bean.http.core.http.core.pool;
+package com.bean.xhttp.core.http.core.pool;
 
 /**
  * author xander on  2017/8/10.
