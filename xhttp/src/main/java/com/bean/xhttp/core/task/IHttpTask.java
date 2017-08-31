@@ -1,6 +1,6 @@
-package com.bean.xhttp.core.http.core.task;
+package com.bean.xhttp.core.task;
 
-import com.bean.xhttp.core.http.core.IHttpSettings;
+import com.bean.xhttp.core.IHttpSettings;
 
 /**
  * author xander on  2017/7/27.

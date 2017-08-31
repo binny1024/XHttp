@@ -1,4 +1,4 @@
-package com.bean.xhttp.common;
+package com.bean.common;
 
 /**
  * function sdk 错误码

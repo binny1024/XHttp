@@ -3,11 +3,11 @@ package com.dragon;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
-import com.bean.xhttp.exception.SDKException;
+import com.bean.exception.SDKException;
 
 import java.io.IOException;
 
-import static com.bean.xhttp.common.Verification.bWorking;
+import static com.bean.common.Verification.bWorking;
 
 /**
 

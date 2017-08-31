@@ -1,4 +1,4 @@
-package com.bean.xhttp.common;
+package com.bean.common;
 
 import android.os.Handler;
 import android.os.Looper;

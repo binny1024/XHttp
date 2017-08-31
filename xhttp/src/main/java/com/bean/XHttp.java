@@ -1,16 +1,16 @@
-package com.bean.xhttp;
+package com.bean;
 
 
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.bean.xhttp.core.http.callback.OnXHttpCallback;
-import com.bean.xhttp.core.http.core.IHttpSettings;
-import com.bean.xhttp.core.http.core.IThreadPoolSettings;
-import com.bean.xhttp.core.http.core.pool.IThreadPool;
-import com.bean.xhttp.core.http.core.pool.ThreadPool;
-import com.bean.xhttp.core.http.core.task.HttpTask;
-import com.bean.xhttp.core.logger.JJLogger;
+import com.bean.xhttp.callback.OnXHttpCallback;
+import com.bean.xhttp.core.IHttpSettings;
+import com.bean.xhttp.core.IThreadPoolSettings;
+import com.bean.xhttp.core.pool.IThreadPool;
+import com.bean.xhttp.core.pool.ThreadPool;
+import com.bean.xhttp.core.task.HttpTask;
+import com.bean.logger.JJLogger;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.RejectedExecutionException;
 
-import static com.bean.xhttp.common.ErrorCode.CODE_CANCLE;
+import static com.bean.common.ErrorCode.CODE_CANCLE;
 
 
 /**

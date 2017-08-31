@@ -1,12 +1,12 @@
-package com.bean.xhttp.core.http.core.task;
+package com.bean.xhttp.core.task;
 
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.bean.xhttp.core.http.callback.OnXHttpCallback;
-import com.bean.xhttp.core.http.response.Response;
-import com.bean.xhttp.core.logger.JJLogger;
-import com.bean.xhttp.exception.SDKException;
+import com.bean.xhttp.callback.OnXHttpCallback;
+import com.bean.xhttp.response.Response;
+import com.bean.logger.JJLogger;
+import com.bean.exception.SDKException;
 
 import java.io.DataOutputStream;
 import java.io.FileInputStream;
@@ -21,13 +21,13 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.bean.xhttp.common.CommonMethod.toByteArray;
-import static com.bean.xhttp.common.Configuration.HANDLER;
-import static com.bean.xhttp.common.ErrorCode.CODE_CANCLE;
-import static com.bean.xhttp.common.ErrorCode.CODE_CONNECT;
-import static com.bean.xhttp.common.ErrorCode.CODE_CONNECT_UNKNOWN_HOST;
-import static com.bean.xhttp.common.ErrorCode.CODE_REQUEST_URL;
-import static com.bean.xhttp.common.ErrorCode.CODE_TIME_OUT;
+import static com.bean.common.CommonMethod.toByteArray;
+import static com.bean.common.Configuration.HANDLER;
+import static com.bean.common.ErrorCode.CODE_CANCLE;
+import static com.bean.common.ErrorCode.CODE_CONNECT;
+import static com.bean.common.ErrorCode.CODE_CONNECT_UNKNOWN_HOST;
+import static com.bean.common.ErrorCode.CODE_REQUEST_URL;
+import static com.bean.common.ErrorCode.CODE_TIME_OUT;
 
 public class HttpTask implements Runnable, IHttpTask {
 

@@ -1,6 +1,6 @@
-package com.bean.xhttp.core.http.core;
+package com.bean.xhttp.core;
 
-import com.bean.xhttp.core.http.callback.OnXHttpCallback;
+import com.bean.xhttp.callback.OnXHttpCallback;
 
 import java.util.Map;
 

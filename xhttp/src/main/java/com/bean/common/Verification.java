@@ -1,4 +1,4 @@
-package com.bean.xhttp.common;
+package com.bean.common;
 
 /**
  * author xander on  2017/7/28.
