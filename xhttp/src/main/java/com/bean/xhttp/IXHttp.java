@@ -1,4 +1,4 @@
-package com.bean.xhttp.core;
+package com.bean.xhttp;
 
 import com.bean.xhttp.core.pool.IThreadPool;
 
@@ -7,13 +7,7 @@ import com.bean.xhttp.core.pool.IThreadPool;
  * function 对线程池的操作
  */
 
-public interface IThreadPoolSettings<T extends IThreadPoolSettings> {
-    /**
-     * 初始化 任务
-     *
-     * @return 该接口的实例
-     */
-    T initHttp();
+public interface IXHttp<T extends IXHttp> {
     /**
      * 该任务的一个人标志，身份
      *

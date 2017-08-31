@@ -1,12 +1,11 @@
-package com.bean;
+package com.bean.xhttp;
 
 
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.bean.xhttp.callback.OnXHttpCallback;
-import com.bean.xhttp.core.IHttpSettings;
-import com.bean.xhttp.core.IThreadPoolSettings;
+import com.bean.xhttp.core.IHttp;
 import com.bean.xhttp.core.pool.IThreadPool;
 import com.bean.xhttp.core.pool.ThreadPool;
 import com.bean.xhttp.core.task.HttpTask;
@@ -26,7 +25,7 @@ import static com.bean.common.ErrorCode.CODE_CANCLE;
  * function  处理具体的业务逻辑 ，获取字符串
  */
 @SuppressWarnings("unchecked")
-public class XHttp implements IHttpSettings<XHttp>, IThreadPoolSettings<XHttp> {
+public class XHttp implements IHttp<XHttp>, IXHttp<XHttp> {
 
     private final String TAG = "xander";
 
@@ -84,13 +83,11 @@ public class XHttp implements IHttpSettings<XHttp>, IThreadPoolSettings<XHttp> {
 
     private static class SingletonHolder {
         private static final XHttp TASK_MANAGER = new XHttp();
-        ;
     }
 
     //定义一个共有的静态方法，返回该类型实例
     public static XHttp getInstance() {
-        mInstance = SingletonHolder.TASK_MANAGER;
-        return mInstance;
+        return SingletonHolder.TASK_MANAGER;
     }
 
     @Override
@@ -101,12 +98,6 @@ public class XHttp implements IHttpSettings<XHttp>, IThreadPoolSettings<XHttp> {
             }
             mTaskMap.put(tag, mHttpTask);//用于管理任务
         }
-        return mInstance;
-    }
-
-    @Override
-    public XHttp initHttp() {
-        mHttpTask = new HttpTask();
         return mInstance;
     }
 

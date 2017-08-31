@@ -9,7 +9,7 @@ import java.util.Map;
  * function 对 http 的设置
  */
 
-public interface IHttpSettings <T>{
+public interface IHttp<T>{
 
 
     /**

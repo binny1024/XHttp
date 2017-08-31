@@ -5,7 +5,7 @@ package com.bean.exception;
  */
 
 public class SDKException extends Exception {
-    String mErrorCode;
+    private String mErrorCode;
 
     public String getErrorCode() {
         return mErrorCode;

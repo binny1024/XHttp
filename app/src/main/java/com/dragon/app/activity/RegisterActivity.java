@@ -8,7 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.bean.xhttp.callback.OnXHttpCallback;
-import com.bean.XHttp;
+import com.bean.xhttp.XHttp;
 import com.bean.xhttp.response.Response;
 import com.bean.logger.JJLogger;
 import com.dragon.R;
