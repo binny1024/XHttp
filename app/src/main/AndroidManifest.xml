@@ -16,14 +16,16 @@
 
         <!-- 开屏页、启动页 -->
         <activity android:name=".SplashActivity">
+
+        </activity>
+        <!-- QQ 主界面 -->
+        <activity android:name=".app.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <!-- QQ 主界面 -->
-        <activity android:name=".app.activity.MainActivity"/>
         <!-- QQ 登录界面 -->
         <activity android:name=".app.activity.LoginActivity"/>
         <!-- QQ 注册界面 -->

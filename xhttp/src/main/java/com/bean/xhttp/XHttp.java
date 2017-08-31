@@ -22,7 +22,8 @@ import static com.bean.common.ErrorCode.CODE_CANCLE;
 
 /**
  * author xander on  2017/5/31.
- * function  处理具体的业务逻辑 ，获取字符串
+ * function  处理具体的业务逻辑 ，管理线程池
+ *
  */
 @SuppressWarnings("unchecked")
 public class XHttp implements IHttp<XHttp>, IXHttp<XHttp> {
@@ -87,7 +88,8 @@ public class XHttp implements IHttp<XHttp>, IXHttp<XHttp> {
 
     //定义一个共有的静态方法，返回该类型实例
     public static XHttp getInstance() {
-        return SingletonHolder.TASK_MANAGER;
+        mInstance =SingletonHolder.TASK_MANAGER;
+        return mInstance;
     }
 
     @Override

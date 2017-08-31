@@ -12,4 +12,5 @@ public class WebApi {
     public  static final String REGISTER_URL = HOST+"/register";
     public  static final String MODIFY_URL = HOST+"/modify";
     public  static final String UPLOAD_FILE_URL = HOST+"/upload";
+    public  static final String HTTPS = "/upload";
 }

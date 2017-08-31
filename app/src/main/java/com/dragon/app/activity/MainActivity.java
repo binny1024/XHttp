@@ -7,10 +7,10 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 
-import com.bean.xhttp.callback.OnXHttpCallback;
-import com.bean.xhttp.XHttp;
-import com.bean.xhttp.response.Response;
 import com.bean.logger.JJLogger;
+import com.bean.xhttp.XHttp;
+import com.bean.xhttp.callback.OnXHttpCallback;
+import com.bean.xhttp.response.Response;
 import com.dragon.R;
 import com.dragon.abs.activity.FullscreenActivity;
 import com.dragon.api.WebApi;
@@ -85,8 +85,8 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
         if (itemName.equals(getString(R.string.request_get))) {
             JJLogger.logInfo(TAG, "MainActivity.onItemClickedInList :");
             XHttp.getInstance().get(WebApi.LOGIN_URL)
-                    .setParams(USER_NAME, mName.getText().toString())
-                    .setParams(USER_PASSWORD, mAge.getText().toString())
+                    .setParams(USER_NAME, "")
+                    .setParams(USER_PASSWORD, "")
                     .setParams("tag", Code.TAG_LOGIN)
                     .setParams("platform", "mobile_phone")
                     .setOnXHttpCallback(new OnXHttpCallback() {
@@ -169,6 +169,29 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
             }
         }
         else if (itemName.equals(getString(R.string.serail_pool_test))) {
+            final StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0; i < 20; i++) {
+                final int finalI = i;
+                XHttp.getInstance().post(WebApi.LOGIN_URL)
+                        .setParams(USER_NAME, mName.getText().toString())
+                        .setParams(USER_PASSWORD, mAge.getText().toString())
+                        .startSerialThreadPool()
+                        .setOnXHttpCallback(new OnXHttpCallback() {
+                            @Override
+                            public void onSuccess(final Response response) {
+                                Log.i("task","MainActivity.onSuccess 任务"+ finalI +"完成:");
+                                stringBuilder.append("串行 任务"+ finalI +"完成:").append("\n");
+                                mTextView2.setText(stringBuilder.toString());
+                            }
+
+                            @Override
+                            public void onFailure(final Exception ex, final String errorCode) {
+                                JJLogger.logInfo(TAG, "MainActivity.onFailure :" + ex.getMessage());
+                            }
+                        });
+            }
+        }
+        else if (itemName.equals(getString(R.string.https))) {
             final StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < 20; i++) {
                 final int finalI = i;
