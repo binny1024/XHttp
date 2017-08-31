@@ -1,11 +1,14 @@
 package com.dragon.app.activity;
 
+import android.database.Cursor;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bean.logger.JJLogger;
 import com.bean.xhttp.XHttp;
@@ -22,6 +25,7 @@ import com.dragon.constant.Code;
 import com.dragon.widget.BaseTitleBar;
 import com.smart.holder.CommonAdapter;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -124,8 +128,49 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
                     });
         }
         else if (itemName.equals(getString(R.string.request_upload_file))) {
+
+
+            final String[] projectionPhotos = {
+                    MediaStore.Images.Media._ID,//每一列的ID 图片的ID
+                    MediaStore.Images.Media.BUCKET_ID,//图片所在文件夹ID
+                    MediaStore.Images.Media.BUCKET_DISPLAY_NAME,//图片所在文件夹名称
+                    MediaStore.Images.Media.DATA,//图片路径
+                    MediaStore.Images.Media.DATE_TAKEN,//图片创建时间
+            };
+
+            Cursor mCursor = null;
+            mCursor = MediaStore.Images.Media.query(getContentResolver(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                    , projectionPhotos, "", null, MediaStore.Images.Media.DATE_TAKEN + " DESC");
+            int count = mCursor.getCount();
+
+
             String basePtah = Environment.getExternalStorageDirectory().getPath();
-            String[] path = new String[]{basePtah+ "/setting.cfg",basePtah+"/Screenshot.png"};
+
+//            while (mCursor.moveToNext()) {
+//                // 获取图片的路径
+//                String path = mCursor.getString(mCursor
+//                        .getColumnIndex(MediaStore.Images.Media.DATA));
+//                Log.i(TAG, "onItemClickedInList: "+path);
+//            }
+
+            String[] path = new String[]{basePtah+ "/tanwanGameConfig.ini",basePtah+"/tanwanGameConfig.ini"};
+            for (int i = 0; i < count; i++) {
+                mCursor.moveToNext();
+                // 获取图片的路径
+                path[i] = mCursor.getString(mCursor
+                        .getColumnIndex(MediaStore.Images.Media.DATA));
+                Log.i(TAG, "onItemClickedInList: "+path[i]);
+            }
+            mCursor.close();
+            if (!new File(path[0]).exists()) {
+                Log.i(TAG, "onItemClickedInList: "+path[0]);
+                Toast.makeText(this, "文件1不存在！", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!new File(path[1]).exists()) {
+                Log.i(TAG, "onItemClickedInList: "+path[1]);
+                Toast.makeText(this, "文件2不存在！", Toast.LENGTH_SHORT).show();
+            }
             JJLogger.logInfo(TAG,"MainActivity.onItemClickedInList :"+path);
             XHttp.getInstance().post(WebApi.UPLOAD_FILE_URL)
                     .uploadFiles(path)

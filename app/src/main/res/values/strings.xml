@@ -3,7 +3,7 @@
 
     <string name="request_get">get请求</string>
     <string name="request_post">post请求</string>
-    <string name="request_upload_file">文件上传</string>
+    <string name="request_upload_file">系统相册中的图片上传</string>
     <string name="title_activity_login">XanderAppSet</string>
     <string name="serail_pool_test">串行线程池测试</string>
     <string name="current_pool_test">并行线程池测试</string>
