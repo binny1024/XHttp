@@ -160,6 +160,7 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
                 path[i] = mCursor.getString(mCursor
                         .getColumnIndex(MediaStore.Images.Media.DATA));
                 Log.i(TAG, "onItemClickedInList: "+path[i]);
+
             }
             mCursor.close();
             if (!new File(path[0]).exists()) {
