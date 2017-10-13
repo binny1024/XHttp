@@ -15,6 +15,9 @@
 ##### 注册
 
 ![](https://github.com/Xbean1024/XHttp/blob/master/gif/register.gif)
+##### 文件上传
+
+![](https://github.com/Xbean1024/XHttp/blob/master/gif/GIF.gif)
 
 ##### 引用方式
 
