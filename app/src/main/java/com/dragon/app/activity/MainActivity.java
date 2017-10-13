@@ -1,7 +1,6 @@
 package com.dragon.app.activity;
 
 import android.database.Cursor;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -52,7 +51,7 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
 
     @Override
     protected void initView() {
-        mTitleBar = getView(this,R.id.base_title_bar);
+        mTitleBar = getView(this, R.id.base_title_bar);
         gridView = getView(this, R.id.main_grid);
         mName = getView(this, R.id.name);
         mAge = getView(this, R.id.age);
@@ -70,7 +69,7 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
 
             @Override
             public void onRightButton() {
-                showErrorInfo(MainActivity.this,  "分享");
+                showErrorInfo(MainActivity.this, "分享");
             }
         });
         List<BeanMainActivity> mItemBeanList = new ArrayList<>();
@@ -98,7 +97,7 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
                         public void onSuccess(final Response response) {
                             JJLogger.logInfo(TAG, "MainActivity.onSuccess :" +
                                     response.toString());
-                            showErrorInfo(MainActivity.this,  response.toString());
+                            showErrorInfo(MainActivity.this, response.toString());
                         }
 
                         @Override
@@ -117,7 +116,7 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
                         public void onSuccess(final Response response) {
                             JJLogger.logInfo(TAG, "MainActivity.onSuccess :" +
                                     response.toString());
-                            showErrorInfo(MainActivity.this,  response.toString());
+                            showErrorInfo(MainActivity.this, response.toString());
 
                         }
 
@@ -126,8 +125,7 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
                             JJLogger.logInfo(TAG, "MainActivity.onFailure :" + ex.getMessage());
                         }
                     });
-        }
-        else if (itemName.equals(getString(R.string.request_upload_file))) {
+        } else if (itemName.equals(getString(R.string.request_upload_file))) {
 
 
             final String[] projectionPhotos = {
@@ -142,56 +140,52 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
             mCursor = MediaStore.Images.Media.query(getContentResolver(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                     , projectionPhotos, "", null, MediaStore.Images.Media.DATE_TAKEN + " DESC");
             int count = mCursor.getCount();
-
-
-            String basePtah = Environment.getExternalStorageDirectory().getPath();
-
-//            while (mCursor.moveToNext()) {
-//                // 获取图片的路径
-//                String path = mCursor.getString(mCursor
-//                        .getColumnIndex(MediaStore.Images.Media.DATA));
-//                Log.i(TAG, "onItemClickedInList: "+path);
-//            }
-
-            String[] path = new String[]{basePtah+ "/tanwanGameConfig.ini",basePtah+"/tanwanGameConfig.ini"};
+            int realCount = count;
             for (int i = 0; i < count; i++) {
                 mCursor.moveToNext();
+                String p = mCursor.getString(mCursor
+                        .getColumnIndex(MediaStore.Images.Media.DATA));
+                if (!new File(p).exists()) {
+                    Toast.makeText(this, "文件不存在！" + i, Toast.LENGTH_SHORT).show();
+                    --realCount;
+                }
+            }
+            mCursor.moveToFirst();
+            int fileCount = Integer.parseInt(mName.getText().toString());
+            if (fileCount>realCount) {
+                fileCount = realCount;
+            }
+            String[] path = new String[fileCount];
+
+            for (int i = 0; i < fileCount; i++) {
+
                 // 获取图片的路径
                 path[i] = mCursor.getString(mCursor
                         .getColumnIndex(MediaStore.Images.Media.DATA));
-                Log.i(TAG, "onItemClickedInList: "+path[i]);
-
+                JJLogger.logInfo(TAG, "onItemClickedInList: " + path[i]);
+                mCursor.moveToNext();
             }
             mCursor.close();
-            if (!new File(path[0]).exists()) {
-                Log.i(TAG, "onItemClickedInList: "+path[0]);
-                Toast.makeText(this, "文件1不存在！", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (!new File(path[1]).exists()) {
-                Log.i(TAG, "onItemClickedInList: "+path[1]);
-                Toast.makeText(this, "文件2不存在！", Toast.LENGTH_SHORT).show();
-            }
-            JJLogger.logInfo(TAG,"MainActivity.onItemClickedInList :"+path);
+
+            JJLogger.logInfo(TAG, "图片个数 :  " + path.length);
             XHttp.getInstance().post(WebApi.UPLOAD_FILE_URL)
                     .uploadFiles(path)
-                    .setHeads("platform","mobile_phone")
+                    .setHeads("platform", "mobile_phone")
                     .setOnXHttpCallback(new OnXHttpCallback() {
                         @Override
                         public void onSuccess(final Response response) {
-                            JJLogger.logInfo(TAG,"MainActivity.onSuccess :"+
+                            JJLogger.logInfo(TAG, "MainActivity.onSuccess :" +
                                     response.toString());
-                            showErrorInfo(MainActivity.this,  response.toString());
+                            showErrorInfo(MainActivity.this, response.toString());
 
                         }
 
                         @Override
                         public void onFailure(final Exception ex, final String errorCode) {
-                            JJLogger.logInfo(TAG,"MainActivity.onFailure :"+ex.getMessage());
+                            JJLogger.logInfo(TAG, "MainActivity.onFailure :" + ex.getMessage());
                         }
                     });
-        }
-        else if (itemName.equals(getString(R.string.current_pool_test))) {
+        } else if (itemName.equals(getString(R.string.current_pool_test))) {
             final StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < 20; i++) {
                 final int finalI = i;
@@ -202,8 +196,8 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
                         .setOnXHttpCallback(new OnXHttpCallback() {
                             @Override
                             public void onSuccess(final Response response) {
-                                Log.i("task","MainActivity.onSuccess 任务"+ finalI +"完成:");
-                                stringBuilder.append("并行 任务"+ finalI +"完成:").append("\n");
+                                Log.i("task", "MainActivity.onSuccess 任务" + finalI + "完成:");
+                                stringBuilder.append("并行 任务" + finalI + "完成:").append("\n");
                                 mTextView1.setText(stringBuilder.toString());
                             }
 
@@ -213,8 +207,7 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
                             }
                         });
             }
-        }
-        else if (itemName.equals(getString(R.string.serail_pool_test))) {
+        } else if (itemName.equals(getString(R.string.serail_pool_test))) {
             final StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < 20; i++) {
                 final int finalI = i;
@@ -225,8 +218,8 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
                         .setOnXHttpCallback(new OnXHttpCallback() {
                             @Override
                             public void onSuccess(final Response response) {
-                                Log.i("task","MainActivity.onSuccess 任务"+ finalI +"完成:");
-                                stringBuilder.append("串行 任务"+ finalI +"完成:").append("\n");
+                                Log.i("task", "MainActivity.onSuccess 任务" + finalI + "完成:");
+                                stringBuilder.append("串行 任务" + finalI + "完成:").append("\n");
                                 mTextView2.setText(stringBuilder.toString());
                             }
 
@@ -236,8 +229,7 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
                             }
                         });
             }
-        }
-        else if (itemName.equals(getString(R.string.https))) {
+        } else if (itemName.equals(getString(R.string.https))) {
             final StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < 20; i++) {
                 final int finalI = i;
@@ -248,8 +240,8 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
                         .setOnXHttpCallback(new OnXHttpCallback() {
                             @Override
                             public void onSuccess(final Response response) {
-                                Log.i("task","MainActivity.onSuccess 任务"+ finalI +"完成:");
-                                stringBuilder.append("串行 任务"+ finalI +"完成:").append("\n");
+                                Log.i("task", "MainActivity.onSuccess 任务" + finalI + "完成:");
+                                stringBuilder.append("串行 任务" + finalI + "完成:").append("\n");
                                 mTextView2.setText(stringBuilder.toString());
                             }
 

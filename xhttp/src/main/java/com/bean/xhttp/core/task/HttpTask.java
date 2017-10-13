@@ -3,13 +3,16 @@ package com.bean.xhttp.core.task;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.bean.exception.SDKException;
+import com.bean.logger.JJLogger;
 import com.bean.xhttp.callback.OnXHttpCallback;
 import com.bean.xhttp.response.Response;
-import com.bean.logger.JJLogger;
-import com.bean.exception.SDKException;
 
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -59,7 +62,6 @@ public class HttpTask implements Runnable, IHttpTask {
     /**
      * 处理上传文件的数据
      */
-    private StringBuilder mPostDataBuilder = new StringBuilder();
     /**
      * 默认字符集
      */
@@ -92,10 +94,9 @@ public class HttpTask implements Runnable, IHttpTask {
     private final String mPrefix = "--";//文件分隔符开始
     private final String mChangeNewLine = "\r\n";//空行
     private final String mSplitLine = mPrefix + mBoundary + mChangeNewLine;
-    private final String mMultipartFromData = "multipart/form-data";
 
     private String[] mUploadFilePaths;
-    private boolean upload_file;
+    private boolean mUploadFile;
 
     public HttpTask() {
         mResponse = new Response();
@@ -110,14 +111,14 @@ public class HttpTask implements Runnable, IHttpTask {
     @Override
     public IHttpTask uploadFiles(final String[] uploadFilePaths) {
         this.mUploadFilePaths = uploadFilePaths;
-        upload_file = true;
+        mUploadFile = true;
         uploadFileHeads();
         return this;
     }
 
     @Override
     public IHttpTask uploadFile(final String uploadFilePath) {
-        upload_file = true;
+        mUploadFile = true;
         mUploadFilePaths = new String[]{uploadFilePath};
         uploadFileHeads();
         return this;
@@ -129,7 +130,8 @@ public class HttpTask implements Runnable, IHttpTask {
         this.setHeads("User-agent", "Android_xander");
         this.setHeads("Charsert", mCharset);
         this.setHeads("Accept-Encoding", "gzip,deflate");
-        this.setHeads("Content-Type", mMultipartFromData
+        final String multipartFromData = "multipart/form-data";
+        this.setHeads("Content-Type", multipartFromData
                 + ";boundary=" + mBoundary);
         JJLogger.logInfo(TAG, "HttpTask.uploadFileHeads :");
     }
@@ -289,36 +291,36 @@ public class HttpTask implements Runnable, IHttpTask {
                         if (postParam != null) {
                             //一般 post 请求
                             outputStream.write(postParam);// 将要传递的参数写入数据输出流
-                        } else if (upload_file) {
+                        } else if (mUploadFile) {
                             /*
                             * 文件上传
                             * */
-                            upload_file = false;
+                            mUploadFile = false;
 //                            mPostDataBuilder.append(mChangeNewLine);
+                            JJLogger.logInfo("length",""+mUploadFilePaths.length);
                             for (int i = 0; i < mUploadFilePaths.length; i++) {
+                                JJLogger.logError("error","rrrrrrrrrrrrrrrrrrrrrrrrrr");
                                 String uploadFile = mUploadFilePaths[i];
                                 String filename = uploadFile.substring(uploadFile.lastIndexOf("/") + 1);
                                 JJLogger.logInfo(TAG, "HttpTask.run :" + filename);
                                 //-------------------------------------子域--------------
+                                final StringBuilder mPostDataBuilder = new StringBuilder();
                                 mPostDataBuilder.append(mSplitLine);//加入分割线
-                                mPostDataBuilder.append("Content-Disposition: form-data; " + "name=\"file")
-                                        .append(i).append("\";filename=\"").append(filename).append("\"").append(mChangeNewLine)
-                                        .append(mChangeNewLine);//回车换行
+                                String httpExpandHeader = "Content-Disposition: form-data;";
+                                mPostDataBuilder.append(httpExpandHeader)//HTTP中的扩展头部分“Content-Disposition: form-data;”，表示上传的是表单数据。
+                                        .append("name=\"").append("file")
+                                        .append(i).append("\";")
+                                        .append("filename=\"").append(filename).append("\"")
+                                        .append(mChangeNewLine)
+                                        .append(mChangeNewLine);//回车换行;
                                 // 写入输出流中
-                                outputStream.write(mPostDataBuilder.toString().getBytes());
-                                mPostDataBuilder.append(mChangeNewLine);//加入空行，下面就是数据
-                                //文件流处理
-                                FileInputStream fileInputStream = new FileInputStream(uploadFile);
-                                byte[] buffer = new byte[1024];
-                                int length;
-                                while ((length = fileInputStream.read(buffer)) != -1) {
-                                    outputStream.write(buffer, 0, length);
-                                }
+                                byte[] declare = mPostDataBuilder.toString().getBytes();
+                                outputStream.write(declare);
+                                outputStream.write(getFileBytes(uploadFile));
                                 outputStream.write(mChangeNewLine.getBytes());//加入换行符（必须）
-                                fileInputStream.close();
                             }
                             // 请求结束标志
-                            byte[] end_data = (mPrefix + mBoundary + mPrefix + mChangeNewLine).getBytes();//文件数据结尾
+                            byte[] end_data = (mPrefix + mBoundary + mPrefix).getBytes();//文件数据结尾
                             outputStream.write(end_data);
                         }
                         outputStream.flush(); // 输出缓存
@@ -359,6 +361,30 @@ public class HttpTask implements Runnable, IHttpTask {
         }
     }
 
+    /**
+     * 获得指定文件的byte数组
+     */
+    private byte[] getFileBytes(String filePath){
+        byte[] buffer = null;
+        try {
+            File file = new File(filePath);
+            FileInputStream fis = new FileInputStream(file);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream(1000);
+            byte[] b = new byte[1000];
+            int n;
+            while ((n = fis.read(b)) != -1) {
+                bos.write(b, 0, n);
+            }
+            fis.close();
+            bos.close();
+            buffer = bos.toByteArray();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return buffer;
+    }
     /**
      * @param response 请求结果
      * @param responseCode
