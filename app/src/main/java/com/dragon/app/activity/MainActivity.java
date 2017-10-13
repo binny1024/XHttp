@@ -39,6 +39,7 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
     private final String TAG = "timeout";
 
     private EditText mName;//用于获取要查询的广告id的图片
+    private EditText mImgNum;//用于获取要查询的广告id的图片
     private EditText mAge;//用于获取要查询的广告id的图片
     private TextView mTextView1;//数据展示
     private TextView mTextView2;//数据展示
@@ -54,6 +55,7 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
         mTitleBar = getView(this, R.id.base_title_bar);
         gridView = getView(this, R.id.main_grid);
         mName = getView(this, R.id.name);
+        mImgNum = getView(this, R.id.img_num);
         mAge = getView(this, R.id.age);
         mTextView1 = getView(this, R.id.result_data);
         mTextView2 = getView(this, R.id.result_data2);
@@ -146,12 +148,12 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
                 String p = mCursor.getString(mCursor
                         .getColumnIndex(MediaStore.Images.Media.DATA));
                 if (!new File(p).exists()) {
-                    Toast.makeText(this, "文件不存在！" + i, Toast.LENGTH_SHORT).show();
                     --realCount;
                 }
             }
+            Toast.makeText(this, "一共 " + realCount+"张", Toast.LENGTH_SHORT).show();
             mCursor.moveToFirst();
-            int fileCount = Integer.parseInt(mName.getText().toString());
+            int fileCount = Integer.parseInt(mImgNum.getText().toString());
             if (fileCount>realCount) {
                 fileCount = realCount;
             }

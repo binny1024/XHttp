@@ -22,12 +22,17 @@
                 <EditText
                     android:id="@+id/name"
                     android:hint="name"
-                    android:text="5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
+
                 <EditText
                     android:id="@+id/age"
                     android:hint="password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <EditText
+                    android:id="@+id/img_num"
+                    android:hint="输入要上传的图片张"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
