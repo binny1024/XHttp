@@ -17,7 +17,7 @@
 
 ##### 引用方式
 
-    compile 'com.bean.libraries:xhttp:1.0.1'
+    compile 'com.bean.libraries:xhttp:1.0.3'
 
 #### 请使用代理进行测试
 
