@@ -32,6 +32,7 @@
                     android:layout_height="wrap_content"/>
                 <EditText
                     android:id="@+id/img_num"
+                    android:text="5"
                     android:hint="输入要上传的图片张"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
