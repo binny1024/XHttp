@@ -20,14 +20,16 @@
         </activity>
         <!-- QQ 主界面 -->
         <activity android:name=".app.activity.MainActivity">
+
+        </activity>
+        <!-- QQ 登录界面 -->
+        <activity android:name=".app.activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <!-- QQ 登录界面 -->
-        <activity android:name=".app.activity.LoginActivity"/>
         <!-- QQ 注册界面 -->
         <activity android:name=".app.activity.RegisterActivity"/>
         <!-- QQ 协议 -->

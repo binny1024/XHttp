@@ -320,8 +320,8 @@ public class HttpTask implements Runnable, IHttpTask {
                                 outputStream.write(mChangeNewLine.getBytes());//加入换行符（必须）
                             }
                             // 请求结束标志
-                            byte[] end_data = (mPrefix + mBoundary + mPrefix).getBytes();//文件数据结尾
-                            outputStream.write(end_data);
+                            byte[] endData = (mPrefix + mBoundary + mPrefix).getBytes();//文件数据结尾
+                            outputStream.write(endData);
                         }
                         outputStream.flush(); // 输出缓存
                         outputStream.close(); // 关闭数据输出流
@@ -391,7 +391,7 @@ public class HttpTask implements Runnable, IHttpTask {
      * @param redirectUrl
      */
     private void postRun(final Response response, final String responseCode, final String redirectUrl) {
-        if (responseCode.equals( "302")) {
+        if ("302".equals(responseCode)) {
             new Thread(this).start();
             mUrl = redirectUrl;
             Log.i(TAG, "重定向地址: "+redirectUrl);
