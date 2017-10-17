@@ -14,6 +14,7 @@ public final class Data {
             InitSDK.getContext().getString(R.string.current_pool_test),
             InitSDK.getContext().getString(R.string.serail_pool_test),
             InitSDK.getContext().getString(R.string.https),
+            InitSDK.getContext().getString(R.string.tab_layout_view_pager),
             InitSDK.getContext().getString(R.string.request_upload_file)
     };
 }

@@ -121,14 +121,14 @@ public class LoginActivity extends FullscreenActivity implements MediaPlayer.OnP
                                     intoApp();
                                     break;
                                 default:
-                                    showErrorInfo(LoginActivity.this,userBean.getMsg());
+                                    showErrorInfo(LoginActivity.this, userBean.getMsg());
                                     break;
                             }
                         }
 
                         @Override
                         public void onFailure(final Exception ex, final String errorCode) {
-                            showErrorInfo(LoginActivity.this,ex.getMessage());
+                            showErrorInfo(LoginActivity.this, ex.getMessage());
                             intoApp();
                         }
                     });
@@ -137,7 +137,9 @@ public class LoginActivity extends FullscreenActivity implements MediaPlayer.OnP
         }
     }
 
-
+    public void skip(View view) {
+        intoApp();
+    }
 
     private void intoApp() {
         startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -182,7 +184,7 @@ public class LoginActivity extends FullscreenActivity implements MediaPlayer.OnP
                             @Override
                             public void onSuccess(final Response response) {
 
-                               Log.i(TAG, "LoginActivity.onSuccess :" +response.toString());
+                                Log.i(TAG, "LoginActivity.onSuccess :" + response.toString());
                                 Gson gson = new Gson();
                                 LoginInfo userBean = gson.fromJson(response.toString(), LoginInfo.class);
                                 switch (userBean.getCode()) {
@@ -198,7 +200,7 @@ public class LoginActivity extends FullscreenActivity implements MediaPlayer.OnP
 
                             @Override
                             public void onFailure(final Exception ex, final String errorCode) {
-                                Toast.makeText(LoginActivity.this, "请求失败" +errorCode, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "请求失败" + errorCode, Toast.LENGTH_SHORT).show();
                             }
                         });
             }

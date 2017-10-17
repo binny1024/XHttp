@@ -1,5 +1,6 @@
 package com.dragon.app.activity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -253,6 +254,8 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
                             }
                         });
             }
+        }else if (itemName.equals(getString(R.string.tab_layout_view_pager))) {
+            startActivity(new Intent(MainActivity.this, TabLayoutActivity.class));
         }
     }
 

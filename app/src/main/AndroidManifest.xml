@@ -16,11 +16,9 @@
 
         <!-- 开屏页、启动页 -->
         <activity android:name=".SplashActivity">
-
         </activity>
         <!-- QQ 主界面 -->
         <activity android:name=".app.activity.MainActivity">
-
         </activity>
         <!-- QQ 登录界面 -->
         <activity android:name=".app.activity.LoginActivity">
@@ -35,6 +33,8 @@
         <!-- QQ 协议 -->
         <activity android:name=".app.activity.ItemActivity"/>
         <activity android:name=".app.activity.QQMainActivity">
+        </activity>
+        <activity android:name=".app.activity.TabLayoutActivity">
         </activity>
     </application>
 
