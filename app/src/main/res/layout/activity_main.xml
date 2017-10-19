@@ -4,27 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.dragon.app.activity.MainActivity"
     android:orientation="vertical">
-   <include layout="@layout/title_bar"/>
-    <ScrollView
+    <include layout="@layout/title_bar"/>
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
-            android:id="@+id/parent_ll"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
             <LinearLayout
-                android:orientation="vertical"
+                android:id="@+id/parent_ll"
+                android:background="@color/lightskyblue"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
                 <EditText
                     android:id="@+id/name"
                     android:hint="name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
-
                 <EditText
                     android:id="@+id/age"
                     android:hint="password"
@@ -33,53 +33,49 @@
                 <EditText
                     android:id="@+id/img_num"
                     android:text="5"
-                    android:hint="输入要上传的图片张"
+                    android:contentDescription="输入要上传的图片张"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <Button
+                    android:id="@+id/clear_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="clear"
+                    android:text="清除展示的数据"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:text="结果如下："/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/result_data"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:padding="10dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/result_data2"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:padding="10dp"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+                <ImageView
+                    android:id="@+id/image"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
-            <GridView
-                android:id="@+id/main_grid"
-                android:layout_width="wrap_content"
-                android:layout_height="250dp"
-                android:numColumns="2">
-            </GridView>
-
-            <Button
-                android:id="@+id/clear_data"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="clear"
-                android:text="清除展示的数据"/>
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:text="结果如下："/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/result_data"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:padding="10dp"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:id="@+id/result_data2"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:padding="10dp"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-    </ScrollView>
-
+        </ScrollView>
+        <GridView
+            android:id="@+id/main_grid"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:numColumns="1">
+        </GridView>
+    </LinearLayout>
 </LinearLayout>
+

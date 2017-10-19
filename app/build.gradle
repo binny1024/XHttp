@@ -21,11 +21,14 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':xhttp')
+    //    compile project(':xhttp')
     //    compile 'com.bean.libraries:xhttp:1.0.0'
+    //    compile 'cn.hugeterry.coordinatortablayout:coordinatortablayout:1.1.0'
+    compile project(':coordinatortablayout')
     compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.google.code.gson:gson:2.8.1'
     compile 'com.bean.list_grid_view:adapter:1.0.0'
     compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.android.support:design:25.+'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.bean.libraries:xhttp:1.0.3'
+    compile 'com.google.code.gson:gson:2.8.2'
 }

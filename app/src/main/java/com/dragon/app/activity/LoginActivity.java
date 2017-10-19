@@ -74,7 +74,7 @@ public class LoginActivity extends FullscreenActivity implements MediaPlayer.OnP
         spannableString.setSpan(new ClickableSpan() {
             @Override
             public void onClick(final View widget) {
-                startActivity(new Intent(mActivity, ItemActivity.class));
+                startActivity(new Intent(mActivity, ProtocolItemActivity.class));
             }
 
             @Override
@@ -121,19 +121,19 @@ public class LoginActivity extends FullscreenActivity implements MediaPlayer.OnP
                                     intoApp();
                                     break;
                                 default:
-                                    showErrorInfo(LoginActivity.this, userBean.getMsg());
+                                    showErrorInfo(LoginActivity.this, userBean.getMsg(), "");
                                     break;
                             }
                         }
 
                         @Override
                         public void onFailure(final Exception ex, final String errorCode) {
-                            showErrorInfo(LoginActivity.this, ex.getMessage());
+                            showErrorInfo(LoginActivity.this, ex.getMessage(), "");
                             intoApp();
                         }
                     });
         } else {
-            showErrorInfo(LoginActivity.this, mErrorInfo);
+            showErrorInfo(LoginActivity.this, mErrorInfo, "");
         }
     }
 

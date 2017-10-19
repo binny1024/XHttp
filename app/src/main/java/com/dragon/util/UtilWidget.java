@@ -33,9 +33,9 @@ public final class UtilWidget {
         view.startAnimation(alphaAni);        // 添加光效动画到VIew
     }
 
-    public static void showErrorInfo(Activity activity,final String message) {
+    public static void showErrorInfo(Activity activity, final String message, final String title) {
         new AlertDialog.Builder(activity)
-                .setTitle(" 出错啦 ").setMessage(message)
+                .setTitle(title).setMessage(message)
                 .setPositiveButton(" 确定 ", null).show();
     }
 }

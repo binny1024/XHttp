@@ -54,8 +54,15 @@
                 android:onClick="registerNew"
                 android:textSize="18sp"
                 android:textColor="@color/colorBlue"/>
-        </RelativeLayout>
 
+        </RelativeLayout>
+        <Button
+            android:minHeight="0dp"
+            android:text="直接进入主界面"
+            android:background="@color/lightskyblue"
+            android:onClick="skip"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"/>
     </LinearLayout>
     <TextView
         android:id="@+id/item"
@@ -67,11 +74,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
-    <Button
-        android:minHeight="0dp"
-        android:text="skip"
-        android:onClick="skip"
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+
 </RelativeLayout>

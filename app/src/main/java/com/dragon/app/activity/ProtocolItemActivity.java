@@ -1,7 +1,10 @@
 package com.dragon.app.activity;
 
+import android.view.KeyEvent;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.dragon.R;
 import com.dragon.abs.activity.BaseActivity;
@@ -11,9 +14,9 @@ import com.dragon.abs.activity.BaseActivity;
  * function
  */
 
-public class ItemActivity extends BaseActivity {
+public class ProtocolItemActivity extends BaseActivity {
 
-    private WebView wvXieYi;
+    private WebView mWebView;
 
     @Override
     protected int initLayout() {
@@ -22,22 +25,23 @@ public class ItemActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        setTitle("服务条款");
-        wvXieYi = (WebView) findViewById(R.id.wv_xieyi);
+//        setTitle("服务条款");
+        mWebView = (WebView) findViewById(R.id.wv_xieyi);
     }
 
     @Override
     protected void initData() {
-        final String loadUrl = "file:///android_asset/RegisterProtocol.html";
+        final String loadUrl = "http://www.hbpu.edu.cn/";
+//        final String loadUrl = "file:///android_asset/RegisterProtocol.html";
         try {
             // 本地文件处理(如果文件名中有空格需要用+来替代)  
             /************************************************************
              *修改者;  龙之游 @ xu 596928539@qq.com
              *修改时间:2016/12/26 9:29
              *bug:加载本地页面后 跳转到官网  图片上面显示大片灰色
-             *修复:  CommonUtil.setWebView(wvXieYi);
+             *修复:  CommonUtil.setWebView(mWebView);
              ************************************************************/
-            WebSettings webSettings = wvXieYi.getSettings();
+            WebSettings webSettings = mWebView.getSettings();
             //支持javascript
             webSettings.setJavaScriptEnabled(true);
             // 设置可以支持缩放
@@ -51,10 +55,25 @@ public class ItemActivity extends BaseActivity {
             //自适应屏幕
             webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
             webSettings.setLoadWithOverviewMode(true);
-            wvXieYi.loadUrl(loadUrl);
-
+            mWebView.loadUrl(loadUrl);
+            mWebView.setWebViewClient(new WebViewClient());
+            mWebView.setWebChromeClient(new WebChromeClient(){
+                @Override
+                public void onReceivedTitle(WebView view, String title) {
+                    super.onReceivedTitle(view, title);
+                    setTitle(title);
+                }
+            });
         }catch(Exception ex){
             ex.printStackTrace();
         }
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && mWebView.canGoBack()) {
+            mWebView.goBack();// 返回前一个页面
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

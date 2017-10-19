@@ -69,18 +69,25 @@ public class TabLayoutActivity extends AppCompatActivity {
         mAdapter = new PagerAdapter() {
             @Override
             public CharSequence getPageTitle(int position) {
+                if (position >= mTitle.length) {
+                    position %= mTitle.length;
+                }
                 return mTitle[position];
             }
 
             @Override
             public int getCount() {
-                return mData.length;
+//                return mData.length;
+                return 100;
             }
 
             @Override
             public Object instantiateItem(View container, int position) {
                 TextView tv = new TextView(TabLayoutActivity.this);
                 tv.setTextSize(30.f);
+                if (position >= mData.length) {
+                    position = position % mData.length;
+                }
                 tv.setText(mData[position]);
                 ((ViewPager) container).addView(tv);
                 return tv;
@@ -88,7 +95,9 @@ public class TabLayoutActivity extends AppCompatActivity {
 
             @Override
             public void destroyItem(ViewGroup container, int position, Object object) {
+                //Warning：不要在这里调用removeView
                 ((ViewPager) container).removeView((View) object);
+
             }
 
             @Override

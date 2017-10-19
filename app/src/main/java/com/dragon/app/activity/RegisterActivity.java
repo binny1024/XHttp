@@ -80,7 +80,7 @@ public class RegisterActivity extends FullscreenActivity {
                                     finishAllCST();
                                     break;
                                 default:
-                                    showErrorInfo(RegisterActivity.this, userBean.getMsg());
+                                    showErrorInfo(RegisterActivity.this, userBean.getMsg(), "");
                                     break;
                             }
                         }
@@ -91,7 +91,7 @@ public class RegisterActivity extends FullscreenActivity {
                         }
                     });
         } else {
-            showErrorInfo(RegisterActivity.this, mErrorInfo);
+            showErrorInfo(RegisterActivity.this, mErrorInfo, "");
 
         }
     }
