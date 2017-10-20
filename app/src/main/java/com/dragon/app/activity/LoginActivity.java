@@ -51,6 +51,11 @@ public class LoginActivity extends FullscreenActivity implements MediaPlayer.OnP
     private TextView mItemTv;
 
     @Override
+    protected void afterInit() {
+
+    }
+
+    @Override
     protected int initLayout() {
         addActivityCST(this);
         return R.layout.activity_login;

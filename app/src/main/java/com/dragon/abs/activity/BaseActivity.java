@@ -23,7 +23,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         initView();
         handleIntent();
         initData();
+        afterInit();
     }
+
+    protected abstract void afterInit();
 
     protected void handleIntent() {
         Log.i(TAG, "handleIntent:");

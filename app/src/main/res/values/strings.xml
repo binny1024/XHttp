@@ -30,5 +30,9 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="clear_display_data">清除展示的数据</string>
+    <string name="get">get请求</string>
+    <string name="post">post请求</string>
+    <string name="get_picture">请求一张图片</string>
 
 </resources>

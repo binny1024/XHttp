@@ -4,9 +4,10 @@
                 android:id="@+id/layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-    <TextView
+    <ListView
+        android:id="@+id/picture_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="QQ 主界面"/>
+        />
 </RelativeLayout>

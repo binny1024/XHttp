@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="mian_data">
-        <item>get请求</item>
-        <item>post请求</item>
+        <item>XHttp框架测试</item>
         <item>系统相册中的图片上传</item>
-        <item>串行线程池测试</item>
-        <item>并行线程池测试</item>
         <item>导航卡</item>
         <item>https</item>
         <item>CoordinatorTabLayout</item>

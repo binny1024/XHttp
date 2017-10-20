@@ -1,12 +1,12 @@
-package com.dragon.app.itemview.helper;
+package com.dragon.app.helper;
 
 import android.content.Context;
 import android.view.View;
 
 import com.dragon.R;
-import com.dragon.app.itemview.callback.ViewHolderItemClickedCallback;
-import com.dragon.app.itemview.bean.BeanMainActivity;
-import com.dragon.app.itemview.holder.ViewHolderMain;
+import com.dragon.app.callback.ViewHolderItemClickedCallback;
+import com.dragon.app.bean.BeanMainActivity;
+import com.dragon.app.holder.ViewHolderMain;
 import com.smart.holder.iinterface.IViewHolder;
 import com.smart.holder.iinterface.IViewHolderHelper;
 

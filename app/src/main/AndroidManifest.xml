@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dragon">
+          package="com.dragon">
 
     <uses-permission android:name="android.permission.CALL_PHONE"/>
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".App"
@@ -18,28 +18,30 @@
         <!-- 开屏页、启动页 -->
         <activity android:name=".SplashActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <!-- 主界面 -->
-        <activity android:name=".app.activity.MainActivity" />
+        <activity android:name=".app.activity.MainActivity"/>
         <!-- 仿QQ 登录界面 -->
         <activity android:name=".app.activity.LoginActivity"/>
         <!-- QQ 注册界面 -->
-        <activity android:name=".app.activity.RegisterActivity" />
+        <activity android:name=".app.activity.RegisterActivity"/>
         <!-- QQ 协议 -->
-        <activity android:name=".app.activity.ProtocolItemActivity" />
-        <activity android:name=".app.activity.QQMainActivity" />
-        <activity android:name=".app.activity.TabLayoutActivity" />
+        <activity android:name=".app.activity.ProtocolItemActivity"/>
+        <activity android:name=".app.activity.PictureActivity"/>
+        <activity android:name=".app.activity.tab.TabLayoutActivity"/>
         <activity
-            android:name=".app.activity.CoordinatorTabLayoutActivity"
-            android:theme="@style/AppThemeNoWindowActionBar" />
-        <activity android:name=".app.activity.launcherpage.SimpleViewPagerActivity" />
-        <activity android:name=".app.activity.launcherpage.FragmentViewPagerActivity" />
-        <activity android:name=".app.activity.launcherpage.LauncherActivity" />
+            android:name=".app.activity.tab.CoordinatorTabLayoutActivity"
+            android:theme="@style/AppThemeNoWindowActionBar"/>
+        <activity android:name=".app.activity.launcherpage.SimpleViewPagerActivity"/>
+        <activity android:name=".app.activity.launcherpage.FragmentViewPagerActivity"/>
+        <activity android:name=".app.activity.launcherpage.LauncherActivity"/>
         <activity android:name=".app.activity.FileDownloadActivity"/>
+        <activity android:name=".app.activity.http.XHttpActivity">
+        </activity>
     </application>
 
 </manifest>

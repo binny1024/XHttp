@@ -3,11 +3,7 @@ package com.dragon.app.activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.provider.MediaStore;
-import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bean.logger.JJLogger;
@@ -17,13 +13,15 @@ import com.bean.xhttp.response.Response;
 import com.dragon.R;
 import com.dragon.abs.activity.FullscreenActivity;
 import com.dragon.api.WebApi;
+import com.dragon.app.activity.http.XHttpActivity;
 import com.dragon.app.activity.launcherpage.FragmentViewPagerActivity;
 import com.dragon.app.activity.launcherpage.LauncherActivity;
 import com.dragon.app.activity.launcherpage.SimpleViewPagerActivity;
-import com.dragon.app.itemview.bean.BeanMainActivity;
-import com.dragon.app.itemview.callback.ViewHolderItemClickedCallback;
-import com.dragon.app.itemview.helper.ViewHolderHelperMain;
-import com.dragon.constant.Code;
+import com.dragon.app.activity.tab.CoordinatorTabLayoutActivity;
+import com.dragon.app.activity.tab.TabLayoutActivity;
+import com.dragon.app.bean.BeanMainActivity;
+import com.dragon.app.callback.ViewHolderItemClickedCallback;
+import com.dragon.app.helper.ViewHolderHelperMain;
 import com.dragon.widget.BaseTitleBar;
 import com.smart.holder.CommonAdapter;
 
@@ -31,8 +29,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.dragon.constant.Code.USER_NAME;
-import static com.dragon.constant.Code.USER_PASSWORD;
 import static com.dragon.util.UtilWidget.getView;
 import static com.dragon.util.UtilWidget.showErrorInfo;
 
@@ -41,15 +37,16 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
 
     private final String TAG = "timeout";
 
-    private EditText mName;//用于获取要查询的广告id的图片
-    private EditText mImgNum;//用于获取要查询的广告id的图片
-    private EditText mAge;//用于获取要查询的广告id的图片
-    private TextView mTextView1;//数据展示
-    private TextView mTextView2;//数据展示
+
     private GridView gridView;
 
     private String[] ITEMS_MAIN;//主界面的选项卡标签
 
+
+    @Override
+    protected void afterInit() {
+
+    }
 
     @Override
     protected int initLayout() {
@@ -60,11 +57,7 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
     protected void initView() {
         mTitleBar = getView(this, R.id.base_title_bar);
         gridView = getView(this, R.id.main_grid);
-        mName = getView(this, R.id.name);
-        mImgNum = getView(this, R.id.img_num);
-        mAge = getView(this, R.id.age);
-        mTextView1 = getView(this, R.id.result_data);
-        mTextView2 = getView(this, R.id.result_data2);
+
     }
 
     @Override
@@ -95,33 +88,28 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
     public void onItemClickedInList(String itemName) {
         //item的 点击回调
         if (itemName.equals(ITEMS_MAIN[0])) {
-            sendGetRequest();
-        } else if (itemName.equals(ITEMS_MAIN[1])) {
-            sendPostRequest();
-        } else if (itemName.equals(ITEMS_MAIN[2])) {
-            uploadFile();
-        } else if (itemName.equals(ITEMS_MAIN[3])) {
-            concurrentPool();
-        } else if (itemName.equals(ITEMS_MAIN[4])) {
-            serialPool();
-        } else if (itemName.equals(ITEMS_MAIN[5])) {
+            skipActivity(XHttpActivity.class);
+        }  else if (itemName.equals(ITEMS_MAIN[1])) {
+            showErrorInfo(MainActivity.this, "由于小米手机适配问起暂时停止此功能", "适配问题禁止此功能");
+//            uploadFile();
+        }  else if (itemName.equals(ITEMS_MAIN[2])) {
             skipActivity(TabLayoutActivity.class);
-        } else if (itemName.equals(ITEMS_MAIN[6])) {
+        } else if (itemName.equals(ITEMS_MAIN[3])) {
             showErrorInfo(MainActivity.this, "暂未实现", "https");
         }
-        else if (itemName.equals(ITEMS_MAIN[7])) {
+        else if (itemName.equals(ITEMS_MAIN[4])) {
             skipActivity(CoordinatorTabLayoutActivity.class);
         }
-        else if (itemName.equals(ITEMS_MAIN[8])) {
+        else if (itemName.equals(ITEMS_MAIN[5])) {
             skipActivity(SimpleViewPagerActivity.class);
         }
-        else if (itemName.equals(ITEMS_MAIN[9])) {
+        else if (itemName.equals(ITEMS_MAIN[6])) {
             skipActivity(FragmentViewPagerActivity.class);
         }
-        else if (itemName.equals(ITEMS_MAIN[10])) {
+        else if (itemName.equals(ITEMS_MAIN[7])) {
             skipActivity(LauncherActivity.class);
         }
-        else if (itemName.equals(ITEMS_MAIN[11])) {
+        else if (itemName.equals(ITEMS_MAIN[8])) {
             skipActivity(FileDownloadActivity.class);
         }
     }
@@ -131,60 +119,6 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
      */
     private void skipActivity(final Class<?> cls) {
         startActivity(new Intent(MainActivity.this, cls));
-    }
-
-    /**
-     * 串行线程池测试
-     */
-    private void serialPool() {
-        final StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < 20; i++) {
-            final int finalI = i;
-            XHttp.getInstance().post(WebApi.LOGIN_URL)
-                    .setParams(USER_NAME, mName.getText().toString())
-                    .setParams(USER_PASSWORD, mAge.getText().toString())
-                    .startSerialThreadPool()
-                    .setOnXHttpCallback(new OnXHttpCallback() {
-                        @Override
-                        public void onSuccess(final Response response) {
-                            Log.i("task", "MainActivity.onSuccess 任务" + finalI + "完成:");
-                            stringBuilder.append("串行 任务" + finalI + "完成:").append("\n");
-                            mTextView2.setText(stringBuilder.toString());
-                        }
-
-                        @Override
-                        public void onFailure(final Exception ex, final String errorCode) {
-                            JJLogger.logInfo(TAG, "MainActivity.onFailure :" + ex.getMessage());
-                        }
-                    });
-        }
-    }
-
-    /**
-     * 并行线程池测试
-     */
-    private void concurrentPool() {
-        final StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < 20; i++) {
-            final int finalI = i;
-            XHttp.getInstance().post(WebApi.LOGIN_URL)
-                    .setParams(USER_NAME, mName.getText().toString())
-                    .setParams(USER_PASSWORD, mAge.getText().toString())
-                    .startConcurrenceThreadPool()
-                    .setOnXHttpCallback(new OnXHttpCallback() {
-                        @Override
-                        public void onSuccess(final Response response) {
-                            Log.i("task", "MainActivity.onSuccess 任务" + finalI + "完成:");
-                            stringBuilder.append("并行 任务" + finalI + "完成:").append("\n");
-                            mTextView1.setText(stringBuilder.toString());
-                        }
-
-                        @Override
-                        public void onFailure(final Exception ex, final String errorCode) {
-                            JJLogger.logInfo(TAG, "MainActivity.onFailure :" + ex.getMessage());
-                        }
-                    });
-        }
     }
 
     /**
@@ -214,13 +148,9 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
         }
         Toast.makeText(this, "一共 " + realCount + "张", Toast.LENGTH_SHORT).show();
         mCursor.moveToFirst();
-        int fileCount = Integer.parseInt(mImgNum.getText().toString());
-        if (fileCount > realCount) {
-            fileCount = realCount;
-        }
-        String[] path = new String[fileCount];
+        String[] path = new String[realCount];
 
-        for (int i = 0; i < fileCount; i++) {
+        for (int i = 0; i < 5; i++) {
 
             // 获取图片的路径
             path[i] = mCursor.getString(mCursor
@@ -250,63 +180,6 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
                 });
     }
 
-    /**
-     * post请求
-     */
-    private void sendPostRequest() {
-        XHttp.getInstance().post(WebApi.LOGIN_URL)
-                .setParams(USER_NAME, mName.getText().toString())
-                .setParams(USER_PASSWORD, mAge.getText().toString())
-                .setParams("tag", Code.TAG_LOGIN)
-                .setParams("platform", "mobile_phone")
-                .setOnXHttpCallback(new OnXHttpCallback() {
-                    @Override
-                    public void onSuccess(final Response response) {
-                        JJLogger.logInfo(TAG, "MainActivity.onSuccess :" +
-                                response.toString());
-                        showErrorInfo(MainActivity.this, response.toString(), "");
 
-                    }
-
-                    @Override
-                    public void onFailure(final Exception ex, final String errorCode) {
-                        JJLogger.logInfo(TAG, "MainActivity.onFailure :" + ex.getMessage());
-                    }
-                });
-    }
-
-    /**
-     * get请求
-     */
-    private void sendGetRequest() {
-        JJLogger.logInfo(TAG, "MainActivity.onItemClickedInList :");
-        XHttp.getInstance().get(WebApi.LOGIN_URL)
-                .setParams(USER_NAME, "")
-                .setParams(USER_PASSWORD, "")
-                .setParams("tag", Code.TAG_LOGIN)
-                .setParams("platform", "mobile_phone")
-                .setOnXHttpCallback(new OnXHttpCallback() {
-                    @Override
-                    public void onSuccess(final Response response) {
-                        JJLogger.logInfo(TAG, "MainActivity.onSuccess :" +
-                                response.toString());
-                        showErrorInfo(MainActivity.this, response.toString(), "");
-                    }
-
-                    @Override
-                    public void onFailure(final Exception ex, final String errorCode) {
-                        JJLogger.logInfo(TAG, "MainActivity.onFailure :" + errorCode);
-                    }
-                });
-    }
-
-    public void clear(View view) {
-        if (mTextView1 != null) {
-            mTextView1.setText("");
-        }
-        if (mTextView2 != null) {
-            mTextView2.setText("");
-        }
-    }
 
 }

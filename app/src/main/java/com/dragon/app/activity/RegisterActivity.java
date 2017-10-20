@@ -33,6 +33,11 @@ public class RegisterActivity extends FullscreenActivity {
     protected EditText mTeltphone;
 
     @Override
+    protected void afterInit() {
+
+    }
+
+    @Override
     protected int initLayout() {
         addActivityCST(this);
         return R.layout.activity_register;

@@ -1,4 +1,4 @@
-package com.dragon.app.itemview.bean;
+package com.dragon.app.bean;
 
 import java.io.Serializable;
 

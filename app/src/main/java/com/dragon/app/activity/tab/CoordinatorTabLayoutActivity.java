@@ -1,4 +1,4 @@
-package com.dragon.app.activity;
+package com.dragon.app.activity.tab;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

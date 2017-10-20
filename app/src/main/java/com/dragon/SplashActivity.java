@@ -14,6 +14,11 @@ public class SplashActivity extends FullscreenActivity {
 
 
     @Override
+    protected void afterInit() {
+
+    }
+
+    @Override
     protected int initLayout() {
         return R.layout.activity_splash;
     }
