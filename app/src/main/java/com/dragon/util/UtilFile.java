@@ -45,7 +45,7 @@ public class UtilFile {
 
         String extensionName = getApplicationName()+File.separator +fileName.substring(fileName.lastIndexOf(".") + 1);
 
-        String file_holder_name = Environment.getExternalStorageDirectory() + File.separator + extensionName + File.separator;
+        String file_holder_name = Environment.getExternalStorageDirectory() + File.separator + "Download" + File.separator;
         //新建一个File，传入文件夹路径
         File file_holder = new File(file_holder_name);
         //判断文件夹是否存在，如果不存在就创建，否则不创建

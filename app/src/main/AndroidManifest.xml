@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dragon">
 
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -25,7 +26,7 @@
         <!-- 主界面 -->
         <activity android:name=".app.activity.MainActivity" />
         <!-- 仿QQ 登录界面 -->
-        <activity android:name=".app.activity.LoginActivity"></activity>
+        <activity android:name=".app.activity.LoginActivity"/>
         <!-- QQ 注册界面 -->
         <activity android:name=".app.activity.RegisterActivity" />
         <!-- QQ 协议 -->
@@ -38,7 +39,7 @@
         <activity android:name=".app.activity.launcherpage.SimpleViewPagerActivity" />
         <activity android:name=".app.activity.launcherpage.FragmentViewPagerActivity" />
         <activity android:name=".app.activity.launcherpage.LauncherActivity" />
-        <activity android:name=".app.activity.FileDownloadActivity"></activity>
+        <activity android:name=".app.activity.FileDownloadActivity"/>
     </application>
 
 </manifest>
