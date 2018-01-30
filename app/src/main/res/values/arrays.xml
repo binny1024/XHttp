@@ -10,5 +10,6 @@
         <item>Fragment+ViewPager</item>
         <item>LauncherViewPager</item>
         <item>文件下载</item>
+        <item>拍照</item>
     </string-array>
 </resources>

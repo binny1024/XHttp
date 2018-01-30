@@ -19,6 +19,11 @@ public class ProtocolItemActivity extends BaseActivity {
     private WebView mWebView;
 
     @Override
+    protected void afterInit() {
+
+    }
+
+    @Override
     protected int initLayout() {
         return R.layout.activity_item;
     }

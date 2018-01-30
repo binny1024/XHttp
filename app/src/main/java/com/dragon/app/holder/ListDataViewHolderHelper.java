@@ -21,19 +21,19 @@ import java.util.List;
 * 实例化你的viewholder
 * 将数据和viewholder的控件绑定
 * */
-public class ListDataViewHolderHelper implements IViewHolderHelper<ListDataViewHolder,MoocBean.DataBean> {
+public class ListDataViewHolderHelper implements IViewHolderHelper<ListDataViewHolder,MoocBean> {
 
     @Override
     public IViewHolder initItemViewHolder(ListDataViewHolder viewHolder, @NonNull View convertView) {
         viewHolder = new ListDataViewHolder();
 
-        viewHolder.picSmall = UtilWidget.getView(convertView,R.id.icon1);
+        viewHolder.picSmall = UtilWidget.getView(convertView, R.id.icon1);
 
         return viewHolder;
     }
 
     @Override
-    public void bindListDataToView(Context context, List<MoocBean.DataBean> iBaseBeanList, ListDataViewHolder viewHolder, int position) {
+    public void bindListDataToView(Context context, List<MoocBean> iBaseBeanList, ListDataViewHolder viewHolder, int position) {
 //        UtilImageloader.setImage(context,iBaseBeanList.get(position).getPicSmall(),viewHolder.picSmall);
     }
 }

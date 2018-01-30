@@ -112,6 +112,9 @@ public class MainActivity extends FullscreenActivity implements ViewHolderItemCl
         else if (itemName.equals(ITEMS_MAIN[8])) {
             skipActivity(FileDownloadActivity.class);
         }
+        else if (itemName.equals(ITEMS_MAIN[9])) {
+            skipActivity(PictureActivity.class);
+        }
     }
 
     /**

@@ -1,1 +1,1 @@
-include ':app', ':xhttp', ':coordinatortablayout'
+include ':app', ':xhttp'
