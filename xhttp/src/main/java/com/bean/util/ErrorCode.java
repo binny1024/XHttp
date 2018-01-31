@@ -1,4 +1,4 @@
-package com.bean.common;
+package com.bean.util;
 
 /**
  * function sdk 错误码

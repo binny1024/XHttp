@@ -12,7 +12,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -24,17 +23,18 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.bean.common.CommonMethod.toByteArray;
-import static com.bean.common.Configuration.HANDLER;
-import static com.bean.common.ErrorCode.CODE_CANCLE;
-import static com.bean.common.ErrorCode.CODE_CONNECT;
-import static com.bean.common.ErrorCode.CODE_CONNECT_UNKNOWN_HOST;
-import static com.bean.common.ErrorCode.CODE_REQUEST_URL;
-import static com.bean.common.ErrorCode.CODE_TIME_OUT;
+import static com.bean.util.Common.toByteArray;
+import static com.bean.util.Configuration.HANDLER;
+import static com.bean.util.ErrorCode.CODE_CANCLE;
+import static com.bean.util.ErrorCode.CODE_CONNECT;
+import static com.bean.util.ErrorCode.CODE_CONNECT_UNKNOWN_HOST;
+import static com.bean.util.ErrorCode.CODE_REQUEST_URL;
+import static com.bean.util.ErrorCode.CODE_TIME_OUT;
+import static com.bean.util.Verification.isUrl;
 
-public class HttpTask implements Runnable, IHttpTask {
+public class HttpRunnable implements Runnable, IHttpTask {
 
-    private static final String TAG = "HttpTask";
+    private static final String TAG = "HttpRunnable";
 
     /**
      * 取消标志,默认不取消
@@ -98,7 +98,7 @@ public class HttpTask implements Runnable, IHttpTask {
     private String[] mUploadFilePaths;
     private boolean mUploadFile;
 
-    public HttpTask() {
+    public HttpRunnable() {
         mResponse = new Response();
     }
 
@@ -131,9 +131,8 @@ public class HttpTask implements Runnable, IHttpTask {
         this.setHeads("Charsert", mCharset);
         this.setHeads("Accept-Encoding", "gzip,deflate");
         final String multipartFromData = "multipart/form-data";
-        this.setHeads("Content-Type", multipartFromData
-                + ";boundary=" + mBoundary);
-        JJLogger.logInfo(TAG, "HttpTask.uploadFileHeads :");
+        this.setHeads("Content-Type", multipartFromData + ";boundary=" + mBoundary);
+        JJLogger.logInfo(TAG, "HttpRunnable.uploadFileHeads :");
     }
 
     @Override
@@ -178,7 +177,7 @@ public class HttpTask implements Runnable, IHttpTask {
             if (mHttpType == METHOD_GET) {
                 mUrl = mUrl + "?" + mParams;
             }
-            JJLogger.logInfo(TAG, "HttpTask.handleParams :" + mParams);
+            JJLogger.logInfo(TAG, "HttpRunnable.handleParams :" + mParams);
         }
     }
 
@@ -197,7 +196,7 @@ public class HttpTask implements Runnable, IHttpTask {
             mHeads = new HashMap<>();
         }
         mHeads.put(key, value);
-        JJLogger.logInfo(TAG, "HttpTask.setHeads :" + mHeads.size());
+        JJLogger.logInfo(TAG, "HttpRunnable.setHeads :" + mHeads.size());
         return this;
     }
 
@@ -221,7 +220,10 @@ public class HttpTask implements Runnable, IHttpTask {
 
     @Override
     public void run() {
-        if (TextUtils.isEmpty(mUrl)) {
+        if (!isUrl(mUrl)) {
+            mResponse.setErrorInfo(new SDKException("url 不合法，请检查URL 是否正确"), CODE_REQUEST_URL);
+            mIntercept = false;
+            postRun(mResponse, CODE_REQUEST_URL, "");
             return;
         }
         handleParams(mParamsMap);
@@ -231,14 +233,14 @@ public class HttpTask implements Runnable, IHttpTask {
         if (mIntercept) {
             mResponse.setErrorInfo(new SDKException("用户取消操作"), CODE_CANCLE);
             mIntercept = false;
-            postRun(mResponse, CODE_CANCLE,"");
+            postRun(mResponse, CODE_CANCLE, "");
             return;
         }
         int responseCode = 0;
-        String responseCodeStr ="Before";
+        String responseCodeStr = "Before";
         String redirection = "";//重定向链接
         try {
-            JJLogger.logInfo(TAG, "HttpTask.run :" + mUrl);
+            JJLogger.logInfo(TAG, "HttpRunnable.run :" + mUrl);
             if (TextUtils.isEmpty(mUrl)) {
                 mResponse.setErrorInfo(new SDKException("url 为空！"), CODE_REQUEST_URL);
                 postRun(mResponse, CODE_REQUEST_URL, "");
@@ -257,7 +259,7 @@ public class HttpTask implements Runnable, IHttpTask {
             }
             //设置请求头
             if (mHeads != null) {
-                JJLogger.logInfo(TAG, "HttpTask.run :" + mHeads.size());
+                JJLogger.logInfo(TAG, "HttpRunnable.run :" + mHeads.size());
                 for (Map.Entry<String, String> entry : mHeads.entrySet()) {
                     httpUrlCon.setRequestProperty(entry.getKey(), entry.getValue());
                 }
@@ -297,12 +299,12 @@ public class HttpTask implements Runnable, IHttpTask {
                             * */
                             mUploadFile = false;
 //                            mPostDataBuilder.append(mChangeNewLine);
-                            JJLogger.logInfo("length",""+mUploadFilePaths.length);
+                            JJLogger.logInfo("length", "" + mUploadFilePaths.length);
                             for (int i = 0; i < mUploadFilePaths.length; i++) {
-                                JJLogger.logError("error","rrrrrrrrrrrrrrrrrrrrrrrrrr");
+                                JJLogger.logError("error", "rrrrrrrrrrrrrrrrrrrrrrrrrr");
                                 String uploadFile = mUploadFilePaths[i];
                                 String filename = uploadFile.substring(uploadFile.lastIndexOf("/") + 1);
-                                JJLogger.logInfo(TAG, "HttpTask.run :" + filename);
+                                JJLogger.logInfo(TAG, "HttpRunnable.run :" + filename);
                                 //-------------------------------------子域--------------
                                 final StringBuilder mPostDataBuilder = new StringBuilder();
                                 mPostDataBuilder.append(mSplitLine);//加入分割线
@@ -330,7 +332,7 @@ public class HttpTask implements Runnable, IHttpTask {
                 default:
                     break;
             }
-            redirection =httpUrlCon.getHeaderField("location");
+            redirection = httpUrlCon.getHeaderField("location");
             responseCode = httpUrlCon.getResponseCode();
             responseCodeStr = String.valueOf(responseCode);
             if (responseCode == HttpURLConnection.HTTP_OK) {
@@ -364,7 +366,7 @@ public class HttpTask implements Runnable, IHttpTask {
     /**
      * 获得指定文件的byte数组
      */
-    private byte[] getFileBytes(String filePath){
+    private byte[] getFileBytes(String filePath) {
         byte[] buffer = null;
         try {
             File file = new File(filePath);
@@ -378,15 +380,14 @@ public class HttpTask implements Runnable, IHttpTask {
             fis.close();
             bos.close();
             buffer = bos.toByteArray();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return buffer;
     }
+
     /**
-     * @param response 请求结果
+     * @param response     请求结果
      * @param responseCode
      * @param redirectUrl
      */
@@ -394,7 +395,7 @@ public class HttpTask implements Runnable, IHttpTask {
         if ("302".equals(responseCode)) {
             new Thread(this).start();
             mUrl = redirectUrl;
-            Log.i(TAG, "重定向地址: "+redirectUrl);
+            Log.i(TAG, "重定向地址: " + redirectUrl);
             return;
         }
         HANDLER.post(new Runnable() {

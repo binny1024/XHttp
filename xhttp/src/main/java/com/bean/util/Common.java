@@ -1,4 +1,4 @@
-package com.bean.common;
+package com.bean.util;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -25,7 +25,7 @@ import java.util.UUID;
  * function
  */
 
-public class CommonMethod {
+public class Common {
     /**
      * 获取应用程序程序的缓存目录
      *
@@ -159,8 +159,8 @@ public class CommonMethod {
     }
 
     /*
-         * putBitmap → Drawable
-		 */
+     * putBitmap → Drawable
+     */
     @SuppressWarnings("deprecation")
     public static Drawable bitmap2Drawable(Bitmap bm) {
         if (bm == null) {
@@ -207,4 +207,5 @@ public class CommonMethod {
         }
         return out.toByteArray();
     }
+
 }

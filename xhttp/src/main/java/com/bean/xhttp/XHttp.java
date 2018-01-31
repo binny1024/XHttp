@@ -8,7 +8,7 @@ import com.bean.xhttp.callback.OnXHttpCallback;
 import com.bean.xhttp.core.IHttp;
 import com.bean.xhttp.core.pool.IThreadPool;
 import com.bean.xhttp.core.pool.ThreadPool;
-import com.bean.xhttp.core.task.HttpTask;
+import com.bean.xhttp.core.task.HttpRunnable;
 import com.bean.logger.JJLogger;
 
 import java.io.UnsupportedEncodingException;
@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.RejectedExecutionException;
 
-import static com.bean.common.ErrorCode.CODE_CANCLE;
+import static com.bean.util.ErrorCode.CODE_CANCLE;
 
 
 /**
@@ -33,7 +33,7 @@ public class XHttp implements IHttp<XHttp>, IXHttp<XHttp> {
     /**
      * 异步任务
      */
-    private HttpTask mHttpTask;
+    private HttpRunnable mHttpRunnable;
 
 
     /**
@@ -66,7 +66,7 @@ public class XHttp implements IHttp<XHttp>, IXHttp<XHttp> {
     /**
      * 存活时间
      */
-    private static final long KEEP_ALIVE = 0L;
+    private static final long KEEP_ALIVE = 1L;
     /**
      * 定义一个静态私有变量(不初始化，不使用final关键字，使用volatile保证了多线程访问时instance变量的可见性，
      * 避免了instance初始化时其他变量属性还没赋值完时，被另外线程调用)
@@ -75,7 +75,7 @@ public class XHttp implements IHttp<XHttp>, IXHttp<XHttp> {
     /**
      * 异步任务管理器
      */
-    private static Map<String, HttpTask> mTaskMap;
+    private static Map<String, HttpRunnable> mTaskMap;
 
     // 定义一个私有构造方法
     private XHttp() {
@@ -98,7 +98,7 @@ public class XHttp implements IHttp<XHttp>, IXHttp<XHttp> {
             if (mTaskMap == null) {
                 mTaskMap = new HashMap<>();
             }
-            mTaskMap.put(tag, mHttpTask);//用于管理任务
+            mTaskMap.put(tag, mHttpRunnable);//用于管理任务
         }
         return mInstance;
     }
@@ -146,8 +146,8 @@ public class XHttp implements IHttp<XHttp>, IXHttp<XHttp> {
      */
     @Override
     public XHttp get(String url) {
-        mHttpTask = new HttpTask();
-        mHttpTask.get(url);
+        mHttpRunnable = new HttpRunnable();
+        mHttpRunnable.get(url);
         return mInstance;
     }
 
@@ -157,8 +157,8 @@ public class XHttp implements IHttp<XHttp>, IXHttp<XHttp> {
      */
     @Override
     public XHttp post(String url) {
-        mHttpTask = new HttpTask();
-        mHttpTask.post(url);
+        mHttpRunnable = new HttpRunnable();
+        mHttpRunnable.post(url);
         return mInstance;
     }
 
@@ -173,9 +173,9 @@ public class XHttp implements IHttp<XHttp>, IXHttp<XHttp> {
             for (Map.Entry<String, String> entry : params.entrySet()) {
                 stringMap.put(entry.getKey(), URLEncoder.encode(entry.getValue(), "utf-8"));
             }
-            mHttpTask.setParams(stringMap);
+            mHttpRunnable.setParams(stringMap);
         } catch (UnsupportedEncodingException e) {
-            mHttpTask.setParams(params);
+            mHttpRunnable.setParams(params);
         }
         return mInstance;
     }
@@ -191,9 +191,9 @@ public class XHttp implements IHttp<XHttp>, IXHttp<XHttp> {
             return mInstance;
         }
         try {
-            mHttpTask.setParams(key, URLEncoder.encode(value, "utf-8"));
+            mHttpRunnable.setParams(key, URLEncoder.encode(value, "utf-8"));
         } catch (UnsupportedEncodingException e) {
-            mHttpTask.setParams(key, value);
+            mHttpRunnable.setParams(key, value);
         }
         JJLogger.logInfo(TAG, "XHttp.setParams :" + key + "= " + value);
         return mInstance;
@@ -209,7 +209,7 @@ public class XHttp implements IHttp<XHttp>, IXHttp<XHttp> {
         if (TextUtils.isEmpty(key)) {
             return mInstance;
         }
-        mHttpTask.setHeads(key, value);
+        mHttpRunnable.setHeads(key, value);
         return mInstance;
     }
 
@@ -219,7 +219,7 @@ public class XHttp implements IHttp<XHttp>, IXHttp<XHttp> {
      */
     @Override
     public XHttp setHeads(Map<String, String> heads) {
-        mHttpTask.setHeads(heads);
+        mHttpRunnable.setHeads(heads);
         return mInstance;
     }
 
@@ -229,7 +229,7 @@ public class XHttp implements IHttp<XHttp>, IXHttp<XHttp> {
      */
     @Override
     public XHttp setTimeout(int timeout) {
-        mHttpTask.setTimeout(timeout);
+        mHttpRunnable.setTimeout(timeout);
         return mInstance;
     }
 
@@ -239,25 +239,25 @@ public class XHttp implements IHttp<XHttp>, IXHttp<XHttp> {
      */
     @Override
     public XHttp setCharset(String charset) {
-        mHttpTask.setCharset(charset);
+        mHttpRunnable.setCharset(charset);
         return mInstance;
     }
 
     @Override
     public XHttp uploadFiles(final String[] uploadFilePaths) {
-        mHttpTask.uploadFiles(uploadFilePaths);
+        mHttpRunnable.uploadFiles(uploadFilePaths);
         return mInstance;
     }
 
     @Override
     public XHttp uploadFile(final String uploadFilePath) {
-        mHttpTask.uploadFile(uploadFilePath);
+        mHttpRunnable.uploadFile(uploadFilePath);
         return mInstance;
     }
 
     @Override
     public XHttp setOnXHttpCallback(final OnXHttpCallback taskCallback) {
-        mHttpTask.setOnXHttpCallback(taskCallback);
+        mHttpRunnable.setOnXHttpCallback(taskCallback);
         if (mStartSerailThreadPool && sSerialThreadPool != null) {
             //启用线程池
             mStartSerailThreadPool = false;
@@ -266,7 +266,7 @@ public class XHttp implements IHttp<XHttp>, IXHttp<XHttp> {
                 return mInstance;
             }
             try {
-                sSerialThreadPool.start(mHttpTask);
+                sSerialThreadPool.start(mHttpRunnable);
             } catch (RejectedExecutionException e) {
                 JJLogger.logInfo(TAG, "XHttp.start :" + sCurrentThreadPool.getCount());
             }
@@ -278,12 +278,12 @@ public class XHttp implements IHttp<XHttp>, IXHttp<XHttp> {
                 return mInstance;
             }
             try {
-                sCurrentThreadPool.start(mHttpTask);
+                sCurrentThreadPool.start(mHttpRunnable);
             } catch (RejectedExecutionException e) {
                 JJLogger.logInfo(TAG, "XHttp.start :" + sCurrentThreadPool.getCount());
             }
         } else {
-            new Thread(mHttpTask).start();
+            new Thread(mHttpRunnable).start();
         }
         return mInstance;
     }
@@ -299,7 +299,7 @@ public class XHttp implements IHttp<XHttp>, IXHttp<XHttp> {
         }
         int taskSize = mTaskMap.size();
         if (taskSize > 0) {
-            for (final Map.Entry<String, HttpTask> entry : mTaskMap.entrySet()) {
+            for (final Map.Entry<String, HttpRunnable> entry : mTaskMap.entrySet()) {
                 if (entry.getKey().equals(tag)) {
                     Log.i(TAG, "XHttp.cancel :" + entry.getKey());
                     entry.getValue().cancle();
@@ -315,7 +315,7 @@ public class XHttp implements IHttp<XHttp>, IXHttp<XHttp> {
         }
         int taskSize = mTaskMap.size();
         if (taskSize > 0) {
-            for (final Map.Entry<String, HttpTask> entry : mTaskMap.entrySet()) {
+            for (final Map.Entry<String, HttpRunnable> entry : mTaskMap.entrySet()) {
                 entry.getValue().cancle();
             }
         }

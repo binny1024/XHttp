@@ -21,7 +21,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    //    compile project(':xhttp')
+        compile project(':xhttp')
     //    compile 'com.bean.libraries:xhttp:1.0.0'
 
 
@@ -29,7 +29,7 @@ dependencies {
     compile 'com.bean.list_grid_view:adapter:1.0.0'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support:design:25.3.1'
-    compile 'com.bean.libraries:xhttp:1.0.3'
+//    compile 'com.bean.libraries:xhttp:1.0.3'
     compile 'com.google.code.gson:gson:2.8.2'
     compile 'com.facebook.fresco:fresco:1.5.0'
 }

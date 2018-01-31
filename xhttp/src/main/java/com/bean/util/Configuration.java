@@ -1,4 +1,4 @@
-package com.bean.common;
+package com.bean.util;
 
 import android.os.Handler;
 import android.os.Looper;

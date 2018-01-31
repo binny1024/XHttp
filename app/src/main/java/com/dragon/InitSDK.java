@@ -7,7 +7,7 @@ import com.bean.exception.SDKException;
 
 import java.io.IOException;
 
-import static com.bean.common.Verification.bWorking;
+import static com.bean.util.Verification.bWorking;
 
 /**
 

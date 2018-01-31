@@ -134,7 +134,6 @@ public class LoginActivity extends FullscreenActivity implements MediaPlayer.OnP
                         @Override
                         public void onFailure(final Exception ex, final String errorCode) {
                             showErrorInfo(LoginActivity.this, ex.getMessage(), "");
-                            intoApp();
                         }
                     });
         } else {
