@@ -6,10 +6,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bean.logger.JJLogger;
-import com.bean.xhttp.XHttp;
-import com.bean.xhttp.callback.OnXHttpCallback;
-import com.bean.xhttp.response.Response;
+import com.binny.core.logger.JJLogger;
+import com.binny.core.xhttp.XHttp;
+import com.binny.core.xhttp.callback.OnXHttpCallback;
+import com.binny.core.xhttp.response.Response;
 import com.dragon.R;
 import com.dragon.abs.activity.FullscreenActivity;
 import com.dragon.api.WebApi;

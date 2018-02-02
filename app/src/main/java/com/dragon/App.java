@@ -2,8 +2,8 @@ package com.dragon;
 
 import android.app.Application;
 
-import com.bean.logger.JJLogger;
-import com.bean.exception.SDKException;
+import com.binny.core.logger.JJLogger;
+import com.binny.sdk.exception.SDKException;
 
 import java.io.IOException;
 

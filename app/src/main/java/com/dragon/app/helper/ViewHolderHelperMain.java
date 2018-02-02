@@ -12,8 +12,8 @@ import com.smart.holder.iinterface.IViewHolderHelper;
 
 import java.util.List;
 
+import static com.dragon.util.UtilWidget.getView;
 import static com.dragon.util.UtilWidget.setViewAlphaAnimation;
-import static com.bean.util.Common.getView;
 
 
 /**

@@ -11,7 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.bean.logger.JJLogger;
+import com.binny.core.logger.JJLogger;
 import com.dragon.R;
 import com.dragon.abs.activity.BaseActivity;
 
