@@ -1,1 +1,1 @@
-include ':app', ':net_core', ':xhttp'
+include ':app', ':net_core', ':xhttp', ':sdkdemo'

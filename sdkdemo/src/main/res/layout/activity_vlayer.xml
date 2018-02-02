@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFF80"
+    android:orientation="vertical">
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+        <Button
+            android:onClick="change"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="切换房间 10"/>
+        <Button
+            android:onClick="change1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="切换房间 1"/>
+        <Button
+            android:onClick="release"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="释放"/>
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/rl_video_view_group"
+        android:layout_width="match_parent"
+        android:layout_height="400dp">
+        <Button
+            android:id="@+id/inner"
+            android:text="show"
+            android:onClick="show"
+            android:layout_width="100dp"
+            android:layout_height="100dp"/>
+        <com.binny.sdk.core.vlayer.JJWSAdLayerView
+            android:id="@+id/web_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <Button
+            android:id="@+id/skip"
+            android:text="hide"
+            android:onClick="hide"
+            android:layout_centerInParent="true"
+            android:layout_width="100dp"
+            android:layout_height="100dp"/>
+    </RelativeLayout>
+</LinearLayout>

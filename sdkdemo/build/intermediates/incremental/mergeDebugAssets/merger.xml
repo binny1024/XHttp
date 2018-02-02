@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="unspecified"><source path="D:\Android\2.2\XHttp\sdkdemo\build\intermediates\exploded-aar\XHttp\net_core\unspecified\assets"/></dataSet><dataSet config="main"><source path="D:\Android\2.2\XHttp\sdkdemo\src\main\assets"/><source path="D:\Android\2.2\XHttp\sdkdemo\build\generated\assets\shaders\debug"/></dataSet><dataSet config="debug"><source path="D:\Android\2.2\XHttp\sdkdemo\src\debug\assets"/></dataSet></merger>

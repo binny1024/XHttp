@@ -46,8 +46,8 @@ public class WebSocketDataParser {
     private int mShortLength;//0~125之间的长度
     private int mMode;
 
-    private byte[] mMask = new byte[0];
-    private byte[] mPayloadData = new byte[0];
+    private byte[] mMask = new byte[0];//掩码
+    private byte[] mPayloadData = new byte[0];//消息实际内容
 
     private boolean mClosed = false;
 

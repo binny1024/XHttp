@@ -143,14 +143,30 @@ public class WebSocketHelper {
                     mThread.setName("socket 的创建线程 id = " + mThread.getId());
 
                     String secret = createSecret();
-
+                    /*
+                    * http://www.runoob.com/index.html?language=cn#j2se
+                    * */
+                    /*
+                    * 获取端口号
+                    * 默认端口：80
+                    * */
                     int port = (mURI.getPort() != -1) ? mURI.getPort() : (mURI.getScheme().equals("wss") ? 443 : 80);
-
+                    /*
+                    * 获取路径部分
+                    *
+                    * 路径：/index.html
+                    * */
                     String path = TextUtils.isEmpty(mURI.getPath()) ? "/" : mURI.getPath();
+                    /*
+                    * 查询部分
+                    * 请求参数：language=cn
+                    * */
                     if (!TextUtils.isEmpty(mURI.getQuery())) {
                         path += "?" + mURI.getQuery();
                     }
-
+                    /*
+                    * 协议类型
+                    * */
                     String originScheme = mURI.getScheme().equals("wss") ? "https" : "http";
                     URI origin = new URI(originScheme, "//" + mURI.getHost(), null);
                     //TODO deal with SSLContext
@@ -160,13 +176,41 @@ public class WebSocketHelper {
                     InetSocketAddress address = new InetSocketAddress(mURI.getHost(), port);
                     mSocket.connect(address, 10000);
                     out = new PrintWriter(mSocket.getOutputStream());
+                    /*
+                    * 状态行
+                    * */
                     out.print("GET " + path + " HTTP/1.1\r\n");
+                    out.print("Host: " + mURI.getHost() + "\r\n");
+                    /*
+                    * Upgrade: websocket
+                    * Connection: Upgrade
+                    * 这个就是Websocket的核心了，告诉 Apache 、 Nginx 等服务器：注意啦，
+                    * 我发起的是Websocket协议，快点帮我找到对应的助理处理~不是那个老土的HTTP。
+                    * */
                     out.print("Upgrade: websocket\r\n");
                     out.print("Connection: Upgrade\r\n");
-                    out.print("Host: " + mURI.getHost() + "\r\n");
-                    out.print("Origin: " + origin.toString() + "\r\n");
+
+
+                    /*
+                    * 首先， Sec-WebSocket-Key 是一个 Base64 encode 的值，
+                    * 这个是浏览器随机生成的，告诉服务器：泥煤，不要忽悠窝，我要验证尼是不是真的是Websocket助理。
+                    *
+                    * 然后， Sec_WebSocket-Protocol 是一个用户定义的字符串，
+                    * 用来区分同URL下，不同的服务所需要的协议。简单理解：今晚我要服务A，别搞错啦~
+                    * */
                     out.print("Sec-WebSocket-Key: " + secret + "\r\n");
+                    /*
+                    *
+                    * Sec-WebSocket-Version 是告诉服务器所使用的 Websocket Draft（协议版本），
+                    * 在最初的时候，Websocket协议还在 Draft 阶段，各种奇奇怪怪的协议都有，
+                    * 而且还有很多期奇奇怪怪不同的东西，什么Firefox和Chrome用的不是一个版本之类的，
+                    * 当初Websocket协议太多可是一个大难题。。
+                    * 不过现在还好，已经定下来啦~大家都使用的一个东西~ 脱水： 服务员，我要的是13岁的噢→_→
+                    * */
                     out.print("Sec-WebSocket-Version: 13\r\n");
+
+                    out.print("Origin: " + origin.toString() + "\r\n");
+
                     if (mExtraHeaders != null) {
                         for (NameValuePair pair : mExtraHeaders) {
                             out.print(String.format("%s: %s\r\n", pair.getName(), pair.getValue()));
@@ -176,9 +220,23 @@ public class WebSocketHelper {
                     out.flush();
 
                     mDataInputStream = new WebSocketInputStream(mSocket.getInputStream());
-
+                    /* 然后服务器会返回下列东西，表示已经接受到请求， 成功建立Websocket啦！
+                    *
+                    * HTTP/1.1 101 Switching Protocols
+                    *
+                    * Upgrade: websocket
+                    *
+                    * Connection: Upgrade
+                    *
+                    * Sec-WebSocket-Accept: HSmrc0sMlYUkAGmm5OPpG2HaGWk=
+                    *
+                    * Sec-WebSocket-Protocol: chat
+                    *
+                    * */
                     // Read HTTP response status line.
-                    StatusLine statusLine = parseStatusLine(readLine(mDataInputStream));
+
+                    StatusLine statusLine = parseStatusLine(readStatusLine(mDataInputStream));
+
                     if (statusLine == null) {
                         throw new HttpException("Received no reply from server.");
                     } else if (statusLine.getStatusCode() != HttpStatus.SC_SWITCHING_PROTOCOLS) {
@@ -187,7 +245,7 @@ public class WebSocketHelper {
                     // Read HTTP response headers.
                     String line;
                     boolean validated = false;
-                    while (!TextUtils.isEmpty(line = readLine(mDataInputStream))) {
+                    while (!TextUtils.isEmpty(line = readStatusLine(mDataInputStream))) {
                         Header header = parseHeader(line);
                         if (header.getName().equals("Sec-WebSocket-Accept")) {
                             String expected = createSecretValidation(secret);
@@ -334,7 +392,7 @@ public class WebSocketHelper {
     }
 
     // Can't use BufferedReader because it buffers past the HTTP data.
-    private String readLine(WebSocketInputStream reader) throws IOException {
+    private String readStatusLine(WebSocketInputStream reader) throws IOException {
         int readChar = reader.read();
         if (readChar == -1) {
             return null;
@@ -350,7 +408,9 @@ public class WebSocketHelper {
                 return null;
             }
         }
-        return string.toString();
+        String linr = string.toString();
+        JJLogger.logInfo("line",linr);
+        return linr;
     }
 
     private String createSecret() {
